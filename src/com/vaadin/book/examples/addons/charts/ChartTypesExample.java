@@ -13,11 +13,14 @@ import com.vaadin.addon.charts.model.DashStyle;
 import com.vaadin.addon.charts.model.DataSeries;
 import com.vaadin.addon.charts.model.DataSeriesItem;
 import com.vaadin.addon.charts.model.DataSeriesItem3d;
+import com.vaadin.addon.charts.model.Frame;
+import com.vaadin.addon.charts.model.FramePanel;
 import com.vaadin.addon.charts.model.Labels;
 import com.vaadin.addon.charts.model.ListSeries;
 import com.vaadin.addon.charts.model.Marker;
 import com.vaadin.addon.charts.model.MarkerSymbolEnum;
 import com.vaadin.addon.charts.model.MarkerSymbolUrl;
+import com.vaadin.addon.charts.model.Options3d;
 import com.vaadin.addon.charts.model.PlotBand;
 import com.vaadin.addon.charts.model.PlotOptionsArea;
 import com.vaadin.addon.charts.model.PlotOptionsBoxPlot;
@@ -229,7 +232,7 @@ public class ChartTypesExample extends CustomComponent implements BookExampleBun
                                              ChartType.COLUMNRANGE}) {
             Chart chart = new Chart(type);
             chart.setWidth("400px");
-            chart.setHeight("300px");
+            chart.setHeight("400px");
             
             // Modify the default configuration a bit
             Configuration conf = chart.getConfiguration();
@@ -506,6 +509,7 @@ public class ChartTypesExample extends CustomComponent implements BookExampleBun
         conf.setTitle("Planets");
         conf.setSubTitle("The bigger they are the harder they pull");
         conf.getLegend().setEnabled(false); // Disable legend
+        conf.setCredits(null);
         
         // Set some plot options
         PlotOptionsPie options = new PlotOptionsPie();
@@ -714,6 +718,7 @@ public class ChartTypesExample extends CustomComponent implements BookExampleBun
         Configuration conf = chart.getConfiguration();
         conf.setTitle("Monster Utilization");
         conf.getLegend().setEnabled(false);
+        conf.getCredits().setEnabled(false);
         
         // Give more room for the labels
         conf.getChart().setSpacingRight(120);
@@ -756,7 +761,7 @@ public class ChartTypesExample extends CustomComponent implements BookExampleBun
     void waterfallchart (Layout layout) {
         // BEGIN-EXAMPLE: charts.charttype.waterfall
         Chart chart = new Chart(ChartType.WATERFALL);
-        chart.setWidth("500px");
+        chart.setWidth("550px");
         chart.setHeight("350px");
         
         // Modify the default configuration a bit
@@ -828,13 +833,13 @@ public class ChartTypesExample extends CustomComponent implements BookExampleBun
         // BEGIN-EXAMPLE: charts.charttypes
         Object charttypes[][] = {
           {ChartType.BAR,        "Bar"},
-          {ChartType.COLUMN,     "Column"},
+          {ChartType.COLUMN,     "3D Column"},
           {ChartType.LINE,       "Line"},
+          {ChartType.PIE,        "Pie"},
           {ChartType.SPLINE,     "Spline"},
           {ChartType.AREA,       "Area"},
           {ChartType.AREASPLINE, "Area Spline"},
           {ChartType.SCATTER,    "Scatter"},
-          {ChartType.PIE,        "Pie"},
         };
         
         GridLayout grid = new GridLayout(2,2);
@@ -847,19 +852,37 @@ public class ChartTypesExample extends CustomComponent implements BookExampleBun
             Configuration conf = chart.getConfiguration();
             conf.setTitle((String) charttype[1]);
             conf.getLegend().setEnabled(false); // Disable legend
-    
+            conf.getCredits().setEnabled(false);
+            
+            // Have the column chart as 3D
+            if (charttype[0] == ChartType.COLUMN) {
+                Options3d options3d = new Options3d();
+                options3d.setEnabled(true);
+                options3d.setAlpha(15);
+                options3d.setBeta(15);
+                options3d.setDepth(50);
+                options3d.setViewDistance(200);
+                Frame frame = new Frame();
+                frame.setBack(new FramePanel(SolidColor.GREY, 5));
+                frame.setBottom(new FramePanel(SolidColor.GREY, 10));
+                frame.setSide(new FramePanel(SolidColor.DARKGRAY, 5));
+                options3d.setFrame(frame);
+                conf.getChart().setOptions3d(options3d);           
+            }
+            
             // The data
-            ListSeries series = new ListSeries("Diameter");
-            series.setData(4900,  12100,  12800,
-                           6800,  143000, 125000,
-                           51100, 49500);
+            String planets[] = {"Mercury", "Venus", "Earth",
+                "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"};
+            int diameters[] = {4900,  12100,  12800,
+                6800,  143000, 125000, 51100, 49500};
+            DataSeries series = new DataSeries("Diameter");
+            for (int i=0; i<planets.length; i++)
+                series.add(new DataSeriesItem(planets[i], diameters[i]));
             conf.addSeries(series);
     
             // Set the category labels on the axis correspondingly
             XAxis xaxis = new XAxis();
-            xaxis.setCategories("Mercury", "Venus", "Earth",
-                                "Mars", "Jupiter", "Saturn",
-                                "Uranus", "Neptune");
+            xaxis.setCategories(planets);
             xaxis.setTitle((String) null);
             conf.addxAxis(xaxis);
     
@@ -939,8 +962,8 @@ public class ChartTypesExample extends CustomComponent implements BookExampleBun
     void polarchart (Layout layout) {
         // BEGIN-EXAMPLE: charts.charttype.polar
         Chart chart = new Chart(ChartType.COLUMN);
-        chart.setWidth("300px");
-        chart.setHeight("300px");
+        chart.setWidth("400px");
+        chart.setHeight("400px");
         
         // Modify the default configuration a bit
         Configuration conf = chart.getConfiguration();
@@ -948,6 +971,7 @@ public class ChartTypesExample extends CustomComponent implements BookExampleBun
         conf.setTitle("Extreme Temperature Range in Finland");
         conf.setSubTitle("http://ilmatieteenlaitos.fi/lampotilaennatyksia");
         conf.getLegend().setEnabled(false);
+        conf.getCredits().setEnabled(false);
 
         // Create the range series
         // Source: http://ilmatieteenlaitos.fi/lampotilaennatyksia
@@ -973,8 +997,8 @@ public class ChartTypesExample extends CustomComponent implements BookExampleBun
     void spiderwebchart (Layout layout) {
         // BEGIN-EXAMPLE: charts.charttype.spiderweb
         Chart chart = new Chart(ChartType.LINE);
-        chart.setWidth("300px");
-        chart.setHeight("300px");
+        chart.setWidth("400px");
+        chart.setHeight("400px");
         
         // Modify the default configuration a bit
         Configuration conf = chart.getConfiguration();
@@ -982,6 +1006,7 @@ public class ChartTypesExample extends CustomComponent implements BookExampleBun
         conf.setTitle("Extreme Temperature Range in Finland");
         conf.setSubTitle("http://ilmatieteenlaitos.fi/lampotilaennatyksia");
         conf.getLegend().setEnabled(false);
+        conf.getCredits().setEnabled(false);
 
         // Create the range series
         // Source: http://ilmatieteenlaitos.fi/lampotilaennatyksia

@@ -79,7 +79,7 @@ public class ChartsExample extends CustomComponent implements BookExampleBundle 
         // BEGIN-EXAMPLE: charts.basic
         Chart chart = new Chart(ChartType.BAR);
         chart.setWidth("400px");
-        chart.setHeight("300px");
+        chart.setHeight("350px");
         
         // Modify the default configuration a bit
         Configuration conf = chart.getConfiguration();
@@ -106,7 +106,7 @@ public class ChartsExample extends CustomComponent implements BookExampleBundle 
         YAxis yaxis = new YAxis();
         yaxis.setTitle("Diameter");
         yaxis.getLabels().setFormatter(
-          "function() {return Math.floor(this.value/1000) + \'Mm\';}");
+          "function() {return Math.floor(this.value/1000) + \' Mm\';}");
         yaxis.getLabels().setStep(2);
         conf.addyAxis(yaxis);
         
@@ -352,12 +352,13 @@ public class ChartsExample extends CustomComponent implements BookExampleBundle 
         for (Object[] charttype: charttypes) {
             Chart chart = new Chart((ChartType) charttype[0]);
             chart.setWidth("400px");
-            chart.setHeight("300px");
+            chart.setHeight("350px");
             
             // Modify the default configuration a bit
             Configuration conf = chart.getConfiguration();
             conf.setTitle((String) charttype[1]);
             conf.setSubTitle("Reindeer Kills by Predators by Counties");
+            conf.getCredits().setEnabled(false);
             
             // Use stacked columns
             PlotOptionsColumn plotOptions = new PlotOptionsColumn();
@@ -457,13 +458,14 @@ public class ChartsExample extends CustomComponent implements BookExampleBundle 
         // Display it in a chart
         Chart chart = new Chart(ChartType.COLUMN);
         chart.setWidth("400px");
-        chart.setHeight("300px");
+        chart.setHeight("400px");
         
         // Modify the default configuration a bit
         Configuration conf = chart.getConfiguration();
         conf.setTitle("Planets");
         conf.setSubTitle("The bigger they are the harder they pull");
         conf.getLegend().setEnabled(false); // Disable legend
+        conf.getCredits().setEnabled(false);
 
         // Wrap the container in a data series
         ContainerDataSeries series =
