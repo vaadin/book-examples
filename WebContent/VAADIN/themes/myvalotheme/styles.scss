@@ -1,0 +1,9 @@
+@import "addons.scss";
+@import "myvalotheme.scss";
+
+/* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
+/* The actual styles should be defined in myproject.scss */
+.myvalotheme {
+  @include addons;
+  @include myvalotheme;
+}

@@ -1,0 +1,26 @@
+Original images from Wikipedia
+
+These are Public Domain pictures from NASA:
+
+240px-Jupiter_by_Cassini-Huygens.jpg
+240px-Mercury_in_color_-_Prockter07_centered.jpg
+240px-Neptune.jpg
+240px-Uranus2.jpg
+240px-Venus-real.jpg
+250px-Mars_Valles_Marineris.jpeg
+250px-The_Earth_seen_from_Apollo_17.jpg
+280px-Saturn_from_Cassini_Orbiter_(2004-10-06).jpg
+
+These are rather generic:
+
+Earth_small.png
+Earth_symbol.png
+Jupiter_symbol.png
+Mars_symbol.png
+Mercury_small.png
+Mercury_symbol.png
+Neptune_symbol.png
+Saturn_symbol.png
+Uranus_symbol.png
+Venus_small.png
+Venus_symbol.png

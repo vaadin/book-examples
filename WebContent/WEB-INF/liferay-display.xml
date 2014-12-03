@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<display>
+    <category name="Vaadin">
+        <portlet id="Myportlet Application portlet"/>
+        <portlet id="PortletModeExample portlet"/>
+        <portlet id="IPC Session Sender"/>
+        <portlet id="IPC Session Receiver"/>
+    </category>
+</display>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+  <title>Book of Vaadin Examples</title>
+  <style type="text/css">
+	  body {background: red}
+	
+	  div#content {
+	      border: thick solid black;
+	      background: white;
+	      width: 85%;
+	      height: 100%;
+	      margin: 5%;
+	      padding: 10px;
+	  }
+  </style>
+</head>
+<body>
+  <div id="content">
+    <h1>Logged Out</h1>
+    
+    <p>You can now close this window.</p>
+    
+    <script language="JavaScript">
+       if (window.opener) {
+    	   document.write("<p>This popup will be closed "+
+    			          "automatically in a few seconds.</p>");
+    	   setTimeout(function() {self.close()}, 3000);
+       } else {
+    	   document.write("<p>This non-popup window redirects "+
+    			          "back to the demo in a few seconds.</p>");
+    	   setTimeout(function() {
+    		   window.location = "/book-examples-vaadin7/book"+
+    		       "#application.lifecycle.closingall"}, 3000);
+       }
+    </script>
+  </div>
+</body>
+</html>

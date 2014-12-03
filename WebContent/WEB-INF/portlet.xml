@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
+
+    <portlet>
+        <portlet-name>Myportlet Application portlet</portlet-name>
+        <display-name>My Portlet</display-name>
+        
+        <portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+        <init-param>
+            <name>application</name>
+            <value>com.vaadin.book.examples.portlet.MyPortletUI</value>
+        </init-param>
+        
+        <!--
+          To enable displaying multiple Vaadin portlets on a page,
+          they should all use the same widgetset. In that case, the
+          widgetset can be configured on the portal level (parameter
+          vaadin.widgetset) or here for each portlet.
+        -->
+        <!--
+        <init-param>
+            <name>widgetset</name>
+            <value>com.vaadin.portal.gwt.PortalDefaultWidgetSet</value>
+        </init-param>
+        -->
+        
+        <!-- Supported portlet modes and content types. -->
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        
+        <!-- Not always required but Liferay uses these. -->
+        <portlet-info>
+            <title>My Portlet</title>
+            <short-title>My Portlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>PortletModeExample portlet</portlet-name>
+        <display-name>Portlet Mode Example</display-name>
+        
+        <portlet-class>com.vaadin.terminal.gwt.server.ApplicationPortlet2</portlet-class>
+        <init-param>
+            <name>application</name>
+            <value>com.vaadin.book.examples.portlet.PortletModeExample</value>
+        </init-param>
+        
+        <!-- Supported portlet modes and content types. -->
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+            
+            <!-- Custom mode -->
+            <portlet-mode>config</portlet-mode>
+        </supports>
+        
+        <!-- Not always required but Liferay uses these. -->
+        <portlet-info>
+            <title>Portlet Mode Example</title>
+            <short-title>Portlet Modes</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- ================================================================== -->
+    <!-- Used by the Portlet Mode Example -->
+    <custom-portlet-mode>
+        <description>My Custom Mode</description>
+        <portlet-mode>config</portlet-mode>
+        <!--  portal-managed>true</portal-managed -->
+    </custom-portlet-mode>
+    
+    <!-- ================================================================== -->
+    <!-- IPC Session Attribute Sender                                       -->
+    <!-- ================================================================== -->
+    <portlet>
+        <portlet-name>IPC Session Sender</portlet-name>
+        <display-name>Vaadin IPC for Liferay Session Attribute Sender</display-name>
+        
+        <portlet-class>com.vaadin.terminal.gwt.server.ApplicationPortlet2</portlet-class>
+        <init-param>
+            <name>application</name>
+            <value>com.vaadin.book.examples.portlet.IPCSessionSender</value>
+        </init-param>
+        
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+        
+        <portlet-info>
+            <title>IPC Session Sender</title>
+            <short-title>IPC Session Sender</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- ================================================================== -->
+    <!-- IPC Session Attribute Receiver                                     -->
+    <!-- ================================================================== -->
+    <portlet>
+        <portlet-name>IPC Session Receiver</portlet-name>
+        <display-name>Vaadin IPC for Liferay Session Attribute Receiver</display-name>
+        
+        <portlet-class>com.vaadin.terminal.gwt.server.ApplicationPortlet2</portlet-class>
+        <init-param>
+            <name>application</name>
+            <value>com.vaadin.book.examples.portlet.IPCSessionReceiver</value>
+        </init-param>
+        
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+        
+        <portlet-info>
+            <title>IPC Session Receiver</title>
+            <short-title>IPC Session Receiver</short-title>
+        </portlet-info>
+    </portlet>
+</portlet-app>

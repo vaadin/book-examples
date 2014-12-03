@@ -1,0 +1,29 @@
+@import "../reindeer/reindeer.scss";
+
+@mixin mytheme {
+  @include reindeer;
+
+  /* White background for the entire UI */
+  .v-ui {
+    background: white;
+  }
+  
+  /* All labels have white text on black background */
+  .v-label {
+    background: black;
+    color: white;
+    font-size: 24pt;
+    line-height: 24pt;
+    padding: 5px;
+  }
+
+  /* All buttons have blue caption and some margin */
+  .v-button {
+    margin: 10px;
+
+    /* A nested selector to increase specificity */
+    .v-button-caption {
+      color: blue;
+    }
+  }
+}

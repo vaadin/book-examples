@@ -1,0 +1,10 @@
+@import "firsttheme.scss";
+@import "secondtheme.scss";
+
+.multitheme {
+  @include firsttheme;
+
+  .secondtheme {
+    @include secondtheme;
+  }
+}

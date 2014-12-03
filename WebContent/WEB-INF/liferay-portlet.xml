@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<liferay-portlet-app>
+    <portlet>
+        <!-- Matches definition in portlet.xml. -->
+        <!-- Note: Must not be the same as servlet name. -->
+        <portlet-name>Myportlet Application portlet</portlet-name>
+        <instanceable>true</instanceable>
+        <ajaxable>false</ajaxable>
+    </portlet>
+    <portlet>
+        <portlet-name>PortletModeExample portlet</portlet-name>
+        <instanceable>true</instanceable>
+        <ajaxable>false</ajaxable>
+    </portlet>
+    <portlet>
+        <portlet-name>IPC Session Sender</portlet-name>
+        <instanceable>true</instanceable>
+        <ajaxable>false</ajaxable>
+    </portlet>
+    <portlet>
+        <portlet-name>IPC Session Receiver</portlet-name>
+        <instanceable>true</instanceable>
+        <ajaxable>false</ajaxable>
+    </portlet>
+</liferay-portlet-app>

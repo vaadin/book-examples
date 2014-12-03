@@ -1,0 +1,12 @@
+@import "../runo/runo.scss";
+
+@mixin secondtheme {
+  /* Include all the styles from the runo theme */
+  @include runo;
+
+  .v-label {
+    color: blue;
+    font-size: 20pt;
+    line-height: 20pt;
+  }
+}

@@ -1,0 +1,21 @@
+/* Parameters for Valo */
+
+$v-app-background-color: white;
+$v-font-family: 'Open Sans', sans-serif, 'Source Sans Pro';
+// $v-font-color: black;
+
+/* Import the valo theme.*/
+@import "../valo/valo";
+
+/* This contains all of your theme.*/
+/* If somebody wants to extend the theme she will include this mixin. */
+@mixin myvalotheme {
+  /* Include all the styles from the valo theme */
+  @include valo;
+
+  /* Insert your theme rules here */
+
+  .v-label pre {
+    font-family: 'Source Sans Pro', courier, monospace;
+  }
+}

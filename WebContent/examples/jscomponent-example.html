@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type"
+          content="text/html; charset=UTF-8" />
+
+    <title>Using a JavaScript Component from HTML</title>
+
+    <!-- Load the style sheet -->
+    <link rel="stylesheet"
+          type="text/css"
+          href="/book-examples-vaadin7/VAADIN/themes/reindeer/styles.css"/>
+          
+    <!-- Include the JavaScript library for the component -->
+    <script language="javascript" type="text/javascript" src="mylibrary.js"></script>
+
+  </head>
+
+  <body>
+    <h1>Using a JavaScript Component from HTML</h1>
+    
+    <p>Below is a JavaScript component created in a &lt;div&gt; placeholder element (empty at first):</p>
+
+    <!-- Placeholder for the component -->    
+    <div id="foo"></div>
+    
+    <!-- Create the component and bind it to the placeholder -->
+    <script language="javascript" type="text/javascript">
+		foo = new mylibrary.MyComponent(
+				document.getElementById("foo"));
+		foo.click = function () {
+			alert("Value is " + this.getValue());
+		}
+    </script>
+    
+    <p>
+      Now, you can do the following:
+    </p>
+    
+    <ol>
+      <li>Click <a href="javascript:foo.setValue('New value')">here</a> to run <tt>foo.setValue("New value")</tt></li>
+      <li>Enter some text in the input box and click "Click"</li>
+    </ol>
+  </body>
+</html>
