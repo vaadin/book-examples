@@ -60,9 +60,11 @@ to it as a compilation target. Not sure if it is relevant
 
     For example, for Vaadin Charts:
 
-      $ git clone https://github.com/vaadin/charts
-      $ cd charts
-      $ mvn install -DskipTests
+```
+    $ git clone https://github.com/vaadin/charts
+    $ cd charts
+    $ mvn install -DskipTests
+```
 
  2. Refresh Ivy
    * Right-click on project, select **Ivy** &#8594; **Refresh**
@@ -70,7 +72,7 @@ to it as a compilation target. Not sure if it is relevant
  3. Install license keys for commercial Vaadin add-ons (Charts, etc.)
 
  4. Compile the widget set
-   1. Select **Java Resources** &#8594; src/com.vaadin.book.widgetset/BookExamplesWidgetSet.gwt.xml
+   1. Select **Java Resources** &#8594; `src/com.vaadin.book.widgetset/BookExamplesWidgetSet.gwt.xml`
    2. Click **Compile Widgetset** in the toolbar (requires Vaadin Plugin for Eclipse)
 
  You can also compile the themes here, or let them be compiled on-the-fly.
@@ -97,5 +99,5 @@ to it as a compilation target. Not sure if it is relevant
 
  Contributions must go through the Gerrit code review system.
 
-  * You **must** install the commit-msg hook as instructed
+  * You **must** install the `commit-msg` hook as instructed
   * You **must** push to review as instructed
