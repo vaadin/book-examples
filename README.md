@@ -55,9 +55,23 @@ to it as a compilation target. Not sure if it is relevant
 3. Building
 -----------
 
- 1. To compile the main widget set, select
-   Java Resources &#8594; src/com.vaadin.book.widgetset/BookExamplesWidgetSet.gwt.xml
- 2. Click **Compile Widgetset** in the toolbar (requires Vaadin Plugin for Eclipse)
+ 1. Some Vaadin add-ons may require a snapshot version, which must be built and
+    installed to the local Maven repository.
+
+    For example, for Vaadin Charts:
+
+      $ git clone https://github.com/vaadin/charts
+      $ cd charts
+      $ mvn install -DskipTests
+
+ 2. Refresh Ivy
+   * Right-click on project, select **Ivy** &#8594; **Refresh**
+
+ 3. Install license keys for commercial Vaadin add-ons (Charts, etc.)
+
+ 4. Compile the widget set
+   1. Select **Java Resources** &#8594; src/com.vaadin.book.widgetset/BookExamplesWidgetSet.gwt.xml
+   2. Click **Compile Widgetset** in the toolbar (requires Vaadin Plugin for Eclipse)
 
  You can also compile the themes here, or let them be compiled on-the-fly.
 
@@ -70,10 +84,18 @@ to it as a compilation target. Not sure if it is relevant
 
     http://localhost:8080/book-examples-vaadin7/book
 
-5. Contributions
+5. Development
+----------------
+
+ Things you should notice:
+
+ * The examples are formatted by hand, so you **must not** have any automatic
+   code formatting enabled in your Eclipse default settings.
+
+6. Contributions
 ----------------
 
  Contributions must go through the Gerrit code review system.
 
-  * You must install the commit-msg hook as instructed
-  * You must push to review as instructed
+  * You **must** install the commit-msg hook as instructed
+  * You **must** push to review as instructed
