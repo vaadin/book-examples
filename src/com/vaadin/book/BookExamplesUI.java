@@ -12,7 +12,6 @@ import com.vaadin.book.examples.BookExampleLibrary;
 import com.vaadin.book.ui.AbstractExampleMenu;
 import com.vaadin.book.ui.TreeMenu;
 import com.vaadin.server.CustomizedSystemMessages;
-import com.vaadin.server.Page;
 import com.vaadin.server.SystemMessages;
 import com.vaadin.server.SystemMessagesInfo;
 import com.vaadin.server.SystemMessagesProvider;
@@ -30,8 +29,8 @@ import com.vaadin.ui.VerticalLayout;
 
 @JavaScript({"js/jquery-2.1.0.min.js", "js/custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"})
 // BEGIN-EXAMPLE: themes.misc.webfonts
-@StyleSheet({"js/custom-scrollbar-plugin/jquery.mCustomScrollbar.css",
-             "http://fonts.googleapis.com/css?family=Cabin+Sketch"})
+//@StyleSheet({"js/custom-scrollbar-plugin/jquery.mCustomScrollbar.css",
+@StyleSheet({"http://fonts.googleapis.com/css?family=Cabin+Sketch"})
 @Theme("book-examples")
 @Title("Book of Vaadin Examples - Vaadin 7")
 @Push
@@ -116,9 +115,11 @@ public class BookExamplesUI extends UI {
         
         // Enable the jQuery custom content scroller
         // See http://manos.malihu.gr/jquery-custom-content-scroller/
+        /* Disabled
         Page.getCurrent().getJavaScript().execute(
             "$(\".v-panel-content-viewpanel\").mCustomScrollbar("
             + "{mouseWheelPixels: 200, advanced: {updateOnContentResize: true}});");
+        */
 
         File baseDir = VaadinService.getCurrent().getBaseDirectory();
         BookExampleLibrary library = BookExampleLibrary.getInstance(baseDir);

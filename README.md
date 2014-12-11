@@ -59,20 +59,18 @@ to it as a compilation target. Not sure if it is relevant
     installed to the local Maven repository.
 
     For example, for Vaadin Charts:
-
 ```
     $ git clone https://github.com/vaadin/charts
     $ cd charts
     $ mvn install -DskipTests
 ```
-
  2. Refresh Ivy
    * Right-click on project, select **Ivy** &#8594; **Refresh**
 
  3. Install license keys for commercial Vaadin add-ons (Charts, etc.)
 
  4. Compile the widget set
-   1. Select **Java Resources** &#8594; `src/com.vaadin.book.widgetset/BookExamplesWidgetSet.gwt.xml`
+   1. Select **Java Resources** &#8594; src/com.vaadin.book.widgetset/BookExamplesWidgetSet.gwt.xml
    2. Click **Compile Widgetset** in the toolbar (requires Vaadin Plugin for Eclipse)
 
  You can also compile the themes here, or let them be compiled on-the-fly.

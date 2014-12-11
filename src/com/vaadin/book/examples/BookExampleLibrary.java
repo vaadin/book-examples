@@ -8,6 +8,9 @@ import java.util.logging.Logger;
 import com.vaadin.book.examples.addons.AddonTests;
 import com.vaadin.book.examples.addons.charts.ChartTypesExample;
 import com.vaadin.book.examples.addons.charts.ChartsExample;
+import com.vaadin.book.examples.addons.charts.FunnelExample;
+import com.vaadin.book.examples.addons.charts.HeatMapExample;
+import com.vaadin.book.examples.addons.charts.PyramidExample;
 import com.vaadin.book.examples.addons.charts.TimelineExample;
 import com.vaadin.book.examples.addons.jpacontainer.JPAContainerExample;
 import com.vaadin.book.examples.addons.jpacontainer.JPAFieldFactoryExample;
@@ -805,12 +808,21 @@ public class BookExampleLibrary {
             new BookExample("charts.charttype.errorbar", "Error Bar Chart", ChartTypesExample.class),
             new BookExample("charts.charttype.boxplot", "Box Plot Chart", ChartTypesExample.class),
             new BookExample("charts.charttype.pie", "Pie Chart", ChartTypesExample.class),
-            new BookExample("charts.charttype.funnel", "Funnel Chart", ChartTypesExample.class),
+            new ExampleCtgr("charts.charttype.funnel-", "Funnel and Pyramid Charts"),
+            new BookExample("charts.charttype.funnel.funnel", "Funnel Chart", FunnelExample.class),
+            new BookExample("charts.charttype.funnel.pyramid", "Pyramid Chart", PyramidExample.class),
+            new BookExample("charts.charttype.funnel.both", "Both Funnel and Pyramid", PyramidExample.class),
             new BookExample("charts.charttype.waterfall", "Waterfall Chart", ChartTypesExample.class),
-            new BookExample("charts.charttype.gauge", "Gauge", ChartTypesExample.class),
+            new ExampleCtgr("charts.charttype.gauge-", "Gauge Charts"),
+            new BookExample("charts.charttype.gauge.basic", "Basic Regular Gauge", ChartTypesExample.class),
+            new BookExample("charts.charttype.gauge.solid", "Solid Gauge", ChartTypesExample.class),
+            new BookExample("charts.charttype.gauge.both", "Both Regular and Solid Gauge", ChartTypesExample.class),
             new BookExample("charts.charttype.polar", "Polar Projection", ChartTypesExample.class),
             new BookExample("charts.charttype.spiderweb", "Spiderweb", ChartTypesExample.class),
             new BookExample("charts.charttype.polarspiderweb", "Polar and Spiderweb Summary", ChartTypesExample.class),
+            new ExampleCtgr("charts.charttype.heatmap-", "Heat Map"),
+            new BookExample("charts.charttype.heatmap.basic", "Basic Use", HeatMapExample.class),
+            new BookExample("charts.charttype.heatmap.simulation", "Heat Transfer Simulation", HeatMapExample.class),
             new BookExample("charts.grouped", "Grouped Data Series", ChartsExample.class),
             new ExampleCtgr("charts.mixed-", "Mixed Charts"),
             new BookExample("charts.mixed.basicmixed", "Mixed Chart Type", ChartsExample.class),

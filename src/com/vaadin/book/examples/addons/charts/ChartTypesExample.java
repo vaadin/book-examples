@@ -21,14 +21,11 @@ import com.vaadin.addon.charts.model.Marker;
 import com.vaadin.addon.charts.model.MarkerSymbolEnum;
 import com.vaadin.addon.charts.model.MarkerSymbolUrl;
 import com.vaadin.addon.charts.model.Options3d;
-import com.vaadin.addon.charts.model.PlotBand;
 import com.vaadin.addon.charts.model.PlotOptionsArea;
 import com.vaadin.addon.charts.model.PlotOptionsBoxPlot;
 import com.vaadin.addon.charts.model.PlotOptionsBubble;
 import com.vaadin.addon.charts.model.PlotOptionsColumn;
 import com.vaadin.addon.charts.model.PlotOptionsErrorBar;
-import com.vaadin.addon.charts.model.PlotOptionsFunnel;
-import com.vaadin.addon.charts.model.PlotOptionsGauge;
 import com.vaadin.addon.charts.model.PlotOptionsLine;
 import com.vaadin.addon.charts.model.PlotOptionsPie;
 import com.vaadin.addon.charts.model.PlotOptionsScatter;
@@ -49,15 +46,11 @@ import com.vaadin.addon.charts.model.style.SolidColor;
 import com.vaadin.addon.charts.model.style.Style;
 import com.vaadin.book.examples.BookExampleBundle;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 public class ChartTypesExample extends CustomComponent implements BookExampleBundle {
@@ -93,12 +86,8 @@ public class ChartTypesExample extends CustomComponent implements BookExampleBun
             bubblechart(layout);
         else if ("pie".equals(context))
             piechart(layout);
-        else if ("funnel".equals(context))
-            funnelchart(layout);
         else if ("waterfall".equals(context))
             waterfallchart(layout);
-        else if ("gauge".equals(context))
-            gaugechart(layout);
         else if ("polar".equals(context))
             polarchart(layout);
         else if ("spiderweb".equals(context))
@@ -257,7 +246,6 @@ public class ChartTypesExample extends CustomComponent implements BookExampleBun
                 new Double[]{-47.0,10.8});//
             conf.addSeries(series);
 
-            /*
             RangeSeries series2 = new RangeSeries("Temperature Extremes");
             
             // Give low-high values in constructor
@@ -281,7 +269,6 @@ public class ChartTypesExample extends CustomComponent implements BookExampleBun
             series2.add(new DataSeriesItem(10, -42.0, 14.1));
             series2.add(new DataSeriesItem(11, -47.0, 10.8));
             conf.addSeries(series2);
-            */
     
             // Set the category labels on the axis correspondingly
             XAxis xaxis = new XAxis();
@@ -708,56 +695,6 @@ public class ChartTypesExample extends CustomComponent implements BookExampleBun
     // END-EXAMPLE: charts.charttype.boxplot
 
     
-    void funnelchart (Layout layout) {
-        // BEGIN-EXAMPLE: charts.charttype.funnel
-        Chart chart = new Chart(ChartType.FUNNEL);
-        chart.setWidth("500px");
-        chart.setHeight("350px");
-        
-        // Modify the default configuration a bit
-        Configuration conf = chart.getConfiguration();
-        conf.setTitle("Monster Utilization");
-        conf.getLegend().setEnabled(false);
-        conf.getCredits().setEnabled(false);
-        
-        // Give more room for the labels
-        conf.getChart().setSpacingRight(120);
-
-        // Configure the funnel neck shape 
-        PlotOptionsFunnel options = new PlotOptionsFunnel();
-        options.setNeckHeightPercentage(20);
-        options.setNeckWidthPercentage(20);
-
-        // Style the data labels
-        Labels dataLabels = new Labels();
-        dataLabels.setFormat("<b>{point.name}</b> ({point.y:,.0f})");
-        dataLabels.setSoftConnector(false);
-        dataLabels.setColor(SolidColor.BLACK);
-        options.setDataLabels(dataLabels);
-      
-        conf.setPlotOptions(options);
-
-        // Create the range series
-        DataSeries series = new DataSeries();
-        series.add(new DataSeriesItem("Monsters Met", 340));
-        series.add(new DataSeriesItem("Engaged", 235));
-        series.add(new DataSeriesItem("Killed", 187));
-        series.add(new DataSeriesItem("Tinned", 70));
-        series.add(new DataSeriesItem("Eaten", 55));
-        conf.addSeries(series);
-
-        // Configure X axis
-        XAxis xaxis = new XAxis();
-        conf.addxAxis(xaxis);
-
-        // Configure Y axis
-        YAxis yaxis = new YAxis();
-        conf.addyAxis(yaxis);
-        
-        layout.addComponent(chart);
-        // END-EXAMPLE: charts.charttype.funnel
-    }
-
     void waterfallchart (Layout layout) {
         // BEGIN-EXAMPLE: charts.charttype.waterfall
         Chart chart = new Chart(ChartType.WATERFALL);
@@ -898,58 +835,6 @@ public class ChartTypesExample extends CustomComponent implements BookExampleBun
         }
         // END-EXAMPLE: charts.charttypes
         rootlayout.addComponent(grid);
-    }
-    
-    void gaugechart (VerticalLayout layout) {
-        // BEGIN-EXAMPLE: charts.charttype.gauge
-        Chart chart = new Chart(ChartType.GAUGE);
-        chart.setWidth("300px");
-        chart.setHeight("300px");
-        
-        // Modify the default configuration a bit
-        Configuration conf = chart.getConfiguration();
-        conf.setTitle("Speedometer");
-        conf.getPane().setStartAngle(-135);
-        conf.getPane().setEndAngle(135);
-        
-        PlotOptionsGauge options = new PlotOptionsGauge();
-        // The defaults are ok
-        conf.setPlotOptions(options);
-
-        // The data
-        final ListSeries series = new ListSeries("Speed");
-        series.setData(80);
-        conf.addSeries(series);
-
-        // Set the Y axis title
-        YAxis yaxis = new YAxis();
-        yaxis.setTitle("km/h");
-        yaxis.setMin(0);
-        yaxis.setMax(100);
-        yaxis.getLabels().setStep(1);
-        yaxis.setTickInterval(10);
-        yaxis.setPlotBands(new PlotBand[]{
-                new PlotBand(0,  60,  SolidColor.GREEN),
-                new PlotBand(60, 80,  SolidColor.YELLOW),
-                new PlotBand(80, 100, SolidColor.RED)});
-        conf.addyAxis(yaxis);
-        
-        layout.addComponent(chart);
-
-        final TextField tf = new TextField("Enter a new value");
-        layout.addComponent(tf);
-
-        Button update = new Button("Update", new ClickListener() {
-            private static final long serialVersionUID = 7666461422906982927L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                Integer newValue = new Integer((String)tf.getValue());
-                series.updatePoint(0, newValue);
-            }
-        }); 
-        layout.addComponent(update);
-        // END-EXAMPLE: charts.charttype.gauge
     }
     
     void polarspiderwebchart (VerticalLayout layout) {

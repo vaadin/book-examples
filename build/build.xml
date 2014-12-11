@@ -105,7 +105,10 @@
         
         <war destfile="${result-path}/${app-name}.war" webxml="WebContent/WEB-INF/web.xml">
             <classes dir="${result.classes}" includes="**" />
-            <lib dir="WebContent/WEB-INF/lib" excludes="*src*" />
+        	
+        	<!-- Nothing here at the moment - enable if needed -->
+            <!-- <lib dir="WebContent/WEB-INF/lib" excludes="*src*" /> -->
+
             <lib dir="build/result/lib">
                 <exclude name="*servlet-api*" />
             </lib>

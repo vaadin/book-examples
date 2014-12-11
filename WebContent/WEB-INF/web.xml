@@ -41,6 +41,8 @@
         <param-value>true</param-value>
     </init-param>
      -->
+
+     <async-supported>true</async-supported>
   </servlet>
 
   <!-- Keep the session alive very long -->
@@ -77,6 +79,8 @@
         <param-name>UI</param-name>
         <param-value>com.vaadin.book.applications.IndexingExampleUI</param-value>
     </init-param>
+
+     <async-supported>true</async-supported>
   </servlet>
   <servlet-mapping>
     <servlet-name>Indexing Example</servlet-name>
@@ -94,6 +98,8 @@
         <param-name>UI</param-name>
         <param-value>com.vaadin.book.applications.CookieExampleUI</param-value>
     </init-param>
+
+     <async-supported>true</async-supported>
   </servlet>
   <servlet-mapping>
     <servlet-name>Cookie Example</servlet-name>
@@ -118,6 +124,8 @@
         <param-name>UI</param-name>
         <param-value>com.vaadin.book.applications.HttpServletRequestUI</param-value>
     </init-param>
+
+     <async-supported>true</async-supported>
   </servlet>
   <servlet-mapping>
     <servlet-name>HttpServletRequestListener Example</servlet-name>
@@ -141,6 +149,8 @@
         <param-name>application</param-name>
         <param-value>com.vaadin.book.applications.DynamicWindowUI</param-value>
     </init-param>
+
+     <async-supported>true</async-supported>
   </servlet>
   <servlet-mapping>
     <servlet-name>Dynamic Window Example</servlet-name>
@@ -157,6 +167,8 @@
         <param-name>UI</param-name>
         <param-value>com.vaadin.book.applications.StaticLoginUI</param-value>
     </init-param>
+
+     <async-supported>true</async-supported>
   </servlet>
   <servlet-mapping>
     <servlet-name>Static Login Example</servlet-name>
@@ -173,6 +185,8 @@
         <param-name>UI</param-name>
         <param-value>com.vaadin.book.applications.HelloWorld</param-value>
     </init-param>
+
+     <async-supported>true</async-supported>
   </servlet>
   <servlet-mapping>
     <servlet-name>HelloWorld Example</servlet-name>
@@ -191,6 +205,8 @@
         <param-name>UI</param-name>
         <param-value>com.vaadin.book.examples.gettingstarted.MyScalaUI</param-value>
     </init-param>
+
+     <async-supported>true</async-supported>
   </servlet>
   <servlet-mapping>
     <servlet-name>ScalaProject Example</servlet-name>
@@ -207,6 +223,8 @@
         <param-name>UI</param-name>
         <param-value>com.vaadin.book.applications.MyHierarchicalUI</param-value>
     </init-param>
+
+     <async-supported>true</async-supported>
   </servlet>
   <servlet-mapping>
     <servlet-name>BuildingUI Example</servlet-name>
@@ -223,6 +241,8 @@
         <param-name>UI</param-name>
         <param-value>com.vaadin.book.applications.ScssThemeUI</param-value>
     </init-param>
+
+     <async-supported>true</async-supported>
   </servlet>
   <servlet-mapping>
     <servlet-name>SCSS Example</servlet-name>
@@ -240,6 +260,8 @@
         <param-name>UI</param-name>
         <param-value>com.vaadin.book.examples.advanced.NavigatorUI</param-value>
     </init-param>
+
+     <async-supported>true</async-supported>
   </servlet>
   <servlet-mapping>
     <servlet-name>Navigator Example</servlet-name>
@@ -262,6 +284,8 @@
         <param-name>widgetset</param-name>
         <param-value>com.vaadin.book.widgetset.BookExamplesWidgetSet</param-value>
     </init-param>
+
+     <async-supported>true</async-supported>
   </servlet>
   <servlet-mapping>
     <servlet-name>URI Fragment Example</servlet-name>
@@ -306,6 +330,8 @@
         <param-name>widgetset</param-name>
         <param-value>com.vaadin.book.widgetset.BookExamplesWidgetSet</param-value>
     </init-param>
+
+     <async-supported>true</async-supported>
   </servlet>
   <servlet-mapping>
     <servlet-name>Pushy UI</servlet-name>
@@ -325,6 +351,8 @@
         <param-name>widgetset</param-name>
         <param-value>com.vaadin.book.widgetset.BookExamplesWidgetSet</param-value>
     </init-param>
+
+     <async-supported>true</async-supported>
   </servlet>
   <servlet-mapping>
     <servlet-name>PushAround UI</servlet-name>
@@ -348,6 +376,8 @@
         <param-name>widgetset</param-name>
         <param-value>com.vaadin.book.examples.gwt.widgetset.ColorPickerWidgetSet</param-value>
     </init-param>
+
+     <async-supported>true</async-supported>
   </servlet>
   <servlet-mapping>
     <servlet-name>Color Picker</servlet-name>
@@ -365,6 +395,8 @@
         <param-name>UI</param-name>
         <param-value>com.vaadin.book.examples.portlet.MyPortletUI</param-value>
     </init-param>
+
+     <async-supported>true</async-supported>
   </servlet>
   <servlet-mapping>
     <servlet-name>Portlet Example</servlet-name>
@@ -391,6 +423,8 @@
       <param-name>widgetset</param-name>
       <param-value>com.vaadin.book.examples.addons.touchkit.MyMobileWidgetSet</param-value>
     </init-param>
+
+     <async-supported>true</async-supported>
   </servlet>
 
   <servlet-mapping>
@@ -418,6 +452,8 @@
       <param-name>widgetset</param-name>
       <param-value>com.vaadin.book.examples.addons.touchkit.MyMobileWidgetSet</param-value>
     </init-param>
+
+     <async-supported>true</async-supported>
   </servlet>
 
   <servlet-mapping>
@@ -437,6 +473,8 @@
       <param-name>UI</param-name>
       <param-value>com.vaadin.book.applications.UIToBeTested</param-value>
     </init-param>
+
+     <async-supported>true</async-supported>
   </servlet>
 
   <servlet-mapping>
@@ -450,6 +488,8 @@
   <servlet>
     <servlet-name>Default</servlet-name>
     <servlet-class>com.vaadin.cdi.internal.VaadinCDIServlet</servlet-class>
+
+     <async-supported>true</async-supported>
   </servlet>
 
   <servlet-mapping>
