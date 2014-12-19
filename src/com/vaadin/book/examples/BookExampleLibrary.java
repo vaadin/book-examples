@@ -6,11 +6,15 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.vaadin.book.examples.addons.AddonTests;
+import com.vaadin.book.examples.addons.charts.AxesExample;
 import com.vaadin.book.examples.addons.charts.ChartTypesExample;
+import com.vaadin.book.examples.addons.charts.Charts3DExample;
 import com.vaadin.book.examples.addons.charts.ChartsExample;
 import com.vaadin.book.examples.addons.charts.FunnelExample;
+import com.vaadin.book.examples.addons.charts.GaugeExample;
 import com.vaadin.book.examples.addons.charts.HeatMapExample;
 import com.vaadin.book.examples.addons.charts.PyramidExample;
+import com.vaadin.book.examples.addons.charts.ScatterExample;
 import com.vaadin.book.examples.addons.charts.TimelineExample;
 import com.vaadin.book.examples.addons.jpacontainer.JPAContainerExample;
 import com.vaadin.book.examples.addons.jpacontainer.JPAFieldFactoryExample;
@@ -802,7 +806,7 @@ public class BookExampleLibrary {
             new BookExample("charts.charttype.line", "Line Chart", ChartTypesExample.class),
             new BookExample("charts.charttype.area", "Area Chart", ChartTypesExample.class),
             new BookExample("charts.charttype.arearange", "Area Range Chart", ChartTypesExample.class),
-            new BookExample("charts.charttype.scatter", "Scatter Chart", ChartTypesExample.class),
+            new BookExample("charts.charttype.scatter", "Scatter Chart", ScatterExample.class),
             new BookExample("charts.charttype.bubble", "Bubble Chart", ChartTypesExample.class),
             new BookExample("charts.charttype.column", "Column Chart", ChartTypesExample.class),
             new BookExample("charts.charttype.errorbar", "Error Bar Chart", ChartTypesExample.class),
@@ -814,9 +818,9 @@ public class BookExampleLibrary {
             new BookExample("charts.charttype.funnel.both", "Both Funnel and Pyramid", PyramidExample.class),
             new BookExample("charts.charttype.waterfall", "Waterfall Chart", ChartTypesExample.class),
             new ExampleCtgr("charts.charttype.gauge-", "Gauge Charts"),
-            new BookExample("charts.charttype.gauge.basic", "Basic Regular Gauge", ChartTypesExample.class),
-            new BookExample("charts.charttype.gauge.solid", "Solid Gauge", ChartTypesExample.class),
-            new BookExample("charts.charttype.gauge.both", "Both Regular and Solid Gauge", ChartTypesExample.class),
+            new BookExample("charts.charttype.gauge.basic", "Basic Regular Gauge", GaugeExample.class),
+            new BookExample("charts.charttype.gauge.solid", "Solid Gauge", GaugeExample.class),
+            new BookExample("charts.charttype.gauge.both", "Both Regular and Solid Gauge", GaugeExample.class),
             new BookExample("charts.charttype.polar", "Polar Projection", ChartTypesExample.class),
             new BookExample("charts.charttype.spiderweb", "Spiderweb", ChartTypesExample.class),
             new BookExample("charts.charttype.polarspiderweb", "Polar and Spiderweb Summary", ChartTypesExample.class),
@@ -827,12 +831,18 @@ public class BookExampleLibrary {
             new ExampleCtgr("charts.mixed-", "Mixed Charts"),
             new BookExample("charts.mixed.basicmixed", "Mixed Chart Type", ChartsExample.class),
             new BookExample("charts.mixed.mixedmeter", "Styled mixed meter", ChartsExample.class),
+            new ExampleCtgr("charts.3d-", "3D Charts"),
+            new BookExample("charts.3d.basic", "Basic Use", Charts3DExample.class),
+            new BookExample("charts.3d.scatter", "Scatter with 3D Data", Charts3DExample.class),
+            new BookExample("charts.3d.scatterfade", "Scatter with Distance Fade (test)", Charts3DExample.class),
             new BookExample("charts.themes", "Themes", ChartsExample.class),
-            new ExampleCtgr("charts.timeline", "Timeline"),
-            new BookExample("charts.timeline.basic", "Basic Use", TimelineExample.class),
             new ExampleCtgr("charts.data-", "Data Series"),
             new BookExample("charts.data.containerseries", "Container Data Series", ChartsExample.class),
+            new ExampleCtgr("charts.configuration-", "Configuration"),
+            new BookExample("charts.configuration.axes", "Axes", AxesExample.class),
             new BookExample("charts.exporting", "Exporting", ChartsExample.class),
+            new ExampleCtgr("charts.timeline-", "Timeline"),
+            new BookExample("charts.timeline.basic", "Basic Use", TimelineExample.class),
             new RedirctItem("calendar.basic", "component.calendar.basic"),
             new RedirctItem("calendar.monthlyview", "component.calendar.monthlyview"),
             new RedirctItem("calendar.contextmenu", "component.calendar.contextmenu"),
