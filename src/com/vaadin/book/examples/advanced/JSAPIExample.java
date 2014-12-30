@@ -1,8 +1,5 @@
 package com.vaadin.book.examples.advanced;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import com.vaadin.book.examples.BookExampleBundle;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.ExternalResource;
@@ -19,6 +16,8 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+
+import elemental.json.JsonArray;
 
 public class JSAPIExample extends CustomComponent implements BookExampleBundle {
     private static final long serialVersionUID = -3205020480634478985L;
@@ -106,7 +105,7 @@ public class JSAPIExample extends CustomComponent implements BookExampleBundle {
             private static final long serialVersionUID = -2399933021928502854L;
 
             @Override
-            public void call(JSONArray arguments) throws JSONException {
+            public void call(JsonArray arguments) {
                 Notification.show("Received call");
             }
         });
@@ -124,20 +123,21 @@ public class JSAPIExample extends CustomComponent implements BookExampleBundle {
             private static final long serialVersionUID = -2399933021928502854L;
 
             @Override
-            public void call(JSONArray arguments) throws JSONException {
+            public void call(JsonArray arguments) {
                 try {
                     String message = arguments.getString(0);
-                    int    value   = arguments.getInt(1);
+                    double value   = arguments.getNumber(1);
                     Notification.show("Message: " + message +
                                       ", value: " + value);
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     Notification.show("Error: " + e.getMessage());
                 }
             }
         });
         
+        // Send the message from the client-side with JavaScript call
         Link link = new Link("Send Message", new ExternalResource(
-                "javascript:com.example.foo.myfunc(prompt('Message'), 42)"));
+           "javascript:com.example.foo.myfunc(prompt('Message'), 42)"));
         // END-EXAMPLE: advanced.jsapi.callbackparameters
         layout.addComponent(link);
     }
@@ -158,8 +158,7 @@ public class JSAPIExample extends CustomComponent implements BookExampleBundle {
             private static final long serialVersionUID = -2431634757915680123L;
 
             @Override
-            public void call(JSONArray arguments)
-                    throws JSONException {
+            public void call(JsonArray arguments) {
                 dumpContent.setValue(arguments.getString(0));
             }
         });

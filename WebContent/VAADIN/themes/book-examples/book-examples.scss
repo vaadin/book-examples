@@ -3,7 +3,7 @@
 /*****************************************************************************/
 $v-app-background-color: white;
 
-@import "../valo/valo";
+@import "../valo/valo.scss";
 
 /*****************************************************************************/
 /* Styling for the application.                                              */
@@ -162,7 +162,7 @@ $borderthickness: 5px;
 		    /* Valo has red background here - disable it */
 		    .v-tree-node-caption:after {
 		        height: 14pt;
-		        // margin-top: -20px; // This is needed for some odd reason for on-the-fly compilation
+		        margin-top: -20px; // This is needed for some odd reason for on-the-fly compilation
 		    }
             .v-tree-node-selected:after {
                 background-color: green;

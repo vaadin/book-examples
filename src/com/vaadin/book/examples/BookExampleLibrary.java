@@ -83,6 +83,7 @@ import com.vaadin.book.examples.component.TreeExample;
 import com.vaadin.book.examples.component.TreeTableExample;
 import com.vaadin.book.examples.component.TwinColSelectExample;
 import com.vaadin.book.examples.component.UploadExample;
+import com.vaadin.book.examples.component.grid.GridExample;
 import com.vaadin.book.examples.component.properties.CaptionExample;
 import com.vaadin.book.examples.component.properties.DescriptionExample;
 import com.vaadin.book.examples.component.properties.EnabledExample;
@@ -483,6 +484,11 @@ public class BookExampleLibrary {
             new BookExample("component.treetable.draganddrop", "Drag and Drop", TreeTableExample.class),
             new BookExample("component.treetable.big", "Lots of Data", TreeTableExample.class),
             new BookExample("component.treetable.itemstylegenerator", "Cell Style for Tree Column", TreeTableExample.class),
+            new ExampleCtgr("component.grid-", "Grid"),
+            new BookExample("component.grid.basic", "Basic Use", GridExample.class),
+            new BookExample("component.grid.array", "Input from Array", GridExample.class),
+            new BookExample("component.grid.collection", "Binding to a Collection", GridExample.class),
+            new BookExample("component.grid.features", "Summary of Features", GridExample.class),
             new ExampleCtgr("component.menubar-", "MenuBar"),
             new BookExample("component.menubar.basic", "Basic Use", MenuBarExample.class),
             new BookExample("component.menubar.keep", "Keep Selection", MenuBarExample.class),

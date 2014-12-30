@@ -3,12 +3,11 @@ package com.vaadin.book.examples.client.js;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.ui.AbstractJavaScriptComponent;
 import com.vaadin.ui.JavaScriptFunction;
+
+import elemental.json.JsonArray;
 
 // BEGIN-EXAMPLE: gwt.javascript.basic
 /** Server-side API for the JavaScript component */
@@ -42,8 +41,7 @@ public class MyComponent extends AbstractJavaScriptComponent {
             private static final long serialVersionUID = 1256984845028849243L;
 
             @Override
-            public void call(JSONArray arguments)
-                    throws JSONException {
+            public void call(JsonArray arguments) {
                 getState().setValue(arguments.getString(0));
                 for (Consumer<String> listener: listeners)
                     listener.accept(arguments.getString(0));

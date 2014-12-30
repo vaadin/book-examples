@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE ivy-module [
-    <!ENTITY vaadin.version "7.3-SNAPSHOT">
+    <!ENTITY vaadin.version "7.4.0.beta1">
 
     <!-- This is normally 'default' but 'build' for locally built Vaadin core. -->
     <!ENTITY defaultconf "default">
