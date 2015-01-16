@@ -83,7 +83,10 @@ import com.vaadin.book.examples.component.TreeExample;
 import com.vaadin.book.examples.component.TreeTableExample;
 import com.vaadin.book.examples.component.TwinColSelectExample;
 import com.vaadin.book.examples.component.UploadExample;
+import com.vaadin.book.examples.component.grid.ColumnsExample;
+import com.vaadin.book.examples.component.grid.GridDataBindingExample;
 import com.vaadin.book.examples.component.grid.GridExample;
+import com.vaadin.book.examples.component.grid.RendererExample;
 import com.vaadin.book.examples.component.properties.CaptionExample;
 import com.vaadin.book.examples.component.properties.DescriptionExample;
 import com.vaadin.book.examples.component.properties.EnabledExample;
@@ -486,9 +489,33 @@ public class BookExampleLibrary {
             new BookExample("component.treetable.itemstylegenerator", "Cell Style for Tree Column", TreeTableExample.class),
             new ExampleCtgr("component.grid-", "Grid"),
             new BookExample("component.grid.basic", "Basic Use", GridExample.class),
-            new BookExample("component.grid.array", "Input from Array", GridExample.class),
-            new BookExample("component.grid.collection", "Binding to a Collection", GridExample.class),
             new BookExample("component.grid.features", "Summary of Features", GridExample.class),
+            new ExampleCtgr("component.grid.databinding-", "Data Binding"),
+            new BookExample("component.grid.databinding.array", "Input from Array", GridDataBindingExample.class),
+            new BookExample("component.grid.databinding.collection", "Binding to a Collection", GridDataBindingExample.class),
+            new BookExample("component.grid.databinding.hierarchical", "Hierarchical Data", GridDataBindingExample.class),
+            new ExampleCtgr("component.grid.selection-", "Handling Selection"),
+            new BookExample("component.grid.selection.multi", "Multi-Select Mode", GridExample.class),
+            new ExampleCtgr("component.grid.columns-", "Columns"),
+            new BookExample("component.grid.columns.summary", "Summary", ColumnsExample.class),
+            new BookExample("component.grid.columns.expandratio", "Expand Ratios", ColumnsExample.class),
+            new ExampleCtgr("component.grid.renderer-", "Renderers"),
+            new BookExample("component.grid.renderer.summary", "Summary", RendererExample.class),
+            new BookExample("component.grid.renderer.button", "Button Renderer", RendererExample.class),
+            new BookExample("component.grid.renderer.image", "Image Renderer", RendererExample.class),
+            new BookExample("component.grid.renderer.imagebyname", "Image Renderer By Filename", RendererExample.class),
+            new BookExample("component.grid.renderer.date", "Date Renderer", RendererExample.class),
+            new BookExample("component.grid.renderer.html", "HTML Renderer", RendererExample.class),
+            new BookExample("component.grid.renderer.number", "Number Renderer", RendererExample.class),
+            new BookExample("component.grid.renderer.progressbar", "Progress Bar Renderer", RendererExample.class),
+            new BookExample("component.grid.renderer.text", "Text Renderer", RendererExample.class),
+            new BookExample("component.grid.filtering", "Filtering", GridExample.class),
+            new ExampleCtgr("component.grid.sorting-", "Sorting"),
+            new BookExample("component.grid.sorting.sort", "Basic Use", GridExample.class),
+            new BookExample("component.grid.sorting.sortdirection", "Sort Direction", GridExample.class),
+            new ExampleCtgr("component.grid.stylegeneration-", "Style Generators"),
+            new BookExample("component.grid.stylegeneration.rowstyle", "Row Styles", GridExample.class),
+            new BookExample("component.grid.stylegeneration.cellstyle", "Cell Styles", GridExample.class),
             new ExampleCtgr("component.menubar-", "MenuBar"),
             new BookExample("component.menubar.basic", "Basic Use", MenuBarExample.class),
             new BookExample("component.menubar.keep", "Keep Selection", MenuBarExample.class),

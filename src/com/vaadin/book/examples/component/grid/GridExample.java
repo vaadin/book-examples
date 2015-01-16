@@ -1,18 +1,19 @@
 package com.vaadin.book.examples.component.grid;
 
-import java.io.Serializable;
-import java.util.Collection;
+import java.util.Arrays;
 
-import com.google.appengine.repackaged.com.google.common.collect.Lists;
 import com.vaadin.book.examples.AnyBookExampleBundle;
+import com.vaadin.book.examples.component.TableExample;
 import com.vaadin.data.Item;
 import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.sort.Sort;
 import com.vaadin.data.util.GeneratedPropertyContainer;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.PropertyValueGenerator;
+import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.vaadin.shared.data.sort.SortDirection;
 import com.vaadin.shared.ui.grid.HeightMode;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.FooterCell;
@@ -21,7 +22,10 @@ import com.vaadin.ui.Grid.HeaderCell;
 import com.vaadin.ui.Grid.HeaderRow;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.renderer.NumberRenderer;
+import com.vaadin.ui.themes.ValoTheme;
 
 
 public class GridExample extends CustomComponent implements AnyBookExampleBundle {
@@ -55,81 +59,6 @@ public class GridExample extends CustomComponent implements AnyBookExampleBundle
         // END-EXAMPLE: component.grid.basic
     }
 
-    public void array(VerticalLayout layout) {
-        // BEGIN-EXAMPLE: component.grid.array
-        // BOOK: components.grid
-        // Create the Grid
-        Grid grid = new Grid();
-        grid.setSelectionMode(SelectionMode.NONE);
-
-        // Define the columns
-        grid.addColumn("name", String.class);
-        grid.addColumn("born", Integer.class);
-        
-        // Have some data
-        Object[][] people = {{"Nicolaus Copernicus", 1543},
-                             {"Galileo Galilei", 1564},
-                             {"Johannes Kepler", 1571}};
-        for (Object[] person: people)
-            grid.addRow(person);
-
-        layout.addComponent(grid);
-        // END-EXAMPLE: component.grid.array
-    }
-
-    // BEGIN-EXAMPLE: component.grid.collection
-    // BOOK: components.grid
-    // A data model
-    public class Person implements Serializable {
-        private static final long serialVersionUID = 5643002875138191294L;
-
-        private String name;
-        private int    born;
-        
-        public Person(String name, int born) {
-            this.name = name;
-            this.born = born;
-        }
-        
-        public String getName() {
-            return name;
-        }
-        
-        public int getBorn() {
-            return born;
-        }
-    }
-
-    public void collection(VerticalLayout layout) {
-        // Have some data
-        Collection<Person> people = Lists.newArrayList(
-            new Person("Nicolaus Copernicus", 1543),
-            new Person("Galileo Galilei", 1564),
-            new Person("Johannes Kepler", 1571));
-
-        // Have a container of some type to contain the data
-        BeanItemContainer<Person> container =
-            new BeanItemContainer<Person>(Person.class, people);
-
-        // Create a grid bound to the container
-        Grid grid = new Grid(container);
-        grid.setColumnOrder("name", "born");
-
-        // Handle selection in single-selection mode
-        grid.setSelectionMode(SelectionMode.SINGLE);
-        grid.addSelectionListener(e -> { // Java 8
-            // Get the item of the selected row
-            BeanItem<Person> item =
-                container.getItem(grid.getSelectedRow());
-
-            // Use the item somehow
-            Notification.show("Selected " +
-                              item.getBean().getName());
-        });
-
-        layout.addComponent(grid);
-        // END-EXAMPLE: component.grid.collection
-    }
 
     public void features(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.grid.features
@@ -177,37 +106,94 @@ public class GridExample extends CustomComponent implements AnyBookExampleBundle
                 return Integer.class;
             }
         });
-
+        
         Grid grid = new Grid(gpcontainer);
         grid.setCaption("My Featureful Grid");
-        grid.setHeightByRows(7);
+        grid.setWidth("600px");
+        grid.setHeightByRows(5);
         grid.setHeightMode(HeightMode.ROW);
 
         // Single-selection mode (default)
         grid.setSelectionMode(SelectionMode.MULTI);
+
+        // Format years differently
+        grid.getColumn("born").setRenderer(
+            new NumberRenderer("%d AD"));
+        grid.getColumn("died").setRenderer(
+            new NumberRenderer("%d AD"));
+        grid.getColumn("lived").setRenderer(
+            new NumberRenderer("%d years"));
 
         HeaderRow mainHeader = grid.getDefaultHeaderRow();
         mainHeader.getCell("firstname").setText("First Name");
         mainHeader.getCell("lastname").setText("Last Name");
         mainHeader.getCell("born").setText("Born In");
         mainHeader.getCell("died").setText("Died In");
-        mainHeader.getCell("lived").setText("Lived (Years)");
+        mainHeader.getCell("lived").setText("Lived For");
 
         // Group headers by joining the cells
-        HeaderRow joinheader = grid.prependHeaderRow();
-        HeaderCell headerCell1 = joinheader.join(
-            joinheader.getCell("firstname"),
-            joinheader.getCell("lastname"));
-        headerCell1.setText("Names");
-        HeaderCell headerCell2 = joinheader.join(
-            joinheader.getCell("born"),
-            joinheader.getCell("died"),
-            joinheader.getCell("lived"));
-        headerCell2.setText("Years");
+        HeaderRow groupingHeader = grid.prependHeaderRow();
+        HeaderCell headerCell1 = groupingHeader.join(
+            groupingHeader.getCell("firstname"),
+            groupingHeader.getCell("lastname"));
+        headerCell1.setHtml("Names");
+        HeaderCell headerCell2 = groupingHeader.join(
+            groupingHeader.getCell("born"),
+            groupingHeader.getCell("died"),
+            groupingHeader.getCell("lived"));
+        headerCell2.setHtml("Years");
         
+        // Set styles for the headers
+        mainHeader.setStyleName("boldheader");
+        groupingHeader.setStyleName("boldheader");
+
+        // Create a header row to hold column filters
+        HeaderRow filterRow = grid.appendHeaderRow();
+        
+        // Set up a filter for all columns
+        for (Object pid: grid.getContainerDataSource()
+                             .getContainerPropertyIds()) {
+            HeaderCell cell = filterRow.getCell(pid);
+            
+            // Have an input field to use for filter
+            TextField filterField = new TextField();
+            filterField.addStyleName(ValoTheme.TEXTFIELD_TINY);
+            filterField.setInputPrompt("Filter");
+            
+            // Set filter field width based on data type
+            if (grid.getContainerDataSource()
+                    .getType(pid).equals(Integer.class)) {
+                filterField.setColumns(5);
+                cell.setStyleName("rightalign");
+            } else
+                filterField.setColumns(8);
+                
+            
+            // Update filter When the filter input is changed
+            filterField.addTextChangeListener(change -> {
+                // Can't modify filters so need to replace
+                container.removeContainerFilters(pid);
+                
+                // (Re)create the filter if necessary
+                if (! change.getText().isEmpty())
+                    container.addContainerFilter(
+                        new SimpleStringFilter(pid,
+                            change.getText(), true, false));
+            });
+            cell.setComponent(filterField);
+        }
+
+        // Freeze two first columns
+        grid.setFrozenColumnCount(2);
+
         // Add a footer row
         FooterRow footer = grid.appendFooterRow();
         
+        grid.setCellStyleGenerator(generator -> // Java 8
+            Arrays.asList("born", "died", "lived")
+                  .contains(generator.getPropertyId())?
+                "rightalign" : null);
+
         // Calculate averages of the numeric columns
         for (String numericColumn: new String[] {"born", "died", "lived"}) {
             double avg = 0.0;
@@ -219,8 +205,9 @@ public class GridExample extends CustomComponent implements AnyBookExampleBundle
             // Set the value in the footer
             FooterCell footerCellBorn = footer.getCell(numericColumn);
             footerCellBorn.setText(String.format("%1$.2f", avg));
+            footerCellBorn.setStyleName("rightalign");
         }
-        
+
         // Enable editing
         grid.setEditorEnabled(true);
         grid.setEditorFieldGroup(new FieldGroup());
@@ -228,4 +215,174 @@ public class GridExample extends CustomComponent implements AnyBookExampleBundle
         layout.addComponent(grid);
         // END-EXAMPLE: component.grid.features
     }
+    
+    public void multi(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: component.grid.selection.multi
+        // Create a grid bound to a container
+        Grid grid = new Grid(exampleDataSource());
+        grid.setWidth("500px");
+        grid.setHeight("300px");
+
+        // Enable multi-selection mode
+        grid.setSelectionMode(SelectionMode.MULTI);
+        
+        // Allow deleting the selected items
+        Button deleteSelected = new Button("Delete Selected", e -> {
+            // Delete all selected data items
+            for (Object itemId: grid.getSelectedRows())
+                grid.getContainerDataSource().removeItem(itemId);
+            
+            // Disable after deleting
+            e.getButton().setEnabled(false);
+        });
+        deleteSelected.setEnabled(false); // Enable later
+
+        // Handle selection changes
+        grid.addSelectionListener(selection -> { // Java 8
+            Notification.show(selection.getAdded().size() +
+                              " items added, " +
+                              selection.getRemoved().size() +
+                              " removed.");
+
+            // Allow deleting selected only if there's any selected
+            deleteSelected.setEnabled(grid.getSelectedRows().size() > 0);
+        });
+
+        layout.addComponents(grid, deleteSelected);
+        // END-EXAMPLE: component.grid.selection.multi
+    }
+    
+    public void filtering(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: component.grid.filtering
+        // Have a filterable container
+        IndexedContainer container = exampleDataSource();
+
+        // Create a grid bound to it
+        Grid grid = new Grid(container);
+        grid.setSelectionMode(SelectionMode.NONE);
+        grid.setWidth("500px");
+        grid.setHeight("300px");
+
+        // Create a header row to hold column filters
+        HeaderRow filterRow = grid.appendHeaderRow();
+
+        // Set up a filter for all columns
+        for (Object pid: grid.getContainerDataSource()
+                             .getContainerPropertyIds()) {
+            HeaderCell cell = filterRow.getCell(pid);
+
+            // Have an input field to use for filter
+            TextField filterField = new TextField();
+            filterField.setColumns(8);
+            filterField.setInputPrompt("Filter");
+            filterField.addStyleName(ValoTheme.TEXTFIELD_TINY);
+
+            // Update filter When the filter input is changed
+            filterField.addTextChangeListener(change -> {
+                // Can't modify filters so need to replace
+                container.removeContainerFilters(pid);
+
+                // (Re)create the filter if necessary
+                if (! change.getText().isEmpty())
+                    container.addContainerFilter(
+                        new SimpleStringFilter(pid,
+                            change.getText(), true, false));
+            });
+            cell.setComponent(filterField);
+        }
+
+        layout.addComponent(grid);
+        // END-EXAMPLE: component.grid.filtering
+    }
+
+    public void sort(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: component.grid.sorting.sort
+        // Have a sortable container
+        IndexedContainer container = exampleDataSource();
+
+        // Create a grid bound to it
+        Grid grid = new Grid(container);
+        grid.setSelectionMode(SelectionMode.NONE);
+        grid.setWidth("350px");
+        grid.setHeight("300px");
+
+        // Sort first by city and then by name 
+        grid.sort(Sort.by("city").then("name"));
+        grid.sort("name", SortDirection.DESCENDING);
+
+        layout.addComponent(grid);
+        // END-EXAMPLE: component.grid.sorting.sort
+    }
+
+    public void sortdirection(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: component.grid.sorting.sortdirection
+        // Have a sortable container
+        IndexedContainer container = exampleDataSource();
+
+        // Create a grid bound to it
+        Grid grid = new Grid(container);
+        grid.setSelectionMode(SelectionMode.NONE);
+        grid.setWidth("500px");
+        grid.setHeight("300px");
+
+        // Sort first by city and then by name 
+        grid.sort(Sort.by("city", SortDirection.DESCENDING)
+                      .then("name", SortDirection.DESCENDING));
+
+        layout.addComponent(grid);
+        // END-EXAMPLE: component.grid.sorting.sortdirection
+    }
+
+    @SuppressWarnings("unchecked")
+    public void rowstyle(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: component.grid.stylegeneration.rowstyle
+        // Have a container
+        IndexedContainer container = exampleDataSource();
+        container.addContainerProperty("alive", Boolean.class, null);
+        for (Object itemId: container.getItemIds())
+            container.getContainerProperty(itemId, "alive")
+                     .setValue(Math.random() > 0.5);
+
+        // Create a grid bound to it
+        Grid grid = new Grid(container);
+        grid.setSelectionMode(SelectionMode.NONE);
+        grid.setWidth("500px");
+        grid.setHeight("300px");
+
+        grid.setRowStyleGenerator(rowRef -> {// Java 8
+            if (! ((Boolean) rowRef.getItem()
+                                   .getItemProperty("alive")
+                                   .getValue()).booleanValue())
+                return "grayed";
+            else
+                return null;
+        });
+
+        layout.addComponent(grid);
+        // END-EXAMPLE: component.grid.stylegeneration.rowstyle
+    }
+
+    public void cellstyle(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: component.grid.stylegeneration.cellstyle
+        // Have a sortable container
+        IndexedContainer container = exampleDataSource();
+
+        // Create a grid bound to it
+        Grid grid = new Grid(container);
+        grid.setSelectionMode(SelectionMode.NONE);
+        grid.setWidth("500px");
+        grid.setHeight("300px");
+
+        grid.setCellStyleGenerator(cellRef -> // Java 8
+            "year".equals(cellRef.getPropertyId())?
+                "rightalign" : null);
+
+        layout.addComponent(grid);
+        // END-EXAMPLE: component.grid.stylegeneration.cellstyle
+    }
+    
+    public static IndexedContainer exampleDataSource() {
+        return TableExample.generateContent();
+    }
+
 }

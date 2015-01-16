@@ -1385,4 +1385,54 @@ $borderthickness: 5px;
         }
     }
     // END-EXAMPLE: component.table.generatedcolumns.extended
+
+    /***************************/
+    /* GeneratedColumnExample  */
+    /***************************/
+    // BEGIN-EXAMPLE: component.grid.features
+    .boldheader .v-grid-cell {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .v-grid-cell.rightalign {
+        text-align: right;
+    }
+
+    .v-grid-row.grayed {
+        color: gray;
+    }
+    
+    .v-grid-cell .v-textfield {
+        margin-top: 6px;
+    }
+    // END-EXAMPLE: component.grid.features
+
+    // BEGIN-EXAMPLE: component.grid.renderer
+    // Set the row height to fit the pictures
+    .gridwithpics128px .v-grid-body .v-grid-cell {
+        height: 128px;
+    }
+    
+    // Style the image cells
+    .gridwithpics128px .imagecol {
+        background: black;
+        text-align: center;
+    }
+    // END-EXAMPLE: component.grid.renderer
+
+    /*******************/
+    /* ColumnsExample  */
+    /*******************/
+    .expandratiogrid {
+        .v-grid-body {
+	        .v-grid-cell {
+	            height: 100px;
+	        }
+	        .v-grid-cell.wrappingcolumn {
+	            line-height: normal;
+	            white-space: normal;
+	        }
+        }
+    }
 }

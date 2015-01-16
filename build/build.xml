@@ -44,6 +44,10 @@
             pattern="${result}/lib/[artifact]-[revision].[ext]"/>
     </target>
 
+    <target name="ivy-report" depends="init">
+        <ivy:report conf="nodeploy" organisation="com.vaadin" module="v7proj"/>
+    </target>
+
     <!-- Compile server-side -->
     <target name="compile-server-side"
             depends="init, resolve">

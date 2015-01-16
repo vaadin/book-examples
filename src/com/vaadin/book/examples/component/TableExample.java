@@ -2168,13 +2168,13 @@ public class TableExample extends CustomComponent implements BookExampleBundle {
     }    
 */
     public static IndexedContainer generateContent() {
-        IndexedContainer result = new IndexedContainer();
-        result.addContainerProperty("name", String.class, null);
-        result.addContainerProperty("city", String.class, null);
-        result.addContainerProperty("year", Integer.class, null);
+        IndexedContainer container = new IndexedContainer();
+        container.addContainerProperty("name", String.class, null);
+        container.addContainerProperty("city", String.class, null);
+        container.addContainerProperty("year", Integer.class, null);
         
-        addContent(result);
-        return result;
+        addContent(container);
+        return container;
     }
     
     public static void addContent(IndexedContainer container) {
