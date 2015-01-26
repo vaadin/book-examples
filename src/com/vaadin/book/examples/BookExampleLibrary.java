@@ -49,6 +49,7 @@ import com.vaadin.book.examples.application.LifecycleExample;
 import com.vaadin.book.examples.application.NotificationExample;
 import com.vaadin.book.examples.application.ResourceExample;
 import com.vaadin.book.examples.application.calc.MVPCalculator;
+import com.vaadin.book.examples.application.declarative.DeclarativeUIExample;
 import com.vaadin.book.examples.client.ColorpickerExample;
 import com.vaadin.book.examples.client.MyComponentExample;
 import com.vaadin.book.examples.client.js.JSIntegrationExample;
@@ -85,6 +86,7 @@ import com.vaadin.book.examples.component.TwinColSelectExample;
 import com.vaadin.book.examples.component.UploadExample;
 import com.vaadin.book.examples.component.grid.ColumnsExample;
 import com.vaadin.book.examples.component.grid.GridDataBindingExample;
+import com.vaadin.book.examples.component.grid.GridEditingExample;
 import com.vaadin.book.examples.component.grid.GridExample;
 import com.vaadin.book.examples.component.grid.RendererExample;
 import com.vaadin.book.examples.component.properties.CaptionExample;
@@ -203,6 +205,9 @@ public class BookExampleLibrary {
             new BookExample("application.architecture.composition.layout", "With a Layout", ArchitectureExample.class),
             new BookExample("application.architecture.composition.customcomponent", "With a CustomComponent", ArchitectureExample.class),
             new BookExample("application.architecture.globalaccess", "Accessing UI, Page, and Session", ArchitectureExample.class),
+            new ExampleCtgr("application.declarative-", "Designing UIs Declaratively"),
+            new BookExample("application.declarative.basic", "Basic Use", DeclarativeUIExample.class),
+            new BookExample("application.declarative.context", "Design Context", DeclarativeUIExample.class),
             new ExampleCtgr("application.eventlistener-", "Handling Events with Listeners"),
             new BookExample("application.eventlistener.anonymous", "Anonymous Class", EventListenerExample.class),
             new BookExample("application.eventlistener.constructor", "Defining in Constructor", EventListenerExample.class),
@@ -516,6 +521,11 @@ public class BookExampleLibrary {
             new ExampleCtgr("component.grid.stylegeneration-", "Style Generators"),
             new BookExample("component.grid.stylegeneration.rowstyle", "Row Styles", GridExample.class),
             new BookExample("component.grid.stylegeneration.cellstyle", "Cell Styles", GridExample.class),
+            new ExampleCtgr("component.grid.editing-", "Editing"),
+            new BookExample("component.grid.editing.basic", "Basic Use", GridEditingExample.class),
+            new BookExample("component.grid.editing.editorfields", "Setting Editor Fields", GridEditingExample.class),
+            new BookExample("component.grid.editing.commit", "Handling Commit", GridEditingExample.class),
+            new BookExample("component.grid.editing.fieldgroup", "FieldGroup", GridEditingExample.class),
             new ExampleCtgr("component.menubar-", "MenuBar"),
             new BookExample("component.menubar.basic", "Basic Use", MenuBarExample.class),
             new BookExample("component.menubar.keep", "Keep Selection", MenuBarExample.class),

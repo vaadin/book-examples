@@ -308,7 +308,6 @@ public class GridExample extends CustomComponent implements AnyBookExampleBundle
 
         // Sort first by city and then by name 
         grid.sort(Sort.by("city").then("name"));
-        grid.sort("name", SortDirection.DESCENDING);
 
         layout.addComponent(grid);
         // END-EXAMPLE: component.grid.sorting.sort
@@ -326,7 +325,7 @@ public class GridExample extends CustomComponent implements AnyBookExampleBundle
         grid.setHeight("300px");
 
         // Sort first by city and then by name 
-        grid.sort(Sort.by("city", SortDirection.DESCENDING)
+        grid.sort(Sort.by("city", SortDirection.ASCENDING)
                       .then("name", SortDirection.DESCENDING));
 
         layout.addComponent(grid);
@@ -381,8 +380,24 @@ public class GridExample extends CustomComponent implements AnyBookExampleBundle
         // END-EXAMPLE: component.grid.stylegeneration.cellstyle
     }
     
+    public void editing(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: component.grid.editing
+        Grid grid = new Grid(exampleDataSource());
+        grid.setWidth("600px");
+        grid.setHeight("400px");
+
+        // Single-selection mode (default)
+        grid.setSelectionMode(SelectionMode.NONE);
+
+        // Enable editing
+        grid.setEditorEnabled(true);
+        grid.setEditorFieldGroup(new FieldGroup());
+        
+        layout.addComponent(grid);
+        // END-EXAMPLE: component.grid.editing
+    }
+
     public static IndexedContainer exampleDataSource() {
         return TableExample.generateContent();
     }
-
 }

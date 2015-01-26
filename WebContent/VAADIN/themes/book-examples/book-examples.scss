@@ -1435,4 +1435,16 @@ $borderthickness: 5px;
 	        }
         }
     }
+
+    /**********************/
+    /* GridEditorExample  */
+    /**********************/
+    // BEGIN-EXAMPLE: component.grid.editing.editorfields
+    .v-textfield-nameeditor {
+        font-style: italic;
+    }
+    // END-EXAMPLE: component.grid.editing.editorfields
+    .nameeditor.v-textfield-error {
+        background: pink;
+    }
 }
