@@ -6,8 +6,6 @@
 @font-face{font-family:"HelveticaW01-RoundedBd";font-weight:bold;src:url("fonts/79e78e0d-1e3d-4298-8913-6f12cf008e7d.eot?#iefix");src:url("fonts/79e78e0d-1e3d-4298-8913-6f12cf008e7d.eot?#iefix") format("eot"),url("fonts/c280ced9-704c-46b2-a66a-aff7ee1627bf.woff") format("woff"),url("fonts/548e8c1d-b37a-43af-b197-a35e2f0c3d2f.ttf") format("truetype"),url("fonts/5e9b82e3-aa53-4064-b984-f49aa751081d.svg#5e9b82e3-aa53-4064-b984-f49aa751081d") format("svg");}
 @font-face{font-family:"vaadin-icons";src:url("fonts/vaadin-icons/vaadin-icons.eot?#iefix");src:url("fonts/vaadin-icons/vaadin-icons.eot?#iefix") format("eot"),url("fonts/vaadin-icons/vaadin-icons.woff") format("woff"),url("fonts/vaadin-icons/vaadin-icons.ttf") format("truetype"),url("fonts/vaadin-icons/vaadin-icons.svg#vaadin-icons") format("svg");}
 
-// @import "js/custom-scrollbar-plugin/jquery.mCustomScrollbar.css";
-
 .book-examples {
     @include addons;
     @include book-examples;

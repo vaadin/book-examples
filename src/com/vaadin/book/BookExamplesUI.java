@@ -27,32 +27,33 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-@JavaScript({"js/jquery-2.1.0.min.js", "js/custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"})
+@JavaScript({ "js/jquery-2.1.0.min.js" })
 // BEGIN-EXAMPLE: themes.misc.webfonts
-//@StyleSheet({"js/custom-scrollbar-plugin/jquery.mCustomScrollbar.css",
-@StyleSheet({"http://fonts.googleapis.com/css?family=Cabin+Sketch"})
+@StyleSheet({ "http://fonts.googleapis.com/css?family=Cabin+Sketch" })
 @Theme("book-examples")
 @Title("Book of Vaadin Examples - Vaadin 7")
 @Push
 public class BookExamplesUI extends UI {
-// END-EXAMPLE: themes.misc.webfonts
+    // END-EXAMPLE: themes.misc.webfonts
     private static final long serialVersionUID = 5548861727207728718L;
+
     private static final transient Logger logger = Logger.getLogger(BookExamplesUI.class.getName());
-    
+
     public static Logger getLogger() {
         return BookExamplesUI.logger;
     }
-    
-    public static final String APPCONTEXT ="/book-examples-vaadin7";
-    
+
+    public static final String APPCONTEXT = "/book-examples-vaadin7";
+
     AbstractExampleMenu menu;
 
     @Override
     protected void init(VaadinRequest request) {
         // Just a test
         // VaadinSession.getCurrent().getSession().setMaxInactiveInterval(20);
-        getLogger().info("MaxInactiveInterval " + VaadinSession.getCurrent().getSession().getMaxInactiveInterval());
-        
+        getLogger().info(
+            "MaxInactiveInterval " + VaadinSession.getCurrent().getSession().getMaxInactiveInterval());
+
         VerticalLayout mainLayout = new VerticalLayout();
         setContent(mainLayout);
         mainLayout.setSizeFull();
@@ -74,7 +75,7 @@ public class BookExamplesUI extends UI {
         titlebox.addComponent(subtitle);
         titlebar.addComponent(titlebox);
         titlebar.setComponentAlignment(titlebox, Alignment.TOP_LEFT);
-        
+
         // Right part of title bar
         VerticalLayout logobox = new VerticalLayout();
         Image logo = new Image(null, new ThemeResource("img/vaadin-logo.png"));
@@ -106,44 +107,35 @@ public class BookExamplesUI extends UI {
         viewLayout.setSpacing(true);
         viewLayout.setMargin(true);
         viewpanel.setContent(viewLayout);
-        
+
         menu = new TreeMenu(viewLayout, viewpanel);
         hor.addComponent(menu);
 
         hor.addComponent(viewpanel);
         hor.setExpandRatio(viewpanel, 1.0f);
-        
-        // Enable the jQuery custom content scroller
-        // See http://manos.malihu.gr/jquery-custom-content-scroller/
-        /* Disabled
-        Page.getCurrent().getJavaScript().execute(
-            "$(\".v-panel-content-viewpanel\").mCustomScrollbar("
-            + "{mouseWheelPixels: 200, advanced: {updateOnContentResize: true}});");
-        */
 
         File baseDir = VaadinService.getCurrent().getBaseDirectory();
         BookExampleLibrary library = BookExampleLibrary.getInstance(baseDir);
 
         menu.buildMenu(library);
-        
+
         VaadinService.getCurrent().setSystemMessagesProvider(
             new SystemMessagesProvider() {
-            private static final long serialVersionUID = -9118140641761605204L;
+                private static final long serialVersionUID = -9118140641761605204L;
 
-            @Override
-            public SystemMessages getSystemMessages(
-                SystemMessagesInfo systemMessagesInfo) {
-                CustomizedSystemMessages messages =
-                        new CustomizedSystemMessages();
-                messages.setCommunicationErrorCaption("Comm Err");
-                messages.setCommunicationErrorMessage("This is bad.");
-                messages.setCommunicationErrorNotificationEnabled(true);
-                messages.setCommunicationErrorURL("http://vaadin.com/");
-                return messages;
-            }
-        });
+                @Override
+                public SystemMessages getSystemMessages(
+                    SystemMessagesInfo systemMessagesInfo) {
+                    CustomizedSystemMessages messages = new CustomizedSystemMessages();
+                    messages.setCommunicationErrorCaption("Comm Err");
+                    messages.setCommunicationErrorMessage("This is bad.");
+                    messages.setCommunicationErrorNotificationEnabled(true);
+                    messages.setCommunicationErrorURL("http://vaadin.com/");
+                    return messages;
+                }
+            });
     }
-    
+
     // BEGIN-EXAMPLE: advanced.servletrequestlistener.introduction
     // In the sending application class we define:
     int clicks = 0;
@@ -155,6 +147,7 @@ public class BookExamplesUI extends UI {
     public int getClicks() {
         return clicks;
     }
+
     // END-EXAMPLE: advanced.servletrequestlistener.introduction
 
     // Override the default implementation
@@ -166,6 +159,5 @@ public class BookExamplesUI extends UI {
         messages.setCommunicationErrorURL("http://vaadin.com");
         return messages;
     }
-    
-    
+
 }

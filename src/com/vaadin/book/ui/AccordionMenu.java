@@ -4,7 +4,6 @@ import com.vaadin.data.Container.Filterable;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
-import com.vaadin.server.Page;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.CustomComponent;
@@ -25,7 +24,7 @@ import com.vaadin.ui.themes.Reindeer;
 public class AccordionMenu extends AbstractExampleMenu {
     class TOCTabContent extends CustomComponent {
         public Tree menu;
-        
+
         public TOCTabContent() {
             super();
 
@@ -34,18 +33,13 @@ public class AccordionMenu extends AbstractExampleMenu {
             scrollpanel.addStyleName("menuscrollcontent");
             scrollpanel.setSizeFull();
 
-            // This fails, probably because of Bug #11391
-            Page.getCurrent().getJavaScript().execute(
-                "$(\".v-accordion-item-content\").mCustomScrollbar("
-                + "{mouseWheelPixels: 200, advanced: {updateOnContentResize: true}});");
-
             menu.addContainerProperty("caption", String.class, "");
             menu.setItemCaptionMode(ItemCaptionMode.PROPERTY);
             menu.setItemCaptionPropertyId("caption");
             menu.setSizeFull();
             menu.setImmediate(true);
             scrollpanel.setContent(menu);
-            
+
             setCompositionRoot(scrollpanel);
         }
 
@@ -60,35 +54,34 @@ public class AccordionMenu extends AbstractExampleMenu {
                 SimpleStringFilter filter = null;
 
                 public void textChange(TextChangeEvent event) {
-                    Filterable f = (Filterable)
-                        menu.getContainerDataSource();
-                    
+                    Filterable f = (Filterable) menu.getContainerDataSource();
+
                     // Remove old filter
                     if (filter != null)
                         f.removeContainerFilter(filter);
-                    
+
                     // Set new filter for the "caption" property
-                    filter = new SimpleStringFilter("caption", event.getText(),
-                                                    true, false);
+                    filter = new SimpleStringFilter("caption", event.getText(), true, false);
                     f.addContainerFilter(filter);
                 }
             });
-            
+
             return search;
         }
     }
 
     class HistoryTabContent extends CustomComponent {
         private static final long serialVersionUID = -594165791405599715L;
-        
+
         public HistoryTabContent() {
             setCompositionRoot(new Label("Not available yet"));
         }
     }
-    
+
     TOCTabContent toctab;
-    TOCTabContent historytab; 
-    
+
+    TOCTabContent historytab;
+
     public AccordionMenu(Layout viewLayout, Panel viewpanel) {
         super(viewLayout, viewpanel);
 
@@ -106,7 +99,7 @@ public class AccordionMenu extends AbstractExampleMenu {
         historytab = new TOCTabContent();
         accordion.addTab(historytab, "Recent Changes");
     }
-    
+
     public Tree getMenu() {
         return toctab.menu;
     }

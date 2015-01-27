@@ -10,27 +10,22 @@ import com.vaadin.ui.themes.Reindeer;
  * @author magi
  */
 public class TreeMenu extends AbstractExampleMenu {
-    
+
     public TreeMenu(Layout viewLayout, Panel viewpanel) {
         super(viewLayout, viewpanel);
 
         addStyleName("examplemenu");
         setWidth("300px");
         setHeight("100%");
-        
+
         Panel scrollpanel = new Panel("Table of Contents");
         scrollpanel.setSizeFull();
         scrollpanel.addStyleName(Reindeer.PANEL_LIGHT);
         scrollpanel.addStyleName("menupanel");
         scrollpanel.addStyleName("scrollmenu");
 
-        /* Disabled the custom scroll bars
-        Page.getCurrent().getJavaScript().execute(
-            "$(\".v-panel-content-scrollmenu\").mCustomScrollbar("
-            + "{mouseWheelPixels: 200, advanced: {updateOnContentResize: true}});");
-        */
         scrollpanel.setContent(menu);
-        
+
         setCompositionRoot(scrollpanel);
     }
 }
