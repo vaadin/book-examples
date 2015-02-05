@@ -235,7 +235,7 @@ public class FieldGroupExample extends CustomComponent implements BookExampleBun
         @SuppressWarnings("unchecked")
         @Override
         public Class<? extends List<String>> getType() {
-            return (Class<List<String>>) (new ArrayList<String>()).getClass();
+            return (Class<List<String>>) ((List<String>) new ArrayList<String>()).getClass();
         }
         
         @Override

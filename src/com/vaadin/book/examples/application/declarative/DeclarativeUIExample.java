@@ -14,20 +14,21 @@ public class DeclarativeUIExample extends CustomComponent implements AnyBookExam
             "<h1>Basic Use of Declarative UIs</h1>" +
             "<p></p>";
     
-    // EXAMPLE-REF: application.declarative.basic com.vaadin.book.applications.declarative.MyBasicDeclarativeUI application.declarative.basic
+    // EXAMPLE-REF: application.declarative.basic com.vaadin.book.examples.application.declarative.MyBasicDeclarativeUI application.declarative.basic
     public void basic(VerticalLayout layout) {
         BrowserFrame frame = new BrowserFrame("Browser Frame");
         frame.setSource(new ExternalResource(BookExamplesUI.APPCONTEXT + "/basicdeclarativeui?restartApplication"));
-        frame.setWidth("570px");
+        frame.setWidth("650px");
         frame.setHeight("300px");
         layout.addComponent(frame);
     }
 
-    // EXAMPLE-REF: application.declarative.context com.vaadin.book.applications.declarative.MyDeclarativeUI application.declarative.context
+    // EXAMPLE-REF: application.declarative.context com.vaadin.book.examples.application.declarative.MyDeclarativeUI application.declarative.context
+    // EXAMPLE-FILE: application.declarative.context /com/vaadin/book/examples/application/declarative/MyDeclarativeUI.html
     public void context(VerticalLayout layout) {
         BrowserFrame frame = new BrowserFrame("Browser Frame");
         frame.setSource(new ExternalResource(BookExamplesUI.APPCONTEXT + "/declarativeui?restartApplication"));
-        frame.setWidth("570px");
+        frame.setWidth("650px");
         frame.setHeight("300px");
         layout.addComponent(frame);
     }

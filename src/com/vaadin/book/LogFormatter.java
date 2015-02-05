@@ -13,6 +13,7 @@ public final class LogFormatter extends Formatter {
 
     @Override
     public String format(LogRecord record) {
+        System.out.println("Logging...");
         StringBuilder sb = new StringBuilder();
 
         sb.append(df.format(new Date(record.getMillis())))

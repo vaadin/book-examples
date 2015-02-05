@@ -940,7 +940,7 @@ public class TableExample extends CustomComponent implements BookExampleBundle {
             }
         });
         
-        table.setVisibleColumns(new String[]{"name","energy", "kcal"});
+        table.setVisibleColumns("name","energy", "kcal");
 
         // Keyboard navigation
         class KbdHandler implements Handler {

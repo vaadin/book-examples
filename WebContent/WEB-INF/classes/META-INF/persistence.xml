@@ -6,7 +6,7 @@
                         http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
     version="2.0">
 
-    <persistence-unit name="book-examples" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="book-examples-vaadin7" transaction-type="RESOURCE_LOCAL">
         <!-- Use EclipseLink as the Persistence Provider -->
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         
@@ -18,7 +18,7 @@
         <class>com.vaadin.book.examples.component.MyCalendarEvent</class>
 
         <!-- Doesn't seem to have any effect -->
-        <non-jta-data-source>jdbc/h2/mem/test_mem</non-jta-data-source>
+        <non-jta-data-source>jdbc/h2/mem/</non-jta-data-source>
 
         <properties>
             <!-- Database Connection -->  
@@ -29,7 +29,7 @@
             <!--  property name="javax.persistence.jdbc.url"
                       value="jdbc:h2:~/book-examples-h2db;FILE_LOCK=NO" />  -->
             <property name="javax.persistence.jdbc.url"
-                      value="jdbc:h2:mem:test_mem" /> 
+                      value="jdbc:h2:mem:test_mem2" /> 
             <property name="javax.persistence.jdbc.user"
                       value="sa"/>
             <property name="javax.persistence.jdbc.password" 

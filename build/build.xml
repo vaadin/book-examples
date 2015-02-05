@@ -3,46 +3,104 @@
          name="Book Examples" basedir="../"
          default="package-war">
 
+    <!-- ================================================================== -->
+    <!-- Configuration                                                      -->
+    <!-- ================================================================== -->
+
     <target name="configure">
         <!-- Where project source files are located -->
-        <property name="src-location" value="src" />
+        <property name="sources" value="src" />
             
-        <!-- Name of the widget set -->
-        <property name="widgetset" value="org.vaadin.book.widgetset.BookExamplesWidgetSet"/>
+        <!-- Path to root of web application folder -->
+        <property name="webroot" value="WebContent" />
 
-        <!-- Name of the theme -->
-        <property name="theme" value="book-examples"/>
-        
-        <!-- Application name -->
+    	<!-- Application name -->
         <property name="app-name" value="book-examples-vaadin7"/>
 
-        <!-- Compilation result directory -->
-        <property name="result" value="build/result"/>
-    	
-    	<property name="vaadin-version" value="7.1.9"/>
+        <!-- Compilation work directory -->
+        <property name="workdir" value="build/work"/>
+
+        <!-- Compilation result artifacts directory -->
+        <property name="artifacts" value="build/artifacts"/>
     </target>
+
+    <!-- Widget sets to compile -->
+    <target name="compile-widgetsets" depends="compile-server-side">
+    	<antcall target="compile-widgetset">
+            <param name="widgetset" value="com.vaadin.book.widgetset.BookExamplesWidgetSet"/>
+        </antcall>
+
+        <antcall target="compile-widgetset">
+            <param name="widgetset" value="com.vaadin.book.examples.addons.touchkit.MyMobileWidgetSet"/>
+        </antcall>
+
+        <antcall target="compile-widgetset">
+            <param name="widgetset" value="com.vaadin.book.examples.client.widgetset.ColorPickerWidgetSet"/>
+        </antcall>
+
+        <!-- Doesn't compile currently.
+        <antcall target="compile-widgetset">
+            <param name="widgetset" value="com.vaadin.book.examples.client.clientside.MyModule"/>
+        </antcall>
+        -->
+    </target>
+
+    <!-- Themes to compile -->
+	<target name="compile-themes">
+        <antcall target="compile-theme">
+            <param name="theme" value="book-examples"/>
+        </antcall>
+        <antcall target="compile-theme">
+            <param name="theme" value="myproject"/>
+        </antcall>
+        <antcall target="compile-theme">
+            <param name="theme" value="mytheme"/>
+        </antcall>
+        <antcall target="compile-theme">
+            <param name="theme" value="myvalotheme"/>
+        </antcall>
+	</target>
+
+    <!-- ================================================================== -->
+    <!-- Initialization                                                     -->
+    <!-- ================================================================== -->
+
+    <!-- Retrieve dependencies with Ivy -->
+    <ivy:resolve file="ivy.xml" log="download-only"/>
+    <ivy:cachepath pathid="ivy.deps.default" conf="default" />
+    <ivy:cachepath pathid="ivy.deps.nodeploy" conf="nodeploy" />
+    <ivy:cachepath pathid="ivy.deps.widgetset" conf="widgetset-compile" />
+    <ivy:cachefileset setid="ivy.deps.default.fileset" conf="default"/>
 
     <!-- Initialize build -->
     <target name="init" depends="configure">
         <!-- Construct and check classpath -->
-        <path id="compile.classpath">
+        <path id="classpath.compile">
             <!-- Source code to be compiled -->
-            <pathelement path="${src-location}" />
-            
-            <!-- Vaadin libraries and dependencies -->
-            <fileset dir="${result}/lib">
-                <include name="*.jar"/>
-            </fileset>
+            <pathelement path="${sources}" />
+
+        	<!-- Dependencies retrieved with Ivy -->
+            <path refid="ivy.deps.default"/>
+            <path refid="ivy.deps.nodeploy"/>
         </path>
 
-        <mkdir dir="${result}"/>
+        <path id="classpath.widgetset">
+            <!-- Source code to be compiled -->
+            <pathelement path="${sources}" />
+        	
+        	<!-- Compiled server-side classes -->
+            <pathelement path="${workdir}/WEB-INF/classes" />
+            
+            <!-- Dependencies retrieved with Ivy -->
+        	<path refid="ivy.deps.widgetset"/>
+        </path>
+
+        <mkdir dir="${workdir}"/>
     </target>
 
-    <!-- Retrieve dependencies with Ivy -->
-    <target name="resolve" depends="init">
-        <ivy:retrieve conf="default" type="jar,bundle"
-            pattern="${result}/lib/[artifact]-[revision].[ext]"/>
-    </target>
+    <!-- ================================================================== -->
+    <!-- Server-Side Compilation                                            -->
+    <!-- ================================================================== -->
 
     <target name="ivy-report" depends="init">
         <ivy:report conf="nodeploy" organisation="com.vaadin" module="v7proj"/>
@@ -50,49 +108,81 @@
 
     <!-- Compile server-side -->
     <target name="compile-server-side"
-            depends="init, resolve">
-        <delete dir="${result}/classes"/>
-        <mkdir dir="${result}/classes"/>
+            depends="init">
+        <delete dir="${workdir}/WEB-INF/classes"/>
+        <mkdir dir="${workdir}/WEB-INF/classes"/>
 
-        <javac srcdir="${src-location}"
-               destdir="${result}/classes">
+        <javac srcdir="${sources}"
+               destdir="${workdir}/WEB-INF/classes"
+        	   includeantruntime="no">
             <classpath>
-                <path refid="compile.classpath"/>
+                <path refid="classpath.compile"/>
             </classpath>
         </javac>
+
+        <!-- Copy sources -->
+        <copy todir="${workdir}/WEB-INF/classes">
+            <fileset dir="${sources}"/>
+        </copy>
     </target>
 
-    <!-- Compile client-side -->
-    <target name="compile-client-side"
-            depends="init, resolve">
-        <delete dir="${result}/classes"/>
-        <mkdir dir="${result}/classes"/>
+    <!-- ================================================================== -->
+    <!-- Widgetset Compilation                                              -->
+    <!-- ================================================================== -->
 
-        <javac srcdir="${src-location}"
-               destdir="${result}/classes">
+    <!-- Build the widget set. -->
+    <target name="compile-widgetset" depends="init">
+    	<java classname="com.google.gwt.dev.Compiler"
+              failonerror="yes" fork="yes">
+            <arg value="-war" />
+            <arg value="${webroot}/VAADIN/widgetsets" />
+            <arg value="${widgetset}" />
+            <arg value="-logLevel"/>
+            <arg value="INFO"/>
+            <!-- <arg value="-strict"/> -->
+            <jvmarg value="-Xmx1024M"/>
+            <jvmarg value="-Xss512M"/>
+            <jvmarg value="-Djava.awt.headless=true"/>
+
             <classpath>
-                <path refid="compile.classpath"/>
+                <!-- Location of source code -->
+                <pathelement path="${sources}" />
+
+                <!-- Compiled server-side classes -->
+                <pathelement path="${workdir}/WEB-INF/classes" />
+
+                <!-- Dependencies retrieved with Ivy -->
+                <path refid="ivy.deps.widgetset"/>
             </classpath>
-        </javac>
+            <sysproperty key="vFailIfNotSerializable" value="${failifnotserializable}" />
+        </java>
+            
+        <!-- Cleanup -->
+        <delete dir="${webroot}/VAADIN/gwt-unitCache"/>
+        <delete dir="${webroot}/VAADIN/widgetsets/WEB-INF"/>
     </target>
+
+    <!-- ================================================================== -->
+    <!-- Theme compilation                                                  -->
+    <!-- ================================================================== -->
 
     <!-- Compile theme -->
     <target name="compile-theme" depends="init">
-        <delete dir="${theme}"/>
-        <mkdir dir="${result}/VAADIN/themes/${theme}"/>
+        <delete dir="${workdir}/VAADIN/themes/${theme}"/>
+        <mkdir dir="${workdir}/VAADIN/themes/${theme}"/>
     	
         <java classname="com.vaadin.sass.SassCompiler"
               fork="true">
             <classpath>
-                <path refid="compile.classpath"/>
+                <path refid="classpath.compile"/>
             </classpath>
-            <arg value="WebContent/VAADIN/themes/${theme}/styles.scss"/> 
-            <arg value="WebContent/VAADIN/themes/${theme}/styles.css"/> 
+            <arg value="${webroot}/VAADIN/themes/${theme}/styles.scss"/> 
+            <arg value="${webroot}/VAADIN/themes/${theme}/styles.css"/> 
         </java>
-    	
+
     	<!-- Copy theme resources -->
-        <copy todir="${result}/VAADIN/themes/${theme}">
-            <fileset dir="WebContent/VAADIN/themes/${theme}"/>
+        <copy todir="${workdir}/VAADIN/themes/${theme}">
+            <fileset dir="${webroot}/VAADIN/themes/${theme}"/>
         </copy>
     </target>
 
@@ -102,39 +192,46 @@
         <eclipse.refreshLocal resource="CalendarTest" depth="infinite" />
     </target>
 
-	<!-- Note: compile-theme is not enabled before Vaadin Sass compiler supports valo theme -->
-    <target name="package-war" depends="resolve">
-        <property name="result-path" value="build/result" />
-        <property name="result.classes" value="build/classes" />
-        
-        <war destfile="${result-path}/${app-name}.war" webxml="WebContent/WEB-INF/web.xml">
-            <classes dir="${result.classes}" includes="**" />
+    <!-- ================================================================== -->
+    <!-- Packaging Web Application (WAR)                                    -->
+    <!-- ================================================================== -->
+	
+    <target name="compile-all" depends="init, compile-server-side, compile-themes, compile-widgetsets">
+    </target>
+
+	<target name="package-war" depends="init">
+    	<!-- Copy libraries from Ivy repository -->
+        <mkdir dir="${workdir}/WEB-INF/lib"/>
+        <copy todir="${workdir}/WEB-INF/lib" flatten="true">
+            <fileset refid="ivy.deps.default.fileset"/>
+        </copy>
+
+    	<!-- But do not include source or javadoc JARs -->
+        <delete>
+            <fileset dir="${workdir}/WEB-INF/lib">
+                <include name="**/*-sources.jar"/>
+                <include name="**/*-javadoc.jar"/>
+            </fileset>
+        </delete>
+
+    	<war destfile="${artifacts}/${app-name}.war"
+    		 basedir="${workdir}"
+    		 webxml="${webroot}/WEB-INF/web.xml">
+            <classes dir="${workdir}/WEB-INF/classes" includes="**" />
         	
-        	<!-- Nothing here at the moment - enable if needed -->
-            <!-- <lib dir="WebContent/WEB-INF/lib" excludes="*src*" /> -->
-
-            <lib dir="build/result/lib">
-                <exclude name="*servlet-api*" />
-            </lib>
-
             <!-- Include the built widget set and theme. -->
-            <fileset dir="WebContent">
+            <fileset dir="${webroot}">
                 <patternset>
                     <include name="images/**/*" />
                     <include name="VAADIN/widgetsets/**/*" />
-                    <include name="VAADIN/themes/book-examples/**/*" /> <!-- TODO remove when compiling valo theme is possible -->
-                    <include name="VAADIN/themes/mobiletheme/**/*" />
-                    <include name="VAADIN/themes/multitheme/**/*" />
-                    <include name="VAADIN/themes/myproject/**/*" />
-                    <include name="VAADIN/themes/mytheme/**/*" />
-                    <include name="VAADIN/themes/valo/**/*" />
-                    <include name="VAADIN/themes/myvalotheme/**/*" />
+                    <include name="VAADIN/themes/**/*" />
                     <include name="*.html" />
                     <include name="WEB-INF/*.xml" />
                     <include name="WEB-INF/classes/META-INF/*.xml" />
                 </patternset>
             </fileset>
-            <fileset dir="build/result">
+
+    		<fileset dir="${workdir}">
                 <patternset>
                     <include name="VAADIN/themes/**/*" />
                 </patternset>
@@ -143,6 +240,7 @@
     </target>
 
     <target name="clean" depends="configure">
+        <delete dir="${workdir}"/>
         <delete dir="${result}"/>
     </target>
 </project>

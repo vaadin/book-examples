@@ -7,14 +7,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import javax.xml.bind.DatatypeConverter;
 
 import com.vaadin.book.examples.BookExampleBundle;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.HorizontalLayout;
@@ -86,28 +83,22 @@ public class SerializationExample extends CustomComponent implements BookExample
         
         // Serialization
         Button serialize = new Button("Serialize");
-        serialize.addListener(new ClickListener() {
-            private static final long serialVersionUID = -3659227959623977486L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                // Serialize
-                ByteArrayOutputStream baostr = new ByteArrayOutputStream();
-                ObjectOutputStream oostr;
-                try {
-                    oostr = new ObjectOutputStream(baostr);
-                    oostr.writeObject(bean);
-                    oostr.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                
-                // Encode
-                BASE64Encoder encoder = new BASE64Encoder();
-                String encoded = encoder.encode(baostr.toByteArray());
-
-                serialized.setValue(encoded);
+        serialize.addClickListener(event -> {
+            // Serialize
+            ByteArrayOutputStream baostr = new ByteArrayOutputStream();
+            ObjectOutputStream oostr;
+            try {
+                oostr = new ObjectOutputStream(baostr);
+                oostr.writeObject(bean);
+                oostr.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            
+            // Encode
+            String encoded = DatatypeConverter.printBase64Binary(baostr.toByteArray());
+
+            serialized.setValue(encoded);
         });
         form1.getFooter().addComponent(serialize);
 
@@ -115,34 +106,30 @@ public class SerializationExample extends CustomComponent implements BookExample
         final Form form2 = new Form();
         form2.setCaption("The Unoriginal Bean");
         hlayout.addComponent(form2);
-        
+
         // Deserialization
         Button deserialize = new Button("Deserialize");
-        deserialize.addListener(new ClickListener() {
-            private static final long serialVersionUID = -3659227959623977486L;
+        deserialize.addClickListener(event -> { // Java 8
+            String encoded = (String) serialized.getValue();
 
-            @Override
-            public void buttonClick(ClickEvent event) {
-                String encoded = (String) serialized.getValue();
+            // Decode Base64
+            byte[] data = DatatypeConverter.parseBase64Binary(encoded);
+
+            try {
+                ObjectInputStream ois =
+                        new ObjectInputStream( 
+                                new ByteArrayInputStream(data));
+
+                // The deserialized bean
+                Bean unbean = (Bean) ois.readObject();
+                ois.close();
                 
-                BASE64Decoder decoder = new BASE64Decoder();
-                try {
-                    byte[] data = decoder.decodeBuffer(encoded);
-                    ObjectInputStream ois =
-                            new ObjectInputStream( 
-                                    new ByteArrayInputStream(data));
-
-                    // The deserialized bean
-                    Bean unbean = (Bean) ois.readObject();
-                    ois.close();
-                    
-                    BeanItem<Bean> unitem = new BeanItem<Bean>(unbean);
-                    form2.setItemDataSource(unitem);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
+                BeanItem<Bean> unitem = new BeanItem<Bean>(unbean);
+                form2.setItemDataSource(unitem);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
         });
         form2.getFooter().addComponent(deserialize);

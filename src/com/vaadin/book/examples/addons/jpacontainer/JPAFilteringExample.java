@@ -14,9 +14,8 @@ import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.addon.jpacontainer.util.DefaultQueryModifierDelegate;
 import com.vaadin.book.examples.BookExampleBundle;
 import com.vaadin.data.Container.Filter;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.filter.Compare;
+import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
@@ -59,8 +58,7 @@ public class JPAFilteringExample extends CustomComponent implements BookExampleB
         
         Table personTable = new Table("The Persistent People", persons);
         persons.addNestedContainerProperty("country.name");
-        personTable.setVisibleColumns(new String[]{"id","name","age",
-                                                   "country.name"});
+        personTable.setVisibleColumns("id","name","age","country.name");
         // END-EXAMPLE: jpacontainer.filtering.basic
 
         personTable.setPageLength(5);
@@ -84,34 +82,28 @@ public class JPAFilteringExample extends CustomComponent implements BookExampleB
 
         // A list for selecting the filter object 
         ListSelect countrySelect = new ListSelect("Pick a Filter", countries);
-        countrySelect.setItemCaptionMode(ListSelect.ITEM_CAPTION_MODE_PROPERTY);
+        countrySelect.setItemCaptionMode(ItemCaptionMode.PROPERTY);
         countrySelect.setItemCaptionPropertyId("name");
         countrySelect.setNullSelectionAllowed(false);
-        countrySelect.addListener(new ValueChangeListener() {
-            private static final long serialVersionUID = -545624716030176003L;
+        countrySelect.addValueChangeListener(event -> { // Java 8
+            // Get the entity object of the selected row
+            Object itemId = event.getProperty().getValue();
+            EntityItem<Country> item = countries.getItem(itemId);
+            Country country = item.getEntity();
+            
+            // Remove old filter
+            persons.removeAllContainerFilters();
 
-            @Override
-            public void valueChange(ValueChangeEvent event) {
-                // Get the entity object of the selected row
-                Object itemId = event.getProperty().getValue();
-                EntityItem<Country> item = countries.getItem(itemId);
-                Country country = item.getEntity();
-                
-                // Remove old filter
-                persons.removeAllContainerFilters();
-
-                // Add new filter
-                Filter filter = new Compare.Equal("country", country);
-                persons.addContainerFilter(filter);
-            }
+            // Add new filter
+            Filter filter = new Compare.Equal("country", country);
+            persons.addContainerFilter(filter);
         });
         countrySelect.setImmediate(true);
 
         // Bind the container to UI
         Table personTable = new Table("The Persistent People", persons);
         persons.addNestedContainerProperty("country.name");
-        personTable.setVisibleColumns(new String[]{"id","name","age",
-                                                   "country.name"});
+        personTable.setVisibleColumns("id","name","age","country.name");
         // END-EXAMPLE: jpacontainer.filtering.entity
 
         HorizontalLayout hlayout = new HorizontalLayout();
@@ -153,8 +145,7 @@ public class JPAFilteringExample extends CustomComponent implements BookExampleB
 
         Table personTable = new Table("Really Persistent People", persons);
         persons.addNestedContainerProperty("country.name");
-        personTable.setVisibleColumns(new String[]{"id","name","age",
-                                                   "country.name"});
+        personTable.setVisibleColumns("id","name","age","country.name");
         // END-EXAMPLE: jpacontainer.criteria.querymodification
 
         personTable.setPageLength(persons.size());
@@ -188,11 +179,10 @@ public class JPAFilteringExample extends CustomComponent implements BookExampleB
                 predicates.add(criteriaBuilder.gt(age, 116));
             }
         });
-    
+
         Table personTable = new Table("Really Persistent People", persons);
         persons.addNestedContainerProperty("country.name");
-        personTable.setVisibleColumns(new String[]{"id","name","age",
-                                                   "country.name"});
+        personTable.setVisibleColumns("id","name","age","country.name");
         // END-EXAMPLE: jpacontainer.criteria.querymodification
     
         personTable.setPageLength(persons.size());

@@ -237,30 +237,24 @@ public class JPAFieldFactoryExample extends CustomComponent implements BookExamp
 
         // A table to display the country list
         Panel masterPanel = new Panel("Master Table");
-        final Table masterTable = new Table("Select One",
-                                             countries);
-        masterTable.setVisibleColumns(new String[]{"name"});
+        Table masterTable = new Table("Select One", countries);
+        masterTable.setVisibleColumns("name");
         masterPanel.setContent(masterTable);
 
         // Have a placeholder for the editor
-        final Panel detailPanel = new Panel("The Details");
+        Panel detailPanel = new Panel("The Details");
 
         // When an item is selected from the table...
-        masterTable.addValueChangeListener(new ValueChangeListener() {
-            private static final long serialVersionUID = 3371750143781493244L;
-
-            @Override
-            public void valueChange(ValueChangeEvent event) {
-                // Create the editor
-                MasterDetailEditor editor =
-                    new MasterDetailEditor(fieldFactory, countries,
-                        event.getProperty().getValue(),
-                        "people", detailPanel);
-                
-                // Make the editor visible
-                detailPanel.setVisible(true);
-                detailPanel.setContent(editor);
-            }
+        masterTable.addValueChangeListener(event -> { // Java 8
+            // Create the editor
+            MasterDetailEditor editor =
+                new MasterDetailEditor(fieldFactory, countries,
+                    event.getProperty().getValue(),
+                    "people", detailPanel);
+            
+            // Make the editor visible
+            detailPanel.setVisible(true);
+            detailPanel.setContent(editor);
         });
         masterTable.setSelectable(true);
         masterTable.setImmediate(true);

@@ -1,8 +1,19 @@
-<v-vertical-layout height="100%">
-  <v-label>Hello!</v-label>
+<v-vertical-layout size-full>
+  <v-label><b>Hello!</b> - How are you?</v-label>
 
-  <v-horizontal-layout height="100%">
-    <v-tree _id="mytree" caption="My Tree"/>
-    <v-table _id="mytable" caption="My Table"/>
+  <v-horizontal-layout size-full :expand>
+    <v-tree _id="mytree" caption="My Tree"
+            width-auto height-full/>
+    <v-table _id="mytable" caption="My Table"
+             size-full :expand/>
+  </v-horizontal-layout>
+  
+  <v-horizontal-layout width-full>
+    <v-combo-box>
+      <option>One</option>
+      <option>Two</option>
+      <option>Three</option>
+    </v-combo-box>
+    <v-button :right><b>OK</b></v-button>
   </v-horizontal-layout>
 </v-vertical-layout>

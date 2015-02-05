@@ -8,7 +8,9 @@
 <ivy-module version="2.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+
 	<info organisation="com.vaadin" module="v7proj" />
+
     <configurations>
         <!-- The default configuration, which should be deployed to the server -->
         <conf name="default" />
@@ -21,6 +23,7 @@
             Should be deployed to the server -->
         <conf name="nodeploy" />
     </configurations>
+
 	<dependencies defaultconf="default" defaultconfmapping="default->default">
        <!-- The core server part of Vaadin -->
        <dependency org="com.vaadin" name="vaadin-server"
@@ -52,12 +55,12 @@
         <dependency org="javax.servlet" name="javax.servlet-api" rev="3.0.1" conf="nodeploy->default" />
 
        <!-- Disabled: -SNAPSHOT -->
-       <dependency org="com.vaadin.addon" name="vaadin-touchkit-agpl" rev="4.0.0"/>
+       <dependency org="com.vaadin.addon" name="vaadin-touchkit-agpl" rev="4.0.0" conf="default,widgetset-compile->default"/>
        
        <!-- Java Persistence API -->
        <dependency org="org.eclipse.persistence"
                    name="javax.persistence"
-                   rev="2.0.0"/>
+                   rev="2.1.0"/>
 
        <!-- EclipseLink implementation of JPA -->       
        <dependency org="org.eclipse.persistence"
@@ -74,11 +77,18 @@
                    name="hibernate-validator"
                    rev="4.2.0.Final"/>
        
-       <dependency org="com.vaadin.addon" name="vaadin-charts" rev="2.0.0" />
+       <!-- Validation API is needed for widget-set compilation -->
+       <!-- <dependency org="javax.validation"
+                   name="validation-api"
+                   rev="1.1.0"
+                   conf="widgetset-compile->default"/>-->
+
+       <dependency org="com.vaadin.addon" name="vaadin-charts" rev="2.0.0" conf="default,widgetset-compile->default"/>
        
        <dependency org="org.vaadin.addons" name="vaadin-ipc-for-liferay" rev="2.0.0" />
        
-       <dependency org="com.vaadin" name="vaadin-cdi" rev="1.0.0.beta4" />
+       <dependency org="com.vaadin" name="vaadin-cdi" rev="1.0.0.beta4"/>
+       <dependency org="javax" name="javaee-api" rev="7.0"/>
        
        <dependency org="org.vaadin.addons" name="refresher" rev="1.2.1.7"/>
        <dependency org="org.vaadin.addons" name="array-container" rev="0.1.1"/>

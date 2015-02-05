@@ -134,7 +134,7 @@ public class TreeAndTableExample extends CustomComponent implements BookExampleB
         final BeanItemContainer<InventoryObject> tableContainer =
             new BeanItemContainer<InventoryObject> (collection);
         table.setContainerDataSource(tableContainer);
-        table.setVisibleColumns(new String[] {"name", "weight"});
+        table.setVisibleColumns("name", "weight");
         table.removeAllItems();
         
         // Allow the table to receive drops and handle them

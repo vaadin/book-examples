@@ -319,8 +319,7 @@ public class JPAContainerExample extends CustomComponent implements AnyBookExamp
         // Show the persons in a table, except the "country" column,
         // which is an object - show the nested property instead
         Table personTable = new Table("The Persistent People", persons);
-        personTable.setVisibleColumns(new String[]{"name","age",
-                                                   "country.name"});
+        personTable.setVisibleColumns("name", "age", "country.name");
 
         // Have a nicer caption for the country.name column
         personTable.setColumnHeader("country.name", "Nationality");

@@ -20,9 +20,7 @@
 
     <inherits name="com.vaadin.DefaultWidgetSet" />
     <inherits name="com.vaadin.book.examples.client.widgetset.ColorPickerWidgetSet" />
-    <inherits name="com.vaadin.demo.colorpicker.widgetset.ColorPickerWidgetSet" />
     <inherits name="com.vaadin.addon.charts.Widgetset" />
-    <inherits name="com.vaadin.addon.timeline.gwt.TimelineWidgetSet" />
     
     <!-- ==================================================================== -->
     <!-- Enable SuperDevMode                                                  -->

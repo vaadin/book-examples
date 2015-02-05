@@ -452,7 +452,7 @@ public class ChartsExample extends CustomComponent implements BookExampleBundle 
         // Display it in a table
         Table table = new Table("Planets", container);
         table.setPageLength(container.size());
-        table.setVisibleColumns(new String[]{"name","diameter"});
+        table.setVisibleColumns("name","diameter");
         layout.addComponent(table);
         
         // Display it in a chart

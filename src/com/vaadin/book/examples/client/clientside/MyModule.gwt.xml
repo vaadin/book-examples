@@ -7,5 +7,5 @@
     <inherits name="com.vaadin.Vaadin" />
 
     <!-- The entry-point for the client-side application -->
-    <entry-point class="com.vaadin.book.examples.gwt.clientside.client.MyEntryPoint"/>    
+    <entry-point class="com.vaadin.book.examples.client.clientside.client.MyEntryPoint"/>    
 </module>
