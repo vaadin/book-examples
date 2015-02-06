@@ -66,11 +66,13 @@
     <!-- ================================================================== -->
 
     <!-- Retrieve dependencies with Ivy -->
-    <ivy:resolve file="ivy.xml" log="download-only"/>
-    <ivy:cachepath pathid="ivy.deps.default" conf="default" />
-    <ivy:cachepath pathid="ivy.deps.nodeploy" conf="nodeploy" />
-    <ivy:cachepath pathid="ivy.deps.widgetset" conf="widgetset-compile" />
-    <ivy:cachefileset setid="ivy.deps.default.fileset" conf="default"/>
+	<target name="resolve">
+        <ivy:resolve file="ivy.xml" log="download-only"/>
+        <ivy:cachepath pathid="ivy.deps.default" conf="default" />
+        <ivy:cachepath pathid="ivy.deps.nodeploy" conf="nodeploy" />
+        <ivy:cachepath pathid="ivy.deps.widgetset" conf="widgetset-compile" />
+        <ivy:cachefileset setid="ivy.deps.default.fileset" conf="default"/>
+	</target>
 
     <!-- Initialize build -->
     <target name="init" depends="configure">
@@ -108,7 +110,7 @@
 
     <!-- Compile server-side -->
     <target name="compile-server-side"
-            depends="init">
+            depends="init,resolve">
         <delete dir="${workdir}/WEB-INF/classes"/>
         <mkdir dir="${workdir}/WEB-INF/classes"/>
 
@@ -131,7 +133,7 @@
     <!-- ================================================================== -->
 
     <!-- Build the widget set. -->
-    <target name="compile-widgetset" depends="init">
+    <target name="compile-widgetset" depends="init,resolve">
     	<java classname="com.google.gwt.dev.Compiler"
               failonerror="yes" fork="yes">
             <arg value="-war" />
@@ -167,10 +169,8 @@
     <!-- ================================================================== -->
 
     <!-- Compile theme -->
-    <target name="compile-theme" depends="init">
-        <delete dir="${workdir}/VAADIN/themes/${theme}"/>
-        <mkdir dir="${workdir}/VAADIN/themes/${theme}"/>
-    	
+    <target name="compile-theme" depends="init,resolve">
+    	<!-- Compile theme in-place, as compilation can be used for development -->
         <java classname="com.vaadin.sass.SassCompiler"
               fork="true">
             <classpath>
@@ -180,9 +180,18 @@
             <arg value="${webroot}/VAADIN/themes/${theme}/styles.css"/> 
         </java>
 
-    	<!-- Copy theme resources -->
+    	<!-- Prepare work directory -->
+    	<delete dir="${workdir}/VAADIN/themes/${theme}"/>
+        <mkdir dir="${workdir}/VAADIN/themes/${theme}"/>
+
+        <!-- Copy theme resources -->
         <copy todir="${workdir}/VAADIN/themes/${theme}">
-            <fileset dir="${webroot}/VAADIN/themes/${theme}"/>
+            <fileset dir="${webroot}/VAADIN/themes/${theme}">
+            	<include name="**/*"/>
+                <exclude name="**/.sass-cache"/>
+                <exclude name="**/.sass-cache/*"/>
+                <exclude name="**/.sass-cache/**/*"/>
+            </fileset>
         </copy>
     </target>
 
@@ -199,7 +208,7 @@
     <target name="compile-all" depends="init, compile-server-side, compile-themes, compile-widgetsets">
     </target>
 
-	<target name="package-war" depends="init">
+	<target name="package-war" depends="init,resolve">
     	<!-- Copy libraries from Ivy repository -->
         <mkdir dir="${workdir}/WEB-INF/lib"/>
         <copy todir="${workdir}/WEB-INF/lib" flatten="true">
@@ -213,9 +222,10 @@
                 <include name="**/*-javadoc.jar"/>
             </fileset>
         </delete>
+		
+		<delete file="${artifacts}/${app-name}.war"/>
 
     	<war destfile="${artifacts}/${app-name}.war"
-    		 basedir="${workdir}"
     		 webxml="${webroot}/WEB-INF/web.xml">
             <classes dir="${workdir}/WEB-INF/classes" includes="**" />
         	
@@ -224,17 +234,15 @@
                 <patternset>
                     <include name="images/**/*" />
                     <include name="VAADIN/widgetsets/**/*" />
-                    <include name="VAADIN/themes/**/*" />
                     <include name="*.html" />
+                    <include name="WEB-INF/lib/*" />
                     <include name="WEB-INF/*.xml" />
                     <include name="WEB-INF/classes/META-INF/*.xml" />
                 </patternset>
             </fileset>
 
     		<fileset dir="${workdir}">
-                <patternset>
-                    <include name="VAADIN/themes/**/*" />
-                </patternset>
+                <include name="VAADIN/themes/**/*" />
             </fileset>
         </war>
     </target>

@@ -19,8 +19,6 @@ public class ScssThemeExample extends CustomComponent implements
         
         if ("basic".equals(context))
             basic(layout);
-        else if ("switching".equals(context))
-            switching(layout);
         else layout.addComponent(new Label("Invalid context " + context));
         
         setCompositionRoot(layout);
@@ -33,20 +31,6 @@ public class ScssThemeExample extends CustomComponent implements
         browser.setSource(new ExternalResource(BookExamplesUI.APPCONTEXT + "/scsstheme?restartApplication"));
         browser.setWidth("300px");
         browser.setHeight("150px");
-        layout.addComponent(browser);
-
-        setCompositionRoot(layout);
-    }
-
-    // EXAMPLE-REF: themes.scss.switching com.vaadin.book.examples.themes.MultiThemeUI themes.scss.switching
-    // EXAMPLE-APPFILE: themes.scss.switching VAADIN/themes/multitheme/styles.scss
-    // EXAMPLE-APPFILE: themes.scss.switching VAADIN/themes/multitheme/firsttheme.scss
-    // EXAMPLE-APPFILE: themes.scss.switching VAADIN/themes/multitheme/secondtheme.scss
-    void switching(VerticalLayout layout) {
-        BrowserFrame browser = new BrowserFrame();
-        browser.setSource(new ExternalResource(BookExamplesUI.APPCONTEXT + "/multitheme?restartApplication"));
-        browser.setWidth("400px");
-        browser.setHeight("300px");
         layout.addComponent(browser);
 
         setCompositionRoot(layout);
