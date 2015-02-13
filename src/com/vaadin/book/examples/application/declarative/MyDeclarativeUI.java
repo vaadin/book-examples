@@ -15,7 +15,7 @@ import com.vaadin.ui.declarative.Design;
 import com.vaadin.ui.declarative.DesignContext;
 
 @SuppressWarnings("serial")
-@Theme("myproject")
+@Theme("valo")
 // BEGIN-EXAMPLE: application.declarative.context
 public class MyDeclarativeUI extends UI {
     @WebServlet(value = "/declarativeui/*",

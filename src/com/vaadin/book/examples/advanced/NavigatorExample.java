@@ -32,17 +32,5 @@ public class NavigatorExample extends CustomComponent implements BookExampleBund
             BookExamplesUI.APPCONTEXT + "/navigator");
         opener.setFeatures("width=640,height=480,resizable");
         opener.extend(button);
-/*        layout.addComponent(,
-           new Button.ClickListener() {
-            private static final long serialVersionUID = -7037664490633263704L;
-
-            @Override
-            public void buttonClick(com.vaadin.ui.Button.ClickEvent event) {
-                Page.getCurrent().open(
-                   new ExternalResource(BookExamplesUI.APPCONTEXT +
-                                        "/navigator?restartApplication"),
-                                      "_blank", 640, 480, Page.BORDER_DEFAULT);
-            }
-        }));
-*/    }
+    }
 }

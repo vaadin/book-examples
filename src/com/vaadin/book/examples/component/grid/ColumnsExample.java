@@ -5,7 +5,7 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.renderer.ProgressBarRenderer;
+import com.vaadin.ui.renderers.ProgressBarRenderer;
 
 
 public class ColumnsExample extends CustomComponent implements AnyBookExampleBundle {

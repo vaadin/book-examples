@@ -20,13 +20,13 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.renderer.ButtonRenderer;
-import com.vaadin.ui.renderer.DateRenderer;
-import com.vaadin.ui.renderer.HtmlRenderer;
-import com.vaadin.ui.renderer.ImageRenderer;
-import com.vaadin.ui.renderer.NumberRenderer;
-import com.vaadin.ui.renderer.ProgressBarRenderer;
-import com.vaadin.ui.renderer.TextRenderer;
+import com.vaadin.ui.renderers.ButtonRenderer;
+import com.vaadin.ui.renderers.DateRenderer;
+import com.vaadin.ui.renderers.HtmlRenderer;
+import com.vaadin.ui.renderers.ImageRenderer;
+import com.vaadin.ui.renderers.NumberRenderer;
+import com.vaadin.ui.renderers.ProgressBarRenderer;
+import com.vaadin.ui.renderers.TextRenderer;
 
 
 public class RendererExample extends CustomComponent implements AnyBookExampleBundle {

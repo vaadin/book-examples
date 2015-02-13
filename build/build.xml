@@ -242,6 +242,7 @@
             </fileset>
 
     		<fileset dir="${workdir}">
+                <include name="WEB-INF/lib/*" />
                 <include name="VAADIN/themes/**/*" />
             </fileset>
         </war>

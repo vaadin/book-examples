@@ -1,5 +1,6 @@
 package com.vaadin.book.examples.advanced;
 
+import com.vaadin.annotations.DesignRoot;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
@@ -10,15 +11,17 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Embedded;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.declarative.Design;
 
 @Theme("book-examples")
-//BEGIN-EXAMPLE: advanced.navigator.basic
+// EXAMPLE-FILE: advanced.navigator.basic /com/vaadin/book/examples/advanced/MainView.html
+// EXAMPLE-FILE: advanced.navigator.basic /com/vaadin/book/examples/advanced/AnimalViewer.html
+// BEGIN-EXAMPLE: advanced.navigator.basic
 public class NavigatorUI extends UI {
     private static final long serialVersionUID = 511085335415683713L;
     
@@ -52,10 +55,10 @@ public class NavigatorUI extends UI {
         }
     }
 
-    /** Main view with a menu */
+    /** Main view with a menu (declarative design) */
+    @DesignRoot
     public class MainView extends VerticalLayout implements View {
         private static final long serialVersionUID = -3398565663865641952L;
-        Panel panel;
 
         // Menu navigation button listener
         class ButtonListener implements Button.ClickListener {
@@ -72,19 +75,14 @@ public class NavigatorUI extends UI {
                 navigator.navigateTo(MAINVIEW + "/" + menuitem);
             }
         }
+        
+        VerticalLayout menuContent;
+        Panel equalPanel;
+        Button logout;
 
         public MainView() {
-            setSizeFull();
-            
-            // Layout with menu on left and view area on right
-            HorizontalLayout hLayout = new HorizontalLayout();
-            hLayout.setSizeFull();
+            Design.read(this);
 
-            // Have a menu on the left side of the screen
-            Panel menu = new Panel("List of Equals");
-            menu.setHeight("100%");
-            menu.setWidth(null);
-            VerticalLayout menuContent = new VerticalLayout();
             menuContent.addComponent(new Button("Pig",
                       new ButtonListener("pig")));
             menuContent.addComponent(new Button("Cat",
@@ -97,72 +95,43 @@ public class NavigatorUI extends UI {
                       new ButtonListener("penguin")));
             menuContent.addComponent(new Button("Sheep",
                       new ButtonListener("sheep")));
-            menuContent.setWidth(null);
-            menuContent.setMargin(true);
-            menu.setContent(menuContent);
-            hLayout.addComponent(menu);
 
-            // A panel that contains a content area on right
-            panel = new Panel("An Equal");
-            panel.setSizeFull();
-            hLayout.addComponent(panel);
-            hLayout.setExpandRatio(panel, 1.0f);
-
-            addComponent(hLayout);
-            setExpandRatio(hLayout, 1.0f);
-            
             // Allow going back to the start
-            Button logout = new Button("Logout",
-                       new Button.ClickListener() {
-                private static final long serialVersionUID = -1809072471885383781L;
-    
-                @Override
-                public void buttonClick(ClickEvent event) {
-                    navigator.navigateTo("");
-                }
-            });
-            addComponent(logout);
+            logout.addClickListener(event -> // Java 8
+                navigator.navigateTo(""));
         }        
         
+        @DesignRoot
+        class AnimalViewer extends VerticalLayout {
+            private static final long serialVersionUID = 572784347380517093L;
+
+            Label watching;
+            Embedded pic;
+            Label back;
+            
+            public AnimalViewer(String animal) {
+                Design.read(this);
+                
+                watching.setValue("You are currently watching a " +
+                                  animal);
+                pic.setSource(new ThemeResource(
+                    "img/" + animal + "-128px.png"));
+                back.setValue("and " + animal +
+                    " is watching you back");
+            }
+        }
+
         @Override
         public void enter(ViewChangeEvent event) {
-            VerticalLayout panelContent = new VerticalLayout();
-            panelContent.setSizeFull();
-            panelContent.setMargin(true);
-            panel.setContent(panelContent); // Also clears
-
             if (event.getParameters() == null
                 || event.getParameters().isEmpty()) {
-                panelContent.addComponent(
+                equalPanel.setContent(
                     new Label("Nothing to see here, " +
                               "just pass along."));
                 return;
-            }
-
-            // Display the fragment parameters
-            Label watching = new Label(
-                "You are currently watching a " +
-                event.getParameters());
-            watching.setSizeUndefined();
-            panelContent.addComponent(watching);
-            panelContent.setComponentAlignment(watching,
-                Alignment.MIDDLE_CENTER);
-            
-            // Some other content
-            Embedded pic = new Embedded(null,
-                new ThemeResource("img/" + event.getParameters() +
-                                  "-128px.png"));
-            panelContent.addComponent(pic);
-            panelContent.setExpandRatio(pic, 1.0f);
-            panelContent.setComponentAlignment(pic,
-                    Alignment.MIDDLE_CENTER);
-
-            Label back = new Label("And the " +
-                event.getParameters() + " is watching you");
-            back.setSizeUndefined();
-            panelContent.addComponent(back);
-            panelContent.setComponentAlignment(back,
-                Alignment.MIDDLE_CENTER);
+            } else
+                equalPanel.setContent(new AnimalViewer(
+                    event.getParameters()));
         }
     }
 

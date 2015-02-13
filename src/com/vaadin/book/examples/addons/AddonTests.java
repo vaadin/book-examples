@@ -1,6 +1,7 @@
 package com.vaadin.book.examples.addons;
 
 import org.vaadin.arraycontainer.ArrayContainer;
+import org.vaadin.csvalidation.CSValidator;
 import org.vaadin.gridview.GridView;
 import org.vaadin.gridview.data.FiniteGrid;
 import org.vaadin.minichat.MiniChatManager;
@@ -9,6 +10,7 @@ import com.vaadin.book.examples.BookExampleBundle;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.ListSelect;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 public class AddonTests extends CustomComponent implements BookExampleBundle {
@@ -24,7 +26,9 @@ public class AddonTests extends CustomComponent implements BookExampleBundle {
     @Override
     public void attach() {
         VerticalLayout layout = new VerticalLayout();
-        if ("arraycontainer".equals(context))
+        if ("csvalidation".equals(context))
+            csvalidation(layout);
+        else if ("arraycontainer".equals(context))
             arraycontainer(layout);
         else if ("gridview".equals(context))
             gridview(layout);
@@ -37,15 +41,29 @@ public class AddonTests extends CustomComponent implements BookExampleBundle {
         setCompositionRoot(layout);
     }
     
-    void arraycontainer (VerticalLayout layout) {
-        // BEGIN-EXAMPLE: addons.test.arraycontainer
-        ListSelect select = new ListSelect("Select", new ArrayContainer<String>(new String[]{"One", "Two", "Three"}));
-        layout.addComponent(select);
-        // END-EXAMPLE: addons.test.arraycontainer
+    void csvalidation(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: misc.addons.csvalidation
+        TextField tf = new TextField("Numbers Only");
+
+        CSValidator validator = new CSValidator();
+        String fn_regexp = "^\\d+$";
+        validator.setRegExp(fn_regexp);
+        validator.setErrorMessage("Enter a number");
+        validator.extend(tf);
+        
+        layout.addComponent(tf);
+        // END-EXAMPLE: misc.addons.csvalidation
     }
 
-    void gridview (VerticalLayout layout) {
-        // BEGIN-EXAMPLE: addons.test.arraycontainer
+    void arraycontainer(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: misc.addons.arraycontainer
+        ListSelect select = new ListSelect("Select", new ArrayContainer<String>(new String[]{"One", "Two", "Three"}));
+        layout.addComponent(select);
+        // END-EXAMPLE: misc.addons.arraycontainer
+    }
+
+    void gridview(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: misc.addons.gridview
         FiniteGrid data = new FiniteGrid(50, 50);
         data.set(40, 30, 1);
         
@@ -53,19 +71,19 @@ public class AddonTests extends CustomComponent implements BookExampleBundle {
         grid.setWidth("500px");
         grid.setHeight("500px");
         layout.addComponent(grid);
-        // END-EXAMPLE: addons.test.arraycontainer
+        // END-EXAMPLE: misc.addons.gridview
     }
 
     void questiontree (VerticalLayout layout) {
-        // BEGIN-EXAMPLE: addons.test.arraycontainer
+        // BEGIN-EXAMPLE: misc.addons.arraycontainer
         layout.addComponent(new Label("Not implemented"));
-        // END-EXAMPLE: addons.test.arraycontainer
+        // END-EXAMPLE: misc.addons.arraycontainer
     }
 
     void minichat (VerticalLayout layout) {
-        // BEGIN-EXAMPLE: addons.test.minichat
+        // BEGIN-EXAMPLE: misc.addons.minichat
         MiniChatManager chat = new MiniChatManager();
         layout.addComponent(chat);
-        // END-EXAMPLE: addons.test.minichat
+        // END-EXAMPLE: misc.addons.minichat
     }
 }    

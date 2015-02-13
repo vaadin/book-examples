@@ -72,7 +72,7 @@ public class GridEditingExample extends CustomComponent implements AnyBookExampl
         nameEditor.addBlurListener(blur ->
             nameEditor.validate());
         
-        grid.setEditorField("name", nameEditor);
+        grid.getColumn("name").setEditorField(nameEditor);
         
         layout.addComponent(grid);
         // END-EXAMPLE: component.grid.editing.editorfields
@@ -94,7 +94,7 @@ public class GridEditingExample extends CustomComponent implements AnyBookExampl
         nameEditor.addValidator(new RegexpValidator(
             "^\\p{Alpha}+ \\p{Alpha}+$",
             "Need first and last name"));
-        grid.setEditorField("name", nameEditor);
+        grid.getColumn("name").setEditorField(nameEditor);
 
         FieldGroup fieldGroup = new FieldGroup();
         grid.setEditorFieldGroup(fieldGroup);
@@ -174,7 +174,7 @@ public class GridEditingExample extends CustomComponent implements AnyBookExampl
         nameEditor.addValidator(new RegexpValidator(
             "^\\p{Alpha}+ \\p{Alpha}+$",
             "Need first and last name"));
-        grid.setEditorField("name", nameEditor);
+        grid.getColumn("name").setEditorField(nameEditor);
 
         // Give feedback on commit failures
         grid.setErrorHandler(new DefaultErrorHandler() {
