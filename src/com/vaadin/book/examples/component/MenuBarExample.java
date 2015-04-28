@@ -68,6 +68,7 @@ public class MenuBarExample extends CustomComponent implements BookExampleBundle
         MenuItem colds = drinks.addItem("Cold", null, null);
         colds.addItem("Milk",      null, mycommand);
         colds.addItem("Weissbier", null, mycommand);
+        colds.setDescription("Ich mag es");
 
         // A sub-menu item after a separator
         drinks.addSeparator();

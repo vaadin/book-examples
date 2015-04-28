@@ -21,10 +21,13 @@
     <inherits name="com.vaadin.DefaultWidgetSet" />
     <inherits name="com.vaadin.book.examples.client.widgetset.ColorPickerWidgetSet" />
     <inherits name="com.vaadin.addon.charts.Widgetset" />
+    <inherits name="com.vaadin.addon.spreadsheet.Widgetset" />
     <inherits name="org.vaadin.csvalidation.widgetset.CSValidationWidgetset" />
     
     <!-- ==================================================================== -->
     <!-- Enable SuperDevMode                                                  -->
     <!-- ==================================================================== -->
+    <!-- 
     <set-configuration-property name="devModeRedirectEnabled" value="true" />
+    <add-linker name="xsiframe" /> -->
 </module>

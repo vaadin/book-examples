@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.vaadin.book.examples.EmboExample.EmbeddingType;
 import com.vaadin.book.examples.addons.AddonTests;
 import com.vaadin.book.examples.addons.charts.AxesExample;
+import com.vaadin.book.examples.addons.charts.BoxPlotExample;
 import com.vaadin.book.examples.addons.charts.ChartTypesExample;
 import com.vaadin.book.examples.addons.charts.Charts3DExample;
 import com.vaadin.book.examples.addons.charts.ChartsExample;
@@ -20,6 +22,10 @@ import com.vaadin.book.examples.addons.jpacontainer.JPAContainerExample;
 import com.vaadin.book.examples.addons.jpacontainer.JPAFieldFactoryExample;
 import com.vaadin.book.examples.addons.jpacontainer.JPAFilteringExample;
 import com.vaadin.book.examples.addons.jpacontainer.JPAHierarhicalExample;
+import com.vaadin.book.examples.addons.spreadsheet.SpreadsheetComponentsExample;
+import com.vaadin.book.examples.addons.spreadsheet.SpreadsheetExample;
+import com.vaadin.book.examples.addons.spreadsheet.SpreadsheetManagementExample;
+import com.vaadin.book.examples.addons.spreadsheet.SpreadsheetTablesExample;
 import com.vaadin.book.examples.advanced.BrowserInfoExample;
 import com.vaadin.book.examples.advanced.DebugWindowExample;
 import com.vaadin.book.examples.advanced.EmbeddingExample;
@@ -40,6 +46,7 @@ import com.vaadin.book.examples.advanced.dd.DiagramDnDExample;
 import com.vaadin.book.examples.advanced.dd.DragNDropTreeExample;
 import com.vaadin.book.examples.advanced.dd.TreeAndTableExample;
 import com.vaadin.book.examples.advanced.push.PushExample;
+import com.vaadin.book.examples.advanced.spring.MySpringUI;
 import com.vaadin.book.examples.application.ArchitectureExample;
 import com.vaadin.book.examples.application.BuildingUIExample;
 import com.vaadin.book.examples.application.ErrorIndicatorExample;
@@ -76,7 +83,6 @@ import com.vaadin.book.examples.component.ProgressBarExample;
 import com.vaadin.book.examples.component.RichTextAreaExample;
 import com.vaadin.book.examples.component.SelectExample;
 import com.vaadin.book.examples.component.SliderExample;
-import com.vaadin.book.examples.component.TableExample;
 import com.vaadin.book.examples.component.TextAreaExample;
 import com.vaadin.book.examples.component.TextChangeEventsExample;
 import com.vaadin.book.examples.component.TextFieldExample;
@@ -101,6 +107,8 @@ import com.vaadin.book.examples.component.properties.RequiredExample;
 import com.vaadin.book.examples.component.properties.StyleNameExample;
 import com.vaadin.book.examples.component.properties.ValidationExample;
 import com.vaadin.book.examples.component.properties.VisibleExample;
+import com.vaadin.book.examples.component.table.TableEditingExample;
+import com.vaadin.book.examples.component.table.TableExample;
 import com.vaadin.book.examples.datamodel.BeanContainerExample;
 import com.vaadin.book.examples.datamodel.BeanItemContainerExample;
 import com.vaadin.book.examples.datamodel.BeanValidationExample;
@@ -210,6 +218,7 @@ public class BookExampleLibrary {
             new BookExample("application.declarative.context", "Design Context", DeclarativeUIExample.class),
             new BookExample("application.declarative.designroot", "Basic Use of Design Root", DeclarativeUIExample.class),
             new BookExample("application.declarative.customcomponent", "Custom Components", DeclarativeUIExample.class),
+            new BookExample("application.declarative.inline", "Inline Content and Data", DeclarativeUIExample.class),
             new BookExample("application.declarative.writing", "Writing a Design", DeclarativeUIExample.class),
             new BookExample("application.declarative.writingdesignroot", "Writing a Design Root", DeclarativeUIExample.class),
             new ExampleCtgr("application.eventlistener-", "Handling Events with Listeners"),
@@ -343,6 +352,7 @@ public class BookExampleLibrary {
             new BookExample("component.textfield.selectall", "Selecting All Text", TextFieldExample.class),
             new BookExample("component.textfield.cursorposition", "Setting Cursor Position", TextFieldExample.class),
             new BookExample("component.textfield.css", "CSS Styling", TextFieldExample.class),
+            new BookExample("component.textfield.styles", "Component Styles", TextFieldExample.class),
             new ExampleCtgr("component.textarea-", "TextArea"),
             new BookExample("component.textarea.basic", "Basic Use", TextAreaExample.class),
             new BookExample("component.textarea.wordwrap", "Word Wrap", TextAreaExample.class),
@@ -373,8 +383,9 @@ public class BookExampleLibrary {
             new BookExample("component.calendar.jpacontainer", "Binding to JPAContainer", CalendarExample.class),
             new ExampleCtgr("component.button-", "Button"),
             new BookExample("component.button.basic", "Basic Use", ButtonExample.class),
+            new BookExample("component.button.html", "Caption in HTML", ButtonExample.class),
             new BookExample("component.button.link", "Button Looks Like a Link", ButtonExample.class),
-            new BookExample("component.button.small", "Small Button Style", ButtonExample.class),
+            new BookExample("component.button.styles", "Component Styles", ButtonExample.class),
             new ExampleCtgr("component.checkbox-", "CheckBox"),
             new BookExample("component.checkbox.basic", "Basic Use", CheckBoxExample.class),
             new BookExample("component.checkbox.switching", "Switching", CheckBoxExample.class),
@@ -409,6 +420,7 @@ public class BookExampleLibrary {
             new BookExample("component.select.combobox.newitemhandler", "Handling New Items", ComboBoxExample.class),
             new BookExample("component.select.combobox.nullselection", "Null Selection", ComboBoxExample.class),
             new BookExample("component.select.combobox.resetselection", "Resetting Selection", ComboBoxExample.class),
+            new BookExample("component.select.combobox.styles", "Component Styles", ComboBoxExample.class),
             //new ExampleItem("component.select.hierarchical", "Hierarchical selection", SelectExample.class),
             new ExampleCtgr("component.select.optiongroup-", "OptionGroup"),
             new BookExample("component.select.optiongroup.basic", "Basic Use", OptionGroupExample.class),
@@ -464,8 +476,9 @@ public class BookExampleLibrary {
             new BookExample("component.table.editable-", "Editable Mode", TableExample.class),
             new BookExample("component.table.editable.editable", "Table in Editable Mode", TableExample.class),
             new BookExample("component.table.editable.buffering", "Buffering", TableExample.class),
-            new BookExample("component.table.editable.spreadsheet", "Editing on Demand", TableExample.class),
+            new BookExample("component.table.editable.spreadsheet", "Editing on Demand", TableEditingExample.class),
             new BookExample("component.table.editable.editableheights", "Height of Editables", TableExample.class),
+            new BookExample("component.table.editable.adding", "Adding New Items", TableEditingExample.class),
             //new ExampleItem("component.table.editable.combobox", "ComboBoxes in Table (test)", TableExample.class),
             new BookExample("component.table.ratios", "Column Expand Ratios", TableExample.class),
             // new ExampleItem("component.table.filtering", "Filtering", TableExample.class),
@@ -518,6 +531,7 @@ public class BookExampleLibrary {
             new BookExample("component.grid.renderer.number", "Number Renderer", RendererExample.class),
             new BookExample("component.grid.renderer.progressbar", "Progress Bar Renderer", RendererExample.class),
             new BookExample("component.grid.renderer.text", "Text Renderer", RendererExample.class),
+            new BookExample("component.grid.renderer.custom", "Custom Renderer", RendererExample.class),
             new BookExample("component.grid.filtering", "Filtering", GridExample.class),
             new ExampleCtgr("component.grid.sorting-", "Sorting"),
             new BookExample("component.grid.sorting.sort", "Basic Use", GridExample.class),
@@ -795,6 +809,7 @@ public class BookExampleLibrary {
             //new BookExample("advanced.urifragmentutility.indexing", "Seach Engine Indexing Support", UriFragmentExample.class),
             new ExampleCtgr("advanced.navigator-", "Navigation with a Navigator"),
             new BookExample("advanced.navigator.basic", "Basic Use", NavigatorExample.class),
+            new BookExample("advanced.navigator.customviewprovider", "Custom View Provider", NavigatorExample.class),
             new ExampleCtgr("advanced.servletrequestlistener-", "Listening for Server Requests"),
             new BookExample("advanced.servletrequestlistener.introduction", "Introduction", ServletRequestListenerExample.class),
             new BookExample("advanced.servletrequestlistener.cookies", "Managing Cookies", ServletRequestListenerExample.class),
@@ -833,11 +848,14 @@ public class BookExampleLibrary {
             new ExampleCtgr("advanced.push-", "Server Push"),
             new BookExample("advanced.push.basic", "Basic Use", PushExample.class),
             new BookExample("advanced.push.pusharound", "Pushing to Other UIs", PushExample.class),
-            new ExampleCtgr("advanced.cdi-", "CDI"),
+            new ExampleCtgr("advanced.cdi-", "Vaadin CDI"),
             new BookExample("advanced.cdi.navigation", "Navigation", CDIExample.class),
             new BookExample("advanced.cdi.events", "CDI Events", CDIExample.class),
             new BookExample("advanced.cdi.broadcasting", "Broadcasting to UIs", CDIExample.class),
             new BookExample("advanced.cdi.producers", "Producing Objects", CDIExample.class),
+            new ExampleCtgr("advanced.spring-", "Vaadin Spring"),
+            //new BookExample("advanced.spring.navigation", "Navigation", SpringExample.class),
+            new EmboExample("advanced.spring.navigation", "Navigation", MySpringUI.class, "myspringuis", EmbeddingType.FRAME, 570, 300),
             new ExampleCtgr("gwt-", "Chapter 16. Integrating with the Server-Side"),
             new ExampleCtgr("gwt.eclipse-", "Creating Widgets with Eclipse"),
             new BookExample("gwt.eclipse.basic", "Simple Custom Widget", MyComponentExample.class),
@@ -857,7 +875,8 @@ public class BookExampleLibrary {
             new BookExample("charts.charttype.bubble", "Bubble Chart", ChartTypesExample.class),
             new BookExample("charts.charttype.column", "Column Chart", ChartTypesExample.class),
             new BookExample("charts.charttype.errorbar", "Error Bar Chart", ChartTypesExample.class),
-            new BookExample("charts.charttype.boxplot", "Box Plot Chart", ChartTypesExample.class),
+            new ExampleCtgr("charts.charttype.boxplot-", "Box Plot Chart"),
+            new BookExample("charts.charttype.boxplot.basic", "Basic Use", BoxPlotExample.class),
             new BookExample("charts.charttype.pie", "Pie Chart", ChartTypesExample.class),
             new ExampleCtgr("charts.charttype.funnel-", "Funnel and Pyramid Charts"),
             new BookExample("charts.charttype.funnel.funnel", "Funnel Chart", FunnelExample.class),
@@ -895,6 +914,20 @@ public class BookExampleLibrary {
             new RedirctItem("calendar.contextmenu", "component.calendar.contextmenu"),
             new RedirctItem("calendar.beanitemcontainer", "component.calendar.beanitemcontainer"),
             new RedirctItem("calendar.jpacontainer", "component.calendar.jpacontainer"),
+            new ExampleCtgr("spreadsheet-", "Chapter 17. Vaadin Spreadsheet Add-on"),
+            new BookExample("spreadsheet.basic", "Basic Use", SpreadsheetExample.class),
+            new ExampleCtgr("spreadsheet.load-", "Loading and Saving"),
+            new BookExample("spreadsheet.load.upload", "Document Management", SpreadsheetManagementExample.class),
+            new BookExample("spreadsheet.empty", "Empty Sheet", SpreadsheetExample.class),
+            new BookExample("spreadsheet.cellvalues", "A more complex sheet", SpreadsheetExample.class),
+            new BookExample("spreadsheet.components", "Components", SpreadsheetComponentsExample.class),
+            new BookExample("spreadsheet.freezepane", "Frozen Row and Col Pane", SpreadsheetExample.class),
+            new ExampleCtgr("spreadsheet.contextmenu-", "Context Menu"),
+            new BookExample("spreadsheet.contextmenu.defaultcontextmenu", "Default", SpreadsheetExample.class),
+            new BookExample("spreadsheet.contextmenu.customcontextmenu", "Custom", SpreadsheetExample.class),
+            new ExampleCtgr("spreadsheet.tables-", "Table Regions"),
+            new BookExample("spreadsheet.tables.basic", "Basic Use", SpreadsheetTablesExample.class),
+            new BookExample("spreadsheet.tables.filter", "Filter Table", SpreadsheetTablesExample.class),
             new ExampleCtgr("misc-", "x. Miscellaneous Examples"),
             new ExampleCtgr("misc.exception-", "Exceptions"),
             new BookExample("misc.exception.concurrentmodification", "Concurrent Modification", ExceptionExamples.class),

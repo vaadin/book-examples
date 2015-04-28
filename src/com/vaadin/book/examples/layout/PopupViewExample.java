@@ -1,15 +1,13 @@
 package com.vaadin.book.examples.layout;
 
 import com.vaadin.book.examples.BookExampleBundle;
-import com.vaadin.book.examples.component.TableExample;
+import com.vaadin.book.examples.component.table.TableExample;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PopupView;
-import com.vaadin.ui.PopupView.PopupVisibilityEvent;
-import com.vaadin.ui.PopupView.PopupVisibilityListener;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -41,10 +39,12 @@ public class PopupViewExample extends CustomComponent implements BookExampleBund
     //    "";
     void basic(VerticalLayout layout) {
         // BEGIN-EXAMPLE: layout.popupview.basic
+        // Content for the PopupView
         VerticalLayout popupContent = new VerticalLayout();
         popupContent.addComponent(new TextField("Textfield"));
         popupContent.addComponent(new Button("Button"));
 
+        // The component itself
         PopupView popup = new PopupView("Open the popup", popupContent);
         layout.addComponent(popup);
         // END-EXAMPLE: layout.popupview.basic
@@ -55,22 +55,15 @@ public class PopupViewExample extends CustomComponent implements BookExampleBund
         "<p>This shows how to pop up the view programmatically.</p>";
     void programmatic(VerticalLayout layout) {
         // BEGIN-EXAMPLE: layout.popupview.programmatic
-        Button button = new Button("Show table");
-        layout.addComponent(button);
-        
-        // Without small representation it's an invisible component
+        // A pop-up view without minimalized representation
         final PopupView popup = new PopupView(null,
             new Table(null, TableExample.generateContent()));
-        layout.addComponent(popup);
         
-        button.addClickListener(new ClickListener() {
-            private static final long serialVersionUID = 7017927419155889334L;
+        // A component to open the view
+        Button button = new Button("Show table", click -> // Java 8
+             popup.setPopupVisible(true));
 
-            @Override
-            public void buttonClick(ClickEvent event) {
-                popup.setPopupVisible(true);
-            }
-        });
+        layout.addComponents(button, popup);
         // END-EXAMPLE: layout.popupview.programmatic
     }
 
@@ -78,23 +71,18 @@ public class PopupViewExample extends CustomComponent implements BookExampleBund
     void visibilitylistener(VerticalLayout layout) {
         // BEGIN-EXAMPLE: layout.popupview.visibilitylistener
         // Pop-up has empty placeholder at first
-        final VerticalLayout popupContent = new VerticalLayout();
+        VerticalLayout popupContent = new VerticalLayout();
 
         PopupView popup = new PopupView("Open the popup", popupContent);
         layout.addComponent(popup);
         
         // Fill the pop-up content when it's popped up
-        popup.addPopupVisibilityListener(new PopupVisibilityListener() {
-            private static final long serialVersionUID = 3867601150859170266L;
-
-            @Override
-            public void popupVisibilityChange(PopupVisibilityEvent event) {
-                if (event.isPopupVisible()) {
-                    popupContent.removeAllComponents();
-                    popupContent.addComponent(new Table(null, TableExample.generateContent()));
-                }
-            }
-        });
+        popup.addPopupVisibilityListener(event -> { 
+            if (event.isPopupVisible()) {
+                popupContent.removeAllComponents();
+                popupContent.addComponent(new Table(null,
+                    TableExample.generateContent()));
+            }});
         // END-EXAMPLE: layout.popupview.visibilitylistener
     }
     

@@ -443,52 +443,31 @@ $borderthickness: 5px;
 	/* GridLayoutExample                                                         */
 	/*****************************************************************************/
 	
-	/* BEGIN-EXAMPLE: layout.gridlayout.basic */
-	.v-gridlayout-basic-gridlayout .v-gridlayout-margin {
-	    background: blue;
-	    padding: 2px;
-	}
-	
-	.v-gridlayout-basic-gridlayout > div > div > div {
-	    background: white;
-	    padding-top: 2px;
-	    padding-left: 2px;
-	}
-	/* END-EXAMPLE: layout.gridlayout.basic */
-	
-	.v-gridlayout-blackborder .v-gridlayout-margin {
-	    background: black;
-	    padding: 1px;
-	}
-	.v-gridlayout-blackborder > div > div > div {
-	    background: white;
-	    padding-top: 1px;
-	    padding-left: 1px;
-	}
-	
-	
-	/****************/
-	/* Expand ratio */
-	/****************/
-	
 	/* BEGIN-EXAMPLE: layout.gridlayout.expandratio */
-	.v-gridlayout-expandratio {
-	    background: blue;
-	}
+    /* BEGIN-EXAMPLE: layout.gridlayout.basic */
+	$cellborder-color: blue;
+	$cellborder-width: 1px;
+    $cellborder-slot-padding: 5px;
+	.v-gridlayout-cellborders {
+	    // Have border for the GridLayout to compensate for the
+	    // double-thick inner cell borders, as they don't collapse
+	    border: solid $cellborder-color $cellborder-width;
 	
-	.v-gridlayout-expandratio .v-gridlayout-margin {
-	    background: blue;
-	    padding: 2px;
-	}
-	.v-gridlayout-expandratio > div > div > div {
-	    background: white;
-	    padding-top: 2px;
-	    padding-left: 2px;
-	}
-	
-	.v-gridlayout-expandratio > div > div > div > div {
-	    background: #ffffa0;
-	}
+	    .v-gridlayout-slot {
+	        // Have to use box-shadow instead of border, as a border would
+	        // affect layout calculations
+            box-shadow: inset 0px 0px 0px $cellborder-width $cellborder-color;
+
+	        .v-widget {
+	            // Padding in the slot elements would mess size calculations
+	            // in GridLayout, so we have to set the padding as
+	            // margin for the contained widgets. Also, the inset border
+	            // makes it necessary to add some extra margin.
+	            margin: $cellborder-slot-padding + $cellborder-width;
+	        }
+	    }
+    }
+    /* END-EXAMPLE: layout.gridlayout.basic */
 	/* END-EXAMPLE: layout.gridlayout.expandratio */
 	
 	/***********************/
@@ -966,6 +945,10 @@ $borderthickness: 5px;
 	}
 	/* END-EXAMPLE: component.table.components.varyingheightlabels */
 	
+    /************************/
+    /* TableEditingExample  */
+    /************************/
+
 	/***********************/
 	/* ThemeTricksExample  */
 	/***********************/
@@ -1161,6 +1144,7 @@ $borderthickness: 5px;
 	/*******************/
 	/* MenuBarExample  */
 	/*******************/
+	
 	/* BEGIN-EXAMPLE: component.menubar.keep */
 	.mybarmenu .v-menubar-menuitem-highlight {
 	    background: #000040; /* Dark blue */
@@ -1178,25 +1162,25 @@ $borderthickness: 5px;
     /***************/
     /* BEGIN-EXAMPLE: themes.responsive.basic */
     /* Basic settings for all sizes */
-    .myresponsive {
+    .myresponsive.v-label {
         padding: 5px;
         line-height: 36pt;
     }
     
     /* Small size */
-    .myresponsive[width-range~="0-300px"] {
+    .myresponsive.v-label[width-range~="0-300px"] {
         background: orange;
         font-size: 16pt;
     }
 
     /* Medium size */
-    .myresponsive[width-range~="301px-600px"] {
+    .myresponsive.v-label[width-range~="301px-600px"] {
         background: azure;
         font-size: 24pt;
     }
 
     /* Anything bigger */
-    .myresponsive[width-range~="601px-"] {
+    .myresponsive.v-label[width-range~="601px-"] {
         background: palegreen;
         font-size: 36pt;
     }
@@ -1408,7 +1392,7 @@ $borderthickness: 5px;
     }
     // END-EXAMPLE: component.grid.features
 
-    // BEGIN-EXAMPLE: component.grid.renderer
+    /* BEGIN-EXAMPLE: component.grid.renderer.image */
     // Set the row height to fit the pictures
     .gridwithpics128px .v-grid-body .v-grid-cell {
         height: 128px;
@@ -1419,7 +1403,7 @@ $borderthickness: 5px;
         background: black;
         text-align: center;
     }
-    // END-EXAMPLE: component.grid.renderer
+    /* END-EXAMPLE: component.grid.renderer.image */
 
     /*******************/
     /* ColumnsExample  */
@@ -1447,4 +1431,11 @@ $borderthickness: 5px;
     .nameeditor.v-textfield-error {
         background: pink;
     }
+
+    /******************/
+    /* ButtonExample  */
+    /******************/
+    // BEGIN-EXAMPLE: component.button.styles
+    .v-csslayout-spacing .v-button {margin-right: 5px}
+    // END-EXAMPLE: component.button.styles
 }

@@ -10,6 +10,7 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 
+// BEGIN-EXAMPLE: advanced.cdi.navigation
 @CDIUI("")
 @URLMapping("mycdiuis")
 @Theme("valo")
@@ -25,6 +26,7 @@ public class MyCDIUI extends UI {
         navigator.addProvider(viewProvider);
 
         // Navigate to start view
-        navigator.navigateTo("");
+        navigator.navigateTo(LoginView.NAME);
     }
 }
+// END-EXAMPLE: advanced.cdi.navigation

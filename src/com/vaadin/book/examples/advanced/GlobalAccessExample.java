@@ -1,8 +1,8 @@
 package com.vaadin.book.examples.advanced;
 
-import com.vaadin.book.BookExamplesUI;
 import com.vaadin.book.examples.BookExampleBundle;
 import com.vaadin.server.ExternalResource;
+import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.BrowserFrame;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
@@ -39,7 +39,10 @@ public class GlobalAccessExample extends CustomComponent implements BookExampleB
         layout.addComponent(panel);
 
         BrowserFrame browser = new BrowserFrame();
-        browser.setSource(new ExternalResource(BookExamplesUI.APPCONTEXT + "/threadlocal?restartApplication"));
+        browser.setSource(new ExternalResource(
+            VaadinServlet.getCurrent().getServletContext()
+            .getContextPath() +
+            "/threadlocal?restartApplication"));
         browser.setWidth("200px");
         browser.setHeight("150px");
         panel.setContent(browser);

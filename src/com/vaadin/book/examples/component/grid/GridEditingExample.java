@@ -1,7 +1,8 @@
 package com.vaadin.book.examples.component.grid;
 
 import java.io.Serializable;
-import java.util.Stack;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -9,7 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.vaadin.book.examples.AnyBookExampleBundle;
-import com.vaadin.data.Validator.InvalidValueException;
+import com.vaadin.book.examples.advanced.MyAppCaptions;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitEvent;
@@ -18,8 +19,6 @@ import com.vaadin.data.fieldgroup.FieldGroup.CommitHandler;
 import com.vaadin.data.fieldgroup.FieldGroupFieldFactory;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.validator.RegexpValidator;
-import com.vaadin.server.DefaultErrorHandler;
-import com.vaadin.server.Page;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Field;
@@ -51,8 +50,8 @@ public class GridEditingExample extends CustomComponent implements AnyBookExampl
     public void editorfields(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.grid.editing.editorfields
         Grid grid = new Grid(GridExample.exampleDataSource());
-        grid.setWidth("600px");
-        grid.setHeight("400px");
+        grid.setWidth("400px");
+        grid.setHeight("300px");
 
         // Enable editing
         grid.setEditorEnabled(true);
@@ -67,15 +66,36 @@ public class GridEditingExample extends CustomComponent implements AnyBookExampl
             "^\\p{Alpha}+ \\p{Alpha}+$",
             "Need first and last name"));
 
-        // Editor fields can have interaction
-        // TODO This doesn't have proper effect 
-        nameEditor.addBlurListener(blur ->
-            nameEditor.validate());
-        
         grid.getColumn("name").setEditorField(nameEditor);
         
         layout.addComponent(grid);
         // END-EXAMPLE: component.grid.editing.editorfields
+
+        grid.setSelectionMode(SelectionMode.NONE);
+    }
+
+    public void captions(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: component.grid.editing.captions
+        Grid grid = new Grid(GridExample.exampleDataSource());
+        grid.setWidth("400px");
+        grid.setHeight("300px");
+
+        // Enable editing
+        grid.setEditorEnabled(true);
+        
+        // Captions are stored in a resource bundle
+        ResourceBundle bundle = ResourceBundle.getBundle(
+            MyAppCaptions.class.getName(),
+            Locale.forLanguageTag("fi")); // Finnish
+
+        // Localize the editor button captions
+        grid.setEditorSaveCaption(
+            bundle.getString(MyAppCaptions.SaveKey));
+        grid.setEditorCancelCaption(
+            bundle.getString(MyAppCaptions.CancelKey));
+        
+        layout.addComponent(grid);
+        // END-EXAMPLE: component.grid.editing.captions
 
         grid.setSelectionMode(SelectionMode.NONE);
     }
@@ -175,46 +195,6 @@ public class GridEditingExample extends CustomComponent implements AnyBookExampl
             "^\\p{Alpha}+ \\p{Alpha}+$",
             "Need first and last name"));
         grid.getColumn("name").setEditorField(nameEditor);
-
-        // Give feedback on commit failures
-        grid.setErrorHandler(new DefaultErrorHandler() {
-            private static final long serialVersionUID = -7301821934017608390L;
-
-            @Override
-            public void error(com.vaadin.server.ErrorEvent event) {
-                if (event.getThrowable() instanceof CommitException) {
-                    CommitException e = (CommitException) event.getThrowable();
-                    if (e.getCause() instanceof InvalidValueException) {
-                        InvalidValueException ives = (InvalidValueException) e.getCause();
-                        String description = "";
-                        
-                        // The exceptions could be in multiple levels,
-                        // so have to search recursively
-                        Stack<InvalidValueException> stack =
-                            new Stack<InvalidValueException>();
-                        stack.push(ives);
-                        while (!stack.isEmpty()) {
-                            InvalidValueException c = stack.pop();
-                            if (c.getCause() != null)
-                                stack.add((InvalidValueException) c.getCause());
-                            for (InvalidValueException i: c.getCauses())
-                                stack.add(i);
-                            if (c.getMessage() != null)
-                                description += c.getMessage() + "<br/>";
-                        }
-
-                        new Notification(
-                            "Invalid input<br/>", description,
-                            Notification.Type.WARNING_MESSAGE, true).
-                            show(Page.getCurrent());
-                    } else 
-                        Notification.show("Commit failed",
-                            event.getThrowable().getLocalizedMessage(),
-                            Notification.Type.ERROR_MESSAGE);
-                } else
-                    super.error(event);
-            }
-        });
         
         layout.addComponent(grid);
         // END-EXAMPLE: component.grid.editing.fieldgroup

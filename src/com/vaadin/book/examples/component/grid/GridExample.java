@@ -3,7 +3,7 @@ package com.vaadin.book.examples.component.grid;
 import java.util.Arrays;
 
 import com.vaadin.book.examples.AnyBookExampleBundle;
-import com.vaadin.book.examples.component.TableExample;
+import com.vaadin.book.examples.component.table.TableExample;
 import com.vaadin.data.Item;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.sort.Sort;
@@ -26,7 +26,6 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.renderers.NumberRenderer;
 import com.vaadin.ui.themes.ValoTheme;
-
 
 public class GridExample extends CustomComponent implements AnyBookExampleBundle {
     private static final long serialVersionUID = -4292553844521293140L;
@@ -53,8 +52,8 @@ public class GridExample extends CustomComponent implements AnyBookExampleBundle
         // Fit the number of rows (no scrolling)
         // TODO Doesn't work properly
         grid.setHeightMode(HeightMode.ROW);
-        grid.setHeightByRows(7);
-
+        grid.setHeightByRows(3);
+        
         layout.addComponent(grid);
         // END-EXAMPLE: component.grid.basic
     }
@@ -133,15 +132,15 @@ public class GridExample extends CustomComponent implements AnyBookExampleBundle
 
         // Group headers by joining the cells
         HeaderRow groupingHeader = grid.prependHeaderRow();
-        HeaderCell headerCell1 = groupingHeader.join(
+        HeaderCell namesCell = groupingHeader.join(
             groupingHeader.getCell("firstname"),
             groupingHeader.getCell("lastname"));
-        headerCell1.setHtml("Names");
-        HeaderCell headerCell2 = groupingHeader.join(
+        namesCell.setHtml("Names");
+        HeaderCell yearsCell = groupingHeader.join(
             groupingHeader.getCell("born"),
             groupingHeader.getCell("died"),
             groupingHeader.getCell("lived"));
-        headerCell2.setHtml("Years");
+        yearsCell.setHtml("Years");
         
         // Set styles for the headers
         mainHeader.setStyleName("boldheader");
@@ -211,6 +210,12 @@ public class GridExample extends CustomComponent implements AnyBookExampleBundle
         // Enable editing
         grid.setEditorEnabled(true);
         grid.setEditorFieldGroup(new FieldGroup());
+
+        // Handle item click events
+        grid.addItemClickListener(event -> // Java 8
+            Notification.show("Value: " +
+                container.getContainerProperty(event.getItemId(), event.getPropertyId())
+                .getValue().toString()));
         
         layout.addComponent(grid);
         // END-EXAMPLE: component.grid.features
@@ -232,6 +237,9 @@ public class GridExample extends CustomComponent implements AnyBookExampleBundle
             for (Object itemId: grid.getSelectedRows())
                 grid.getContainerDataSource().removeItem(itemId);
             
+            // TODO A workaround for #16195
+            grid.getSelectionModel().reset();
+
             // Disable after deleting
             e.getButton().setEnabled(false);
         });

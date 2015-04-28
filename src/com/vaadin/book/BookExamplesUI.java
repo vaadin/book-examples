@@ -3,15 +3,14 @@ package com.vaadin.book;
 import java.io.File;
 import java.util.logging.Logger;
 
-import com.vaadin.annotations.JavaScript;
 import com.vaadin.annotations.Push;
-import com.vaadin.annotations.StyleSheet;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.book.examples.BookExampleLibrary;
 import com.vaadin.book.ui.AbstractExampleMenu;
 import com.vaadin.book.ui.TreeMenu;
 import com.vaadin.server.CustomizedSystemMessages;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.SystemMessages;
 import com.vaadin.server.SystemMessagesInfo;
 import com.vaadin.server.SystemMessagesProvider;
@@ -27,9 +26,14 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-@JavaScript({ "js/jquery-2.1.0.min.js" })
 // BEGIN-EXAMPLE: themes.misc.webfonts
-@StyleSheet({ "http://fonts.googleapis.com/css?family=Cabin+Sketch" })
+
+// Referencing another domain causes SecurityError if used with
+// Responsive layout in the same UI. #16249
+// Therefore, can't use web fonts from another domain together
+// with responsive.
+// @StyleSheet({ "http://fonts.googleapis.com/css?family=Cabin+Sketch" })
+
 @Theme("book-examples")
 @Title("Book of Vaadin Examples - Vaadin 7")
 @Push
@@ -57,6 +61,8 @@ public class BookExamplesUI extends UI {
         VerticalLayout mainLayout = new VerticalLayout();
         setContent(mainLayout);
         mainLayout.setSizeFull();
+        
+        Responsive.makeResponsive(mainLayout);
 
         // Title bar
         HorizontalLayout titlebar = new HorizontalLayout();

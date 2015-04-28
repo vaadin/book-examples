@@ -11,12 +11,13 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-@CDIView(LoginView.VIEWNAME)
+// BEGIN-EXAMPLE: advanced.cdi.navigation
+@CDIView(LoginView.NAME)
 public class LoginView extends CustomComponent
                        implements View {
     private static final long serialVersionUID = -7461902820768542976L;
 
-    public final static String VIEWNAME = "";
+    public final static String NAME = "";
     
     // Here we inject to the constructor and actually do
     // not store the injected object to use it later
@@ -34,7 +35,7 @@ public class LoginView extends CustomComponent
         // Login button (authentication omitted) / Java 8
         layout.addComponent(new Button("Login", e ->
             getUI().getNavigator().
-                navigateTo(MainView.VIEWNAME)));
+                navigateTo(MainView.NAME)));
         
         setCompositionRoot(layout);
     }
@@ -42,3 +43,4 @@ public class LoginView extends CustomComponent
     @Override
     public void enter(ViewChangeEvent event) {}
 }
+// END-EXAMPLE: advanced.cdi.navigation

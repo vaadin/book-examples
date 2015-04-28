@@ -31,7 +31,7 @@ public class BookExample extends CaptionedExampleItem {
     AnyBookExampleBundle instance = null;
 
     /** A more or less short description of the example */
-    private String description;
+    protected String description;
 
     /** All Java source fragments associated with the example */
     private List<SourceFragment> sourceFragments;
@@ -80,16 +80,18 @@ public class BookExample extends CaptionedExampleItem {
             return;
 
         try {
-            // Instantiate and initialize the example bundle to be
-            // able to read metadata using reflection.
-            AnyBookExampleBundle bundle = (AnyBookExampleBundle) exclass.newInstance();
+            // Instantiate and initialize the example class to be
+            // able to read metadata using reflection. Note that
+            // the object can be a bundle (normally) or any other class
+            // (if it is an EmbeddedExample).
+            Object instance = exclass.newInstance();
 
             // Use "_" instead of "-" in descriptions
             String javaContext = context.replace('-', '_');
 
             java.lang.reflect.Field descField = null;
             try {
-                descField = bundle.getClass().getField(
+                descField = instance.getClass().getField(
                     javaContext + "Description");
                 description = (String) descField.get(null);
             } catch (NoSuchFieldException e) {
@@ -121,7 +123,7 @@ public class BookExample extends CaptionedExampleItem {
         loaded = true;
     }
 
-    public Component createInstance() {
+    public Component invokeExample() {
         try {
             // Instantiate and initialize the example
             instance = (AnyBookExampleBundle) exclass.newInstance();

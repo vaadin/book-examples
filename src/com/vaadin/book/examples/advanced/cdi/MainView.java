@@ -10,12 +10,13 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-@CDIView(value=MainView.VIEWNAME)
+// BEGIN-EXAMPLE: advanced.cdi.navigation
+@CDIView(value=MainView.NAME)
 public class MainView extends CustomComponent
                       implements View {
     private static final long serialVersionUID = -7461902820768542976L;
     
-    public final static String VIEWNAME = "main";
+    public final static String NAME = "main";
 
     @Inject
     User user;
@@ -29,7 +30,13 @@ public class MainView extends CustomComponent
         // On logout, navigate back to the login view
         layout.addComponent(new Button("Logout", e ->
             getUI().getNavigator().
-                navigateTo(LoginView.VIEWNAME)));
+                navigateTo(LoginView.NAME)));
+
+        // Another view
+        layout.addComponent(new Button("Help", e ->
+            getUI().getNavigator().
+                navigateTo(HelpView.NAME)));
+        
         setCompositionRoot(layout);
     }
     
@@ -38,3 +45,4 @@ public class MainView extends CustomComponent
         greeting.setValue("Hello, " + user.getName());
     }
 }
+// END-EXAMPLE: advanced.cdi.navigation

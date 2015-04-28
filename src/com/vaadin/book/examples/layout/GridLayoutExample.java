@@ -26,27 +26,46 @@ public class GridLayoutExample extends CustomComponent implements BookExampleBun
     void basic() {
         // BEGIN-EXAMPLE: layout.gridlayout.basic
         // Create a 4 by 4 grid layout
-        final GridLayout grid = new GridLayout(4, 4);
+        GridLayout grid = new GridLayout(4, 4);
+
+        Button button11 = new Button("R/C 1");
+        button11.setHeight("80%"); // This is pretty hacky (facepalm)
+        button11.setWidth("85%");
+        grid.addComponent(button11);
 
         // Fill out the first row using the cursor
-        grid.addComponent(new Button("R/C 1"));
-        for (int i = 0; i < 3; i++)
-            grid.addComponent(new Button("Col " + (grid.getCursorX() + 1)));
+        for (int col = 1; col <= 3; col++) {
+            Button button = new Button("Col " + (col+1));
+            if (col == 2 || col == 3)
+                button.setWidth("90%");
+            grid.addComponent(button);
+        }
 
         // Fill out the first column using coordinates
-        for (int i = 1; i < 4; i++)
-            grid.addComponent(new Button("Row " + i), 0, i);
+        for (int row = 1; row <= 3; row++) {
+            Button button = new Button("Row " + (row+1));
+            if (row == 2 || row == 3)
+                button.setHeight("90%");
+            grid.addComponent(button, 0, row);
+        }
 
         // Add some components of various shapes.
-        grid.addComponent(new Button("3x1 button"), 1, 1, 3, 1);
-        grid.addComponent(new Label("1x2 cell"),    1, 2, 1, 3);
-        final InlineDateField date = new InlineDateField("A 2x2 date field");
+        Button button3x1 = new Button("3x1 button");
+        button3x1.setWidth("95%");
+        grid.addComponent(button3x1, 1, 1, 3, 1);
+
+        Label label1x2 = new Label("1x2 cell");
+        label1x2.setHeight("90%");
+        grid.addComponent(label1x2, 1, 2, 1, 3);
+        InlineDateField date = new InlineDateField("A 2x2 date field");
         date.setResolution(Resolution.DAY);
         grid.addComponent(date, 2, 2, 3, 3);
+        
+        grid.setColumnExpandRatio(2, 1.0f);
+        grid.setColumnExpandRatio(3, 1.0f);
 
         // Needed for the grid borders
-        grid.addStyleName("basic-gridlayout");
-        grid.setMargin(true);
+        grid.addStyleName("cellborders");
         grid.setSizeUndefined(); // This isn't enough
         setSizeUndefined();      // This is needed
 
@@ -67,8 +86,8 @@ public class GridLayoutExample extends CustomComponent implements BookExampleBun
         // BEGIN-EXAMPLE: layout.gridlayout.expandratio
         GridLayout grid = new GridLayout(3,2);
 
-        grid.addStyleName("expandratio");
-        grid.setMargin(true);
+        grid.addStyleName("cellborders");
+        grid.setMargin(false);
         
         // Layout containing relatively sized components must have
         // a defined size, here a fixed size.
@@ -76,23 +95,28 @@ public class GridLayoutExample extends CustomComponent implements BookExampleBun
         grid.setHeight("200px");
         
         // Add some content
-        String labels [] = {
-                "Shrinking column<br/>Shrinking row",
-                "Expanding column (1:)<br/>Shrinking row",
-                "Expanding column (5:)<br/>Shrinking row",
-                "Shrinking column<br/>Expanding row",
-                "Expanding column (1:)<br/>Expanding row",
-                "Expanding column (5:)<br/>Expanding row"
+        String labels [][] = {
+                {"Shrinking col<br/>Shrinking row",
+                 "Expanding col (1:)<br/>Shrinking row",
+                 "Expanding col (2:)<br/>Shrinking row"},
+                {"Shrinking col<br/>Expanding row",
+                 "Expanding col (1:)<br/>Expanding row",
+                 "Expanding col (2:)<br/>Expanding row"}
         };
-        for (int i=0; i<labels.length; i++) {
-            Label label = new Label(labels[i], ContentMode.HTML);
-            label.setWidth(null); // Set width as undefined
-            grid.addComponent(label);
-        }
+        for (int row = 0; row < grid.getRows(); row++)
+            for (int col = 0; col < grid.getColumns(); col++) {
+                Label label = new Label(labels[row][col], ContentMode.HTML);
+                if (col == 0 && row == 1)
+                    label.setWidth(null); // Shrink to fit
+                else
+                    label.setWidth("100%"); // (the default)
+                grid.addComponent(label);
+            }
         
         // Set different expansion ratios for the two columns
-        grid.setColumnExpandRatio(1, 1);
-        grid.setColumnExpandRatio(2, 5);
+        // grid.setColumnExpandRatio(0, 0.5f);
+        grid.setColumnExpandRatio(1, 1.0f);
+        grid.setColumnExpandRatio(2, 2.0f);
         
         // Set the bottom row to expand
         grid.setRowExpandRatio(1, 1);

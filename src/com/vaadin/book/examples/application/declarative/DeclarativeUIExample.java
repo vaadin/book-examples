@@ -7,8 +7,8 @@ import org.apache.commons.io.output.ByteArrayOutputStream;
 import com.vaadin.annotations.DesignRoot;
 import com.vaadin.book.BookExamplesUI;
 import com.vaadin.book.examples.AnyBookExampleBundle;
-import com.vaadin.book.examples.component.TableExample;
 import com.vaadin.book.examples.component.TreeExample;
+import com.vaadin.book.examples.component.table.TableExample;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.BrowserFrame;
@@ -86,6 +86,21 @@ public class DeclarativeUIExample extends CustomComponent implements AnyBookExam
     }
     // END-EXAMPLE: application.declarative.customcomponent
 
+    // EXAMPLE-FILE: application.declarative.inline /com/vaadin/book/examples/application/declarative/InlineDesign.html
+    // BEGIN-EXAMPLE: application.declarative.inline
+    @DesignRoot
+    public class InlineDesign extends VerticalLayout {
+        private static final long serialVersionUID = 6252859291836466454L;
+
+        public InlineDesign() {
+            Design.read(this);
+        }
+    }
+    public void inline(VerticalLayout layout) {
+        layout.addComponent(new InlineDesign());
+    }
+    // END-EXAMPLE: application.declarative.inline
+    
     public void writing(VerticalLayout layout) {
         // BEGIN-EXAMPLE: application.declarative.writing
         // The root of the component hierarchy

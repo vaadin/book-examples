@@ -27,13 +27,13 @@ public class NavigatorUI extends UI {
     
     Navigator  navigator;
     
-    protected static final String MAINVIEW = "main";
-    
     /** A start view for navigating to the main view */
-    public class StartView extends VerticalLayout implements View {
+    public class LoginView extends VerticalLayout implements View {
         private static final long serialVersionUID = -3398565663865641952L;
 
-        public StartView() {
+        public static final String NAME = "";
+        
+        public LoginView() {
             setSizeFull();
 
             Button button = new Button("Go to Main View",
@@ -42,7 +42,7 @@ public class NavigatorUI extends UI {
 
                 @Override
                 public void buttonClick(ClickEvent event) {
-                    navigator.navigateTo(MAINVIEW);
+                    navigator.navigateTo(MainView.NAME);
                 }
             });
             addComponent(button);
@@ -55,10 +55,12 @@ public class NavigatorUI extends UI {
         }
     }
 
-    /** Main view with a menu (declarative design) */
+    /** Main view with a menu (with declarative layout design) */
     @DesignRoot
     public class MainView extends VerticalLayout implements View {
         private static final long serialVersionUID = -3398565663865641952L;
+
+        public static final String NAME = "main";
 
         // Menu navigation button listener
         class ButtonListener implements Button.ClickListener {
@@ -72,7 +74,7 @@ public class NavigatorUI extends UI {
             @Override
             public void buttonClick(ClickEvent event) {
                 // Navigate to a specific state
-                navigator.navigateTo(MAINVIEW + "/" + menuitem);
+                navigator.navigateTo(MainView.NAME + "/" + menuitem);
             }
         }
         
@@ -98,7 +100,7 @@ public class NavigatorUI extends UI {
 
             // Allow going back to the start
             logout.addClickListener(event -> // Java 8
-                navigator.navigateTo(""));
+                navigator.navigateTo(LoginView.NAME));
         }        
         
         @DesignRoot
@@ -143,8 +145,8 @@ public class NavigatorUI extends UI {
         navigator = new Navigator(this, this);
         
         // Create and register the views
-        navigator.addView("", new StartView());
-        navigator.addView(MAINVIEW, new MainView());
+        navigator.addView("", new LoginView());
+        navigator.addView(MainView.NAME, new MainView());
     }
 }
 // END-EXAMPLE: advanced.navigator.basic

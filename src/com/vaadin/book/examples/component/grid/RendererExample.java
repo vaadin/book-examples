@@ -442,4 +442,56 @@ public class RendererExample extends CustomComponent implements AnyBookExampleBu
         layout.addComponent(grid);
         // END-EXAMPLE: component.grid.renderer.text
     }
+
+    public void custom(VerticalLayout layout) {
+        // EXAMPLE-REF: component.grid.renderer.custom com.vaadin.book.examples.client.widgetset.client.renderer.MyButtonRendererConnector component.grid.renderer.custom
+        // EXAMPLE-REF: component.grid.renderer.custom com.vaadin.book.examples.client.widgetset.client.renderer.MyButtonRenderer component.grid.renderer.custom
+        // BEGIN-EXAMPLE: component.grid.renderer.custom
+        // BOOK: components.grid#renderer
+        BeanItemContainer<Person> people =
+            new BeanItemContainer<>(Person.class);
+        
+        people.addBean(new Person("Nicolaus Copernicus", 1473));
+        people.addBean(new Person("Galileo Galilei", 1564));
+        people.addBean(new Person("Johannes Kepler", 1571));
+        
+        // Generate button caption column
+        GeneratedPropertyContainer gpc =
+            new GeneratedPropertyContainer(people);
+        gpc.addGeneratedProperty("delete",
+            new PropertyValueGenerator<String>() {
+            private static final long serialVersionUID = -8571003699455731586L;
+
+            @Override
+            public String getValue(Item item, Object itemId,
+                                   Object propertyId) {
+                // Some silly rule to determine if it's disabled
+                if (((String)item.getItemProperty("name").
+                        getValue()).contains("G"))
+                    return "Disabled:Delete"; // Disabled state + caption
+                else
+                    return "Delete"; // Just caption
+            }
+
+            @Override
+            public Class<String> getType() {
+                return String.class;
+            }
+        });
+        
+        // Create a grid
+        Grid grid = new Grid(gpc);
+        grid.setWidth("400px");
+        grid.setHeight("170px");
+        grid.setSelectionMode(SelectionMode.NONE);
+
+        // Render a button that deletes the data row (item)
+        grid.getColumn("delete")
+            .setRenderer(new MyButtonRenderer(e -> // Java 8
+            grid.getContainerDataSource()
+                .removeItem(e.getItemId())));
+        
+        layout.addComponent(grid);
+        // END-EXAMPLE: component.grid.renderer.custom
+    }
 }

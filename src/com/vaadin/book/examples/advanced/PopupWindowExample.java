@@ -1,11 +1,11 @@
 package com.vaadin.book.examples.advanced;
 
 import com.vaadin.annotations.Theme;
-import com.vaadin.book.BookExamplesUI;
 import com.vaadin.book.examples.BookExampleBundle;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinServlet;
 import com.vaadin.shared.ui.BorderStyle;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -77,7 +77,9 @@ public class PopupWindowExample extends CustomComponent implements BookExampleBu
         // BEGIN-EXAMPLE: advanced.windows.dynamic
         // A button to open a new window
         Link openNew = new Link("Start the application",
-                new ExternalResource(BookExamplesUI.APPCONTEXT + "/dynamicwindow/?restartApplication"),
+                new ExternalResource(VaadinServlet.getCurrent()
+                    .getServletContext().getContextPath() +
+                    "/dynamicwindow/?restartApplication"),
                 "_blank", 480, 100, BorderStyle.DEFAULT);
         layout.addComponent(openNew);
         // END-EXAMPLE: advanced.windows.dynamic

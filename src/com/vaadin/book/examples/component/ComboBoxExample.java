@@ -2,10 +2,11 @@ package com.vaadin.book.examples.component;
 
 import java.io.Serializable;
 
-import com.vaadin.book.examples.BookExampleBundle;
+import com.vaadin.book.examples.AnyBookExampleBundle;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.NewItemHandler;
 import com.vaadin.ui.ComboBox;
@@ -13,34 +14,12 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
-public class ComboBoxExample extends CustomComponent implements BookExampleBundle {
+public class ComboBoxExample extends CustomComponent implements AnyBookExampleBundle {
     private static final long serialVersionUID = -4292553844521293140L;
 
-    public void init (String context) {
-        VerticalLayout layout = new VerticalLayout();
-
-        if ("basic".equals(context))
-            basic(layout);
-        else if ("filtering".equals(context))
-            filtering(layout);
-        else if ("enumtype".equals(context))
-            enumtype(layout);
-        else if ("preselecting".equals(context))
-            preselecting(layout);
-        else if ("newitemsallowed".equals(context))
-            newItemsAllowed(layout);
-        else if ("newitemhandler".equals(context))
-            newItemHandler(layout);
-        else if ("nullselection".equals(context))
-            nullSelection(layout);
-        else if ("resetselection".equals(context))
-            resetSelection(layout);
-        
-        setCompositionRoot(layout);
-    }
-    
-    void basic(VerticalLayout rlayout) {
+    public void basic(VerticalLayout rlayout) {
         VerticalLayout layout = new VerticalLayout();
         
         // BEGIN-EXAMPLE: component.select.combobox.basic
@@ -63,7 +42,7 @@ public class ComboBoxExample extends CustomComponent implements BookExampleBundl
         rlayout.setHeight("300px"); // Space for drop-down list
     }
 
-    void filtering(VerticalLayout layout) {
+    public void filtering(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.select.combobox.filtering
         ComboBox combobox = new ComboBox("Enter containing substring");
 
@@ -86,7 +65,7 @@ public class ComboBoxExample extends CustomComponent implements BookExampleBundl
         layout.setHeight("200px");
     }
     
-    void preselecting(VerticalLayout layout) {
+    public void preselecting(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.select.combobox.preselecting
         ComboBox combobox = new ComboBox("Some caption");
         
@@ -121,7 +100,7 @@ public class ComboBoxExample extends CustomComponent implements BookExampleBundl
         }
     }
 
-    void enumtype(VerticalLayout layout) {
+    public void enumtype(VerticalLayout layout) {
         ComboBox combobox = new ComboBox("Some caption");
         combobox.setNullSelectionAllowed(false);
         
@@ -136,7 +115,7 @@ public class ComboBoxExample extends CustomComponent implements BookExampleBundl
     }
     // END-EXAMPLE: component.select.combobox.enumtype
 
-    void newItemsAllowed(VerticalLayout layout) {
+    public void newItemsAllowed(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.select.combobox.newitemsallowed
         ComboBox combobox = new ComboBox("Some caption");
         combobox.setInvalidAllowed(false);
@@ -178,7 +157,7 @@ public class ComboBoxExample extends CustomComponent implements BookExampleBundl
         }
     }
 
-    void newItemHandler(VerticalLayout layout) {
+    public void newitemhandler(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.select.combobox.newitemhandler
         // Have a bean container to put the beans in
         final BeanItemContainer<Planet> container =
@@ -224,7 +203,7 @@ public class ComboBoxExample extends CustomComponent implements BookExampleBundl
         // END-EXAMPLE: component.select.combobox.newitemhandler
     }
 
-    void nullSelection(VerticalLayout layout) {
+    public void nullSelection(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.select.combobox.nullselection
         ComboBox combobox = new ComboBox("My ComboBox");
         
@@ -247,7 +226,7 @@ public class ComboBoxExample extends CustomComponent implements BookExampleBundl
         layout.setHeight("200px");
     }
 
-    void resetSelection(VerticalLayout layout) {
+    public void resetSelection(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.select.combobox.resetselection
         // FORUM: http://vaadin.com/forum/-/message_boards/message/206665
         final ComboBox combobox = new ComboBox("My ComboBox");
@@ -281,5 +260,16 @@ public class ComboBoxExample extends CustomComponent implements BookExampleBundl
         });
         combobox.setImmediate(true);
         // END-EXAMPLE: component.select.combobox.resetselection
+    }
+
+    public void styles(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: component.select.combobox.styles
+        ComboBox cb_inlineIcon = new ComboBox("Inline Icon");
+        cb_inlineIcon.setIcon(FontAwesome.USER);
+        cb_inlineIcon.setInputPrompt("Select a value");
+        cb_inlineIcon.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
+
+        layout.addComponent(cb_inlineIcon);
+        // END-EXAMPLE: component.select.combobox.styles
     }
 }

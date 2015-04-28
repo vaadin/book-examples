@@ -11,11 +11,13 @@ public class MyAppCaptions extends ListResourceBundle
 
     /* Caption ID definitions */
     public static final String OkKey     = generateId(); 
+    public static final String SaveKey   = generateId(); 
     public static final String CancelKey = generateId();
 
     /* Captions for the default language */
     static final Object[][] contents = {
         {OkKey, "OK"},
+        {SaveKey, "Save"},
         {CancelKey, "Cancel"},
     };
 

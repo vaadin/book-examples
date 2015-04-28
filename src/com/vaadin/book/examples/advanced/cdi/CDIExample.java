@@ -33,6 +33,8 @@ public class CDIExample extends CustomComponent implements BookExampleBundle {
     // EXAMPLE-REF: advanced.cdi.navigation com.vaadin.book.examples.advanced.cdi.MyCDIUI advanced.cdi.navigation
     // EXAMPLE-REF: advanced.cdi.navigation com.vaadin.book.examples.advanced.cdi.LoginView advanced.cdi.navigation
     // EXAMPLE-REF: advanced.cdi.navigation com.vaadin.book.examples.advanced.cdi.MainView advanced.cdi.navigation
+    // EXAMPLE-REF: advanced.cdi.navigation com.vaadin.book.examples.advanced.cdi.HelpView advanced.cdi.navigation
+    // EXAMPLE-REF: advanced.cdi.navigation com.vaadin.book.examples.advanced.cdi.MyCDIComponentFactory advanced.cdi.navigation
     void navigation(VerticalLayout layout) {
         BrowserFrame frame = new BrowserFrame("CDI View Navigation");
         frame.setSource(new ExternalResource(BookExamplesUI.APPCONTEXT + "/mycdiuis?restartApplication"));

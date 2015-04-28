@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="package-mapping"
+          content="my:com.vaadin.book.examples.application.declarative" />
+  </head>
+  <body>
+    <v-vertical-layout>
+      <!-- Inline HTML content -->
+      <v-label><b>Hello!</b> - How are you?</v-label>
+
+      <!-- Inline options -->
+      <v-option-group>
+        <option>One</option>
+        <option selected>Two</option>
+        <option>Three</option>
+      </v-option-group>
+      
+      <!-- Inline options -->
+      <v-option-group multi-select>
+        <option>One</option>
+        <option selected>Two</option>
+        <option selected>Three</option>
+      </v-option-group>
+      
+      <!-- Inline options -->
+      <v-native-select>
+        <option>One</option>
+        <option>Two</option>
+        <option selected>Three</option>
+      </v-native-select>
+    </v-vertical-layout>
+  </body>
+</html>

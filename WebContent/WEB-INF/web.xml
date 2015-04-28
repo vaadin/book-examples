@@ -186,6 +186,12 @@
         <param-value>com.vaadin.book.applications.HelloWorld</param-value>
     </init-param>
 
+    <init-param>
+        <description>UI widgetset</description>
+        <param-name>widgetset</param-name>
+        <param-value>com.vaadin.book.widgetset.BookExamplesWidgetSet</param-value>
+    </init-param>
+
      <async-supported>true</async-supported>
   </servlet>
   <servlet-mapping>
@@ -433,35 +439,6 @@
   </servlet-mapping>
 
   <!-- ==================================================================== -->
-  <!-- TouchKit Components Demo                                             -->
-  <!-- ==================================================================== -->
-  <servlet>
-    <servlet-name>TouchKit Components</servlet-name>
-    
-    <!-- Use the TouchKit Servlet -->
-    <servlet-class>com.vaadin.addon.touchkit.server.TouchKitServlet</servlet-class>
-
-    <!-- The class of our UI -->
-    <init-param>
-      <param-name>UI</param-name>
-      <param-value>com.vaadin.book.examples.addons.touchkit.TouchKitComponentsUI</param-value>
-    </init-param>
-
-    <!-- Use the TouchKit widget set -->
-    <init-param>
-      <param-name>widgetset</param-name>
-      <param-value>com.vaadin.book.examples.addons.touchkit.MyMobileWidgetSet</param-value>
-    </init-param>
-
-     <async-supported>true</async-supported>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>TouchKit Components</servlet-name>
-    <url-pattern>/touchkitcomponents/*</url-pattern>
-  </servlet-mapping>
-
-  <!-- ==================================================================== -->
   <!-- TestBench Test UI                                                    -->
   <!-- ==================================================================== -->
   <servlet>
@@ -487,7 +464,7 @@
   <!-- ==================================================================== -->
   <servlet>
     <servlet-name>Default</servlet-name>
-    <servlet-class>com.vaadin.cdi.internal.VaadinCDIServlet</servlet-class>
+    <servlet-class>com.vaadin.cdi.server.VaadinCDIServlet</servlet-class>
 
      <async-supported>true</async-supported>
   </servlet>

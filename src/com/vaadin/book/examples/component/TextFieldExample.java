@@ -14,6 +14,7 @@ import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.validator.DoubleRangeValidator;
 import com.vaadin.data.validator.IntegerRangeValidator;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -26,6 +27,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
 public class TextFieldExample extends CustomComponent implements AnyBookExampleBundle {
     private static final long serialVersionUID = -4454143876393393750L;
@@ -451,4 +453,15 @@ public class TextFieldExample extends CustomComponent implements AnyBookExampleB
         
         layout.addComponent(tf);
     }    
+
+    public void styles(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: component.textfield.styles
+        TextField tf_inlineIcon = new TextField("Inline Icon");
+        tf_inlineIcon.setIcon(FontAwesome.USER);
+        tf_inlineIcon.setInputPrompt("Select a value");
+        tf_inlineIcon.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
+
+        layout.addComponent(tf_inlineIcon);
+        // END-EXAMPLE: component.textfield.styles
+    }
 }

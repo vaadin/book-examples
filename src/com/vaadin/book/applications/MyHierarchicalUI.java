@@ -1,8 +1,8 @@
 package com.vaadin.book.applications;
 
 import com.vaadin.annotations.Theme;
-import com.vaadin.book.examples.component.TableExample;
 import com.vaadin.book.examples.component.TreeExample;
+import com.vaadin.book.examples.component.table.TableExample;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;

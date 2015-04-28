@@ -76,7 +76,7 @@ public class AbstractExampleMenu extends CustomComponent {
                     }
 
                     // The actual example component
-                    Component examplecomponent = example.createInstance();
+                    Component examplecomponent = example.invokeExample();
                     examplecomponent.addStyleName("bookexample");
                     viewLayout.addComponent(examplecomponent);
                                             

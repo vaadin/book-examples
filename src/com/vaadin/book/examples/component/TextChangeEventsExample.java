@@ -1,6 +1,7 @@
 package com.vaadin.book.examples.component;
 
 import com.vaadin.book.examples.BookExampleBundle;
+import com.vaadin.book.examples.component.table.TableExample;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Container.Filterable;
 import com.vaadin.data.util.filter.SimpleStringFilter;

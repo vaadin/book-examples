@@ -21,35 +21,6 @@ import com.vaadin.ui.Window.CloseListener;
 public class SubWindowExample extends CustomComponent implements AnyBookExampleBundle {
     private static final long serialVersionUID = -4292553844521293140L;
 
-    VerticalLayout layout = new VerticalLayout();
-    String context;
-    
-    public void init(String context) {
-        this.context = context;
-        
-        setCompositionRoot(layout);
-    }
-    
-    @Override
-    public void attach() {
-        super.attach();
-        
-        if ("basic".equals(context))
-            basic(layout);
-        else if ("inheritance".equals(context))
-            inheritance(layout);
-        else if ("close".equals(context))
-            close(layout);
-        else if ("modal".equals(context))
-            modal(layout);
-        else if ("scrolling".equals(context))
-            scrolling(layout);
-        else if ("noscroll".equals(context))
-            noscroll(layout);
-        else if ("styling".equals(context))
-            styling(layout);
-    }
-    
     @Override
     public void detach() {
         super.detach();
@@ -87,7 +58,7 @@ public class SubWindowExample extends CustomComponent implements AnyBookExampleB
     }
     // END-EXAMPLE: layout.sub-window.basic
 
-    void basic(VerticalLayout layout) {
+    public void basic(VerticalLayout layout) {
         Button open = new Button("Open Window with Sub-Window");
         BrowserWindowOpener opener = new BrowserWindowOpener(SubWindowUI.class);
         opener.setFeatures("height=200,width=300,resizable");
@@ -95,7 +66,7 @@ public class SubWindowExample extends CustomComponent implements AnyBookExampleB
         layout.addComponent(open);
     }
     
-    void inheritance(VerticalLayout layout) {
+    public void inheritance(VerticalLayout layout) {
         // BEGIN-EXAMPLE: layout.sub-window.inheritance
         // Define a sub-window by inheritance
         class MySub extends Window {
@@ -155,7 +126,7 @@ public class SubWindowExample extends CustomComponent implements AnyBookExampleB
         "You can close a sub-window programmatically with <tt>close()</tt>. "+
         "In both cases, a <b>CloseEvent</b> is fired, which you can handle with a <b>CloseListener</b>.</p>";
 
-    void close(final VerticalLayout layout) {
+    public void close(final VerticalLayout layout) {
         // BEGIN-EXAMPLE: layout.sub-window.close
         // Create a sub-window and add it to the main window
         Window sub = new Window("Close Me");
@@ -177,7 +148,7 @@ public class SubWindowExample extends CustomComponent implements AnyBookExampleB
         // END-EXAMPLE: layout.sub-window.close
     }
 
-    void modal(final VerticalLayout layout) {
+    public void modal(final VerticalLayout layout) {
         // BEGIN-EXAMPLE: layout.sub-window.modal
         // Create a sub-window and add it to the main window
         Window sub = new Window("I'm Modal");
@@ -187,7 +158,7 @@ public class SubWindowExample extends CustomComponent implements AnyBookExampleB
         // END-EXAMPLE: layout.sub-window.modal
     }
 
-    void scrolling(VerticalLayout layout) {
+    public void scrolling(VerticalLayout layout) {
         // BEGIN-EXAMPLE: layout.sub-window.scrolling
         // Create a sub-window of a fixed width
         Window subWindow = new Window("Scrolling Sub");
@@ -210,7 +181,7 @@ public class SubWindowExample extends CustomComponent implements AnyBookExampleB
         // END-EXAMPLE: layout.sub-window.scrolling
     }
     
-    void noscroll(VerticalLayout layout) {
+    public void noscroll(VerticalLayout layout) {
         // BEGIN-EXAMPLE: layout.sub-window.noscroll
         // Create a sub-window of a fixed width
         //Window subWindow = new Window("Scrolling Sub");
@@ -251,7 +222,7 @@ public class SubWindowExample extends CustomComponent implements AnyBookExampleB
         // END-EXAMPLE: layout.sub-window.positioning
     }
 
-    void styling(final VerticalLayout layout) {
+    public void styling(final VerticalLayout layout) {
         // BEGIN-EXAMPLE: layout.sub-window.styling
         // Create a sub-window and attach it to the root component
         Window sub = new Window("Life beneath the waves");

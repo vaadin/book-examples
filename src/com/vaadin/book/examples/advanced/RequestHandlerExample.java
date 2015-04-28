@@ -2,6 +2,7 @@ package com.vaadin.book.examples.advanced;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Locale;
 
 import com.vaadin.book.BookExamplesUI;
 import com.vaadin.book.examples.BookExampleBundle;
@@ -10,12 +11,12 @@ import com.vaadin.server.RequestHandler;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinResponse;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.server.VaadinServletService;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.BorderStyle;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 public class RequestHandlerExample extends CustomComponent implements BookExampleBundle {
@@ -36,6 +37,7 @@ public class RequestHandlerExample extends CustomComponent implements BookExampl
 
     void basic(VerticalLayout layout) {
         // BEGIN-EXAMPLE: advanced.requesthandler.basic
+        // A request handler for generating some content
         VaadinSession.getCurrent().addRequestHandler(
                 new RequestHandler() {
             private static final long serialVersionUID = -1699187353262991908L;
@@ -46,26 +48,41 @@ public class RequestHandlerExample extends CustomComponent implements BookExampl
                                          VaadinResponse response)
                     throws IOException {
                 if ("/rhexample".equals(request.getPathInfo())) {
+                    // Generate a plain text document
                     response.setContentType("text/plain");
                     response.getWriter().append(
-                        "Here's some dynamically generated content.\n"+
-                        "Time: " + (new Date()).toString());
+                        "Here's some dynamically generated content.\n");
+                    response.getWriter().format(Locale.ENGLISH,
+                        "Time: %Tc\n", new Date());
+                    
+                    // Use shared session data
+                    response.getWriter().format("Session data: %s\n",
+                        session.getAttribute("mydata"));
+                    
                     return true; // We wrote a response
                 } else
                     return false; // No response was written
             }
         });
-
-        // Find out the base bath for the servlet
-        String servletPath = VaadinServlet.getCurrent()
-            .getServletContext().getRealPath(VaadinServletService 
-            .getCurrentServletRequest().getServletPath());
         
-        // Display the page in a popup window
+        // Input some shared data in the session
+        TextField dataInput = new TextField("Some data");
+        dataInput.addValueChangeListener(event ->
+            VaadinSession.getCurrent().setAttribute("mydata",
+                event.getProperty().getValue()));
+        dataInput.setValue("Here's some");
+
+        // Determine the base path for the servlet
+        String servletPath = VaadinServlet.getCurrent()
+                .getServletContext().getContextPath()
+                + "/book"; // Servlet
+
+        // Display the page in a pop-up window
         Link open = new Link("Click to Show the Page",
             new ExternalResource(servletPath + "/rhexample"),
             "_blank", 500, 350, BorderStyle.DEFAULT);
-        layout.addComponent(open);
+
+        layout.addComponents(dataInput, open);
         // END-EXAMPLE: advanced.requesthandler.basic
     }
     

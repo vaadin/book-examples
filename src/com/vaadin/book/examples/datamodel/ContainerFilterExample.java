@@ -3,8 +3,8 @@ package com.vaadin.book.examples.datamodel;
 import java.util.regex.PatternSyntaxException;
 
 import com.vaadin.book.examples.BookExampleBundle;
-import com.vaadin.book.examples.component.TableExample;
 import com.vaadin.book.examples.component.TreeExample;
+import com.vaadin.book.examples.component.table.TableExample;
 import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Container.Filterable;

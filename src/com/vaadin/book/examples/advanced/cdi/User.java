@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
 
+// BEGIN-EXAMPLE: advanced.cdi.navigation
 /**
  * A stateful bean.
  */
@@ -23,3 +24,4 @@ public class User implements Serializable {
         return name;
     }
 }
+// END-EXAMPLE: advanced.cdi.navigation

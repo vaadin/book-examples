@@ -10,3 +10,9 @@
     @include addons;
     @include book-examples;
 }
+/*
+// Fix issue #14854
+.v-overlay-container .v-tooltip {
+    z-index: 30000 !important;
+}
+*/

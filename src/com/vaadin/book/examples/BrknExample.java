@@ -17,7 +17,7 @@ public class BrknExample extends BookExample {
     }
     
     @Override
-    public Component createInstance() {
+    public Component invokeExample() {
         return new Label("SORRY - This example is broken at the moment and will be fixed later");
     }
 }

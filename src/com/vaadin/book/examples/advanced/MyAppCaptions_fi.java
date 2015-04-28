@@ -7,6 +7,7 @@ public class MyAppCaptions_fi extends MyAppCaptions {
 
     static final Object[][] contents_fi = {
         {OkKey, "OK"},
+        {SaveKey, "Tallenna"},
         {CancelKey, "Peruuta"},
     };
 

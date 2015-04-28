@@ -1,7 +1,7 @@
 package com.vaadin.book.examples.layout;
 
 import com.vaadin.book.examples.BookExampleBundle;
-import com.vaadin.book.examples.component.TableExample;
+import com.vaadin.book.examples.component.table.TableExample;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.FormLayout;
