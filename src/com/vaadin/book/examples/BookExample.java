@@ -80,23 +80,28 @@ public class BookExample extends CaptionedExampleItem {
             return;
 
         try {
-            // Instantiate and initialize the example class to be
-            // able to read metadata using reflection. Note that
-            // the object can be a bundle (normally) or any other class
-            // (if it is an EmbeddedExample).
-            Object instance = exclass.newInstance();
-
             // Use "_" instead of "-" in descriptions
             String javaContext = context.replace('-', '_');
 
+            // Try to get old-style description
             java.lang.reflect.Field descField = null;
             try {
-                descField = instance.getClass().getField(
-                    javaContext + "Description");
+                descField = exclass.getField(javaContext + "Description");
                 description = (String) descField.get(null);
             } catch (NoSuchFieldException e) {
                 // These are OK and expected for most examples
             }
+            
+            // Try to get a description given with @Description annotation
+            try {
+                Method method = exclass.getMethod(context, VerticalLayout.class);
+                Description descAnnotation = method.getDeclaredAnnotation(Description.class);
+                if (descAnnotation != null)
+                    description = descAnnotation.value();
+            } catch (NoSuchMethodException e) {
+                // It fails for all private methods in the old-style example bundles
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -140,6 +145,7 @@ public class BookExample extends CaptionedExampleItem {
         } else {
             try {
                 final Method method = instance.getClass().getMethod(context, VerticalLayout.class);
+                
                 VerticalLayout layout = new VerticalLayout();
                 method.invoke(instance, layout);
                 return layout;

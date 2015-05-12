@@ -2,6 +2,8 @@ package com.vaadin.book.examples.advanced;
 
 import com.vaadin.annotations.DesignRoot;
 import com.vaadin.annotations.Theme;
+import com.vaadin.event.SelectionEvent;
+import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -11,6 +13,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Embedded;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
@@ -101,6 +104,28 @@ public class NavigatorUI extends UI {
             // Allow going back to the start
             logout.addClickListener(event -> // Java 8
                 navigator.navigateTo(LoginView.NAME));
+            
+            // Create a grid
+            Grid grid = new Grid();
+
+            // Define some columns
+            grid.addColumn("name", String.class);
+            grid.addColumn("born", Integer.class);
+
+            // Add some data rows
+            grid.addRow("Nicolaus Copernicus", 1543);
+            grid.addRow("Galileo Galilei", 1564);
+            grid.addRow("Johannes Kepler", 1571);
+
+            addComponent(grid);
+            
+            grid.addSelectionListener(new SelectionListener() {
+                
+                @Override
+                public void select(SelectionEvent event) {
+                    getUI().getNavigator().navigateTo(LoginView.NAME);
+                }
+            });            
         }        
         
         @DesignRoot

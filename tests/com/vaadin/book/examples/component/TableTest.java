@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 import com.vaadin.book.examples.BookExampleTestcase;
-import com.vaadin.book.examples.ForExample;
+import com.vaadin.book.examples.Description;
 import com.vaadin.testbench.elements.TableElement;
 
 // @ForExample(com.vaadin.book.examples.component.TableExample.class)

@@ -44,6 +44,8 @@ public class FieldGroupExample extends CustomComponent implements BookExampleBun
             extended(layout);
         else if ("onetomany".equals(context))
             onetomany(layout);
+        else if ("multipage".equals(context))
+            multipage(layout);
         else if ("customcomponent".equals(context))
             customcomponent(layout);
         else if ("commit".equals(context))
@@ -302,7 +304,7 @@ public class FieldGroupExample extends CustomComponent implements BookExampleBun
 
     void multipage(final VerticalLayout layout) {
         // BEGIN-EXAMPLE: datamodel.itembinding.formclass.multipage
-        // Have an item
+        // Have a simple data model
         PropertysetItem item = new PropertysetItem();
         item.addItemProperty("name", new ObjectProperty<String>("Zaphod"));
         item.addItemProperty("age", new ObjectProperty<Integer>(42));
@@ -310,21 +312,37 @@ public class FieldGroupExample extends CustomComponent implements BookExampleBun
 
         class MyTabbedForm extends TabSheet
                            implements TabSheet.SelectedTabChangeListener {
+            private static final long serialVersionUID = -5118230247609722578L;
+
             MyTabbedForm top = this;
-        
-            class FormPage1 extends FormLayout implements ClickListener {
+
+            abstract class FormPage extends FormLayout {
+                private static final long serialVersionUID = -777297583979411422L;
+
+                public FieldGroup binder;
+                
+                public boolean stepOK;
+
+                public FormPage(Item item) {
+                    binder = new FieldGroup(item);
+                }
+            }
+            
+            class FormPage1 extends FormPage implements ClickListener {
                 private static final long serialVersionUID = 4787596268280857302L;
     
                 TextField name = new TextField("Name");
                 
-                public FieldGroup binder;
-                
                 public FormPage1(Item item) {
-                    addComponent(name);
+                    super(item);
 
-                    binder = new FieldGroup(item);
+                    // The caption is shown as the tab label
+                    setCaption("Basic Data");
+
+                    name.setRequired(true); // Adds required validation
+                    addComponent(name);
                     binder.bindMemberFields(this);
-    
+
                     // Validate the page and allow moving forward only if valid
                     addComponent(new Button("OK", this));
                 }
@@ -334,26 +352,32 @@ public class FieldGroupExample extends CustomComponent implements BookExampleBun
                     if (binder.isValid()) {
                         top.getTab(page2).setEnabled(true);
                         top.setSelectedTab(page2);
+                        stepOK = true;
+                    } else {
+                        Notification.show("No good");
+                        stepOK = false;
                     }
                 }
             }
     
             // Define a form as a class that extends some layout
-            class FormPage2 extends FormLayout implements ClickListener {
+            class FormPage2 extends FormPage implements ClickListener {
                 private static final long serialVersionUID = 4787596268280857302L;
     
                 TextField age = new TextField("Age");
                 TextField city = new TextField("City");
                 
-                public FieldGroup binder;
-                
                 public FormPage2(Item item) {
-                    addComponent(age);
-                    addComponent(city);
-    
-                    binder = new FieldGroup(item);
-                    binder.bindMemberFields(this);
+                    super(item);
 
+                    // The caption is shown as the tab label
+                    setCaption("Details");
+
+                    age.setRequired(true); // Adds required validation
+                    city.setRequired(true);
+                    addComponents(age, city);
+                    binder.bindMemberFields(this);
+    
                     // Validate the entire form
                     addComponent(new Button("Finish", this));
                 }
@@ -372,8 +396,12 @@ public class FieldGroupExample extends CustomComponent implements BookExampleBun
                         
                         // Finish somehow
                         top.setEnabled(false);
-                    } else
+                        Notification.show("Finished OK!");
+                        stepOK = true;
+                    } else {
                         Notification.show("No good");
+                        stepOK = false;
+                    }
                 }
             }
 
@@ -381,17 +409,35 @@ public class FieldGroupExample extends CustomComponent implements BookExampleBun
             FormPage1 page1;
             FormPage2 page2;
             
+            FormPage current;
+            
             public MyTabbedForm(Item item) {
                 page1 = new FormPage1(item);
                 page2 = new FormPage2(item);
                 addComponents(page1, page2);
+                
+                current = page1;
+                
+                // Disable all but the first tab
+                getTab(page2).setEnabled(false);
+
+                // Handle tab changes
+                addSelectedTabChangeListener(this);
             }
             
             @Override
             public void selectedTabChange(SelectedTabChangeEvent event) {
-                // Disable the second tab if activating the first one
-                if (getSelectedTab() == page1)
-                    getTab(page2).setEnabled(false);
+                if (getSelectedTab() == current)
+                    return;
+
+                // Disallow changing by tab if the form was modified
+                if (current != page2 && current.binder.isModified()) {
+                    getTab(getSelectedTab()).setEnabled(false);
+                    setSelectedTab(current);
+                    Notification.show("Click OK to accept modifications");
+                }
+
+                current = (FormPage) getSelectedTab();
             }
         }
         

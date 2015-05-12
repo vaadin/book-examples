@@ -1,6 +1,7 @@
 package com.vaadin.book.examples.layout;
 
-import com.vaadin.book.examples.BookExampleBundle;
+import com.vaadin.book.examples.AnyBookExampleBundle;
+import com.vaadin.book.examples.Description;
 import com.vaadin.book.examples.component.table.TableExample;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
@@ -12,27 +13,10 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-public class ExpandRatioExample extends CustomComponent implements BookExampleBundle {
+public class ExpandRatioExample extends CustomComponent implements AnyBookExampleBundle {
     private static final long serialVersionUID = 9106115858126838561L;
 
-    public void init(String context) {
-        VerticalLayout layout = new VerticalLayout();
-        addStyleName("expandratioexample");
-
-        if ("basic".equals(context))
-            basic(layout);
-        else if ("horizontal".equals(context))
-            horizontal(layout);
-        else if ("summary".equals(context))
-            summary(layout);
-        else
-            layout.addComponent(new Label("Invalid context: " + context));
-        
-        setCompositionRoot(layout);
-    }
-    
-    public static String basicDescription =
-        "<h1>Expand Ratio</h1>"+
+    @Description("<h1>Expand Ratio</h1>"+
         "<p>The <i>expand ratio</i> specified how large portion of unused space "+
         "in a layout is given to each component.</p>"+
         "<p>See also the description of the layouts supporting expand ratios:</p>"+
@@ -40,86 +24,84 @@ public class ExpandRatioExample extends CustomComponent implements BookExampleBu
         "<li><b>VerticalLayout</b></li>"+
         "<li><b>HorizontalLayout</b></li>"+
         "<li><a href='#layout.gridlayout.expandratio'><b>GridLayout</b></a></li>"+
-        "</ul>";
-    void basic(VerticalLayout rootlayout) {
+        "</ul>")
+    public void basic(VerticalLayout rootlayout) {
         // BEGIN-EXAMPLE: layout.formatting.expandratio.basic
         // FORUM: http://vaadin.com/forum/-/message_boards/message/220232
-        // A containing panel - this could just as well be
-        // the main window (Window inherits Panel)
+        // A containing panel - this could just as well be the UI
         Panel panel = new Panel("A Containing Panel");
-        
-        // The panel has some defined size just like a browser
-        // window would have
         panel.setWidth("400px");
         panel.setHeight("300px");
         
         // Have the panel's root layout takes all space available
         // in the panel (it wouldn't otherwise do so)
-        VerticalLayout layout = (VerticalLayout) panel.getContent();
-        layout.setSizeFull();
+        VerticalLayout panelContent = new VerticalLayout();
+        panel.setContent(panelContent);
+        panelContent.setSizeFull();
 
         // Put some regular component in it
         TextField name = new TextField("Name");
-        layout.addComponent(name);
+        panelContent.addComponent(name);
         
         // Put a table with some data in it
         Table table = new Table("My Ever-Expanding Table");
-        layout.addComponent(table);
+        panelContent.addComponent(table);
         
         // Set the table to expand and take all the available space in
         // the containing layout.
         table.setSizeFull();
-        layout.setExpandRatio(table, 1.0f);
+        panelContent.setExpandRatio(table, 1.0f);
         // END-EXAMPLE: layout.formatting.expandratio.basic
 
         table.setContainerDataSource(TableExample.generateContent());
         
         // Some cosmetics
-        layout.setMargin(true);
-        layout.setSpacing(true);
+        panelContent.setMargin(true);
+        panelContent.setSpacing(true);
         
         rootlayout.addComponent(panel);
     }
     
-    void horizontal(VerticalLayout rootlayout) {
+    public void horizontal(VerticalLayout rootlayout) {
         // BEGIN-EXAMPLE: layout.formatting.expandratio.horizontal
         // FORUM: http://vaadin.com/forum/-/message_boards/message/220232
-        // A containing panel - this could just as well be
-        // the main window (Window inherits Panel)
+        // A containing panel - this could just as well be the UI
         Panel panel = new Panel("A Containing Panel");
-        
-        // The panel has some defined size just like a browser
-        // window would have
         panel.setWidth("600px");
         panel.setHeight("300px");
         
         // Have the panel's root layout takes all space available
         // in the panel (it wouldn't otherwise do so)
-        HorizontalLayout layout = new HorizontalLayout();
-        layout.setSizeFull();
-        panel.setContent(layout);
+        HorizontalLayout content = new HorizontalLayout();
+        content.setSizeFull();
+        panel.setContent(content);
 
-        // Put a table with some data in it
+        // Put a table with some data in it.
+        // The table takes only needed horizontal space.
         Table table = new Table("My Shrinking Table");
-        layout.addComponent(table);
+        table.setHeight("100%");
+        table.setWidth(null);
+        content.addComponent(table);
         
         // An expanding component
         Panel expanding = new Panel("Expanding Panel");
         expanding.setContent(new Label("This stuff expands"));
-        expanding.setSizeUndefined();
-        layout.addComponent(expanding);
+        expanding.setSizeFull();
+        content.addComponent(expanding);
+        content.setExpandRatio(expanding, 1.0f);
         // END-EXAMPLE: layout.formatting.expandratio.horizontal
 
         table.setContainerDataSource(TableExample.generateContent());
+        table.setVisibleColumns("name");
         
         // Some cosmetics
-        layout.setMargin(true);
-        layout.setSpacing(true);
+        content.setMargin(true);
+        content.setSpacing(true);
         
         rootlayout.addComponent(panel);
     }
 
-    void summary(VerticalLayout layout) {
+    public void summary(VerticalLayout layout) {
         // BEGIN-EXAMPLE: layout.formatting.expandratio.summary
         FormLayout parentLayout = new FormLayout();
         

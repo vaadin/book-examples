@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import com.vaadin.book.examples.BookExampleTestcase;
-import com.vaadin.book.examples.ForExample;
+import com.vaadin.book.examples.Description;
 import com.vaadin.testbench.elements.ButtonElement;
 import com.vaadin.testbench.elements.NotificationElement;
 

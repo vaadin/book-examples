@@ -7,7 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.vaadin.book.examples.BookExampleTestcase;
-import com.vaadin.book.examples.ForExample;
+import com.vaadin.book.examples.Description;
 import com.vaadin.testbench.elements.ComboBoxElement;
 
 // @ForExample(com.vaadin.book.examples.component.ButtonExample.class)

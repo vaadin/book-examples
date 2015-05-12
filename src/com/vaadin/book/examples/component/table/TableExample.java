@@ -1923,7 +1923,7 @@ public class TableExample extends CustomComponent implements BookExampleBundle {
         String[] firstnames = new String[]{"Isaac", "Ada", "Charles", "Douglas"};
         String[] lastnames  = new String[]{"Newton", "Lovelace", "Darwin", "Adams"};
         String[] cities     = new String[]{"London", "Oxford", "Innsbruck", "Turku"};
-        for (int i=0; i<100; i++) {
+        for (int i=0; i<1000; i++) {
             Object itemId = container.addItem();
             String name = firstnames[(int) (Math.random()*4)] + " " + lastnames[(int) (Math.random()*4)];
             container.getItem(itemId).getItemProperty("name").setValue(name);

@@ -27,7 +27,8 @@ class MyCDIComponentFactory extends Design.DefaultComponentFactory {
 
     @PostConstruct
     public void setup() {
-        Design.setComponentFactory(this);
+        // TODO Disabled because this doesn't work with non-CDI stuff... 
+        // Design.setComponentFactory(this);
     }
     
     @Override

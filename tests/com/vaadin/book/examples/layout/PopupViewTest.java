@@ -13,7 +13,7 @@ import com.vaadin.testbench.elements.PopupViewElement;
 import com.vaadin.testbench.elements.TableElement;
 import com.vaadin.testbench.elements.WindowElement;
 
-// @ForExample(com.vaadin.book.examples.layout.PopupViewExample.class)
+@ForExample(com.vaadin.book.examples.layout.PopupViewExample.class)
 public class PopupViewTest extends BookExampleTestcase {
     @Test
     public void basic() throws Exception {

@@ -11,27 +11,29 @@ import javax.persistence.EntityManager;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.book.examples.AnyBookExampleBundle;
+import com.vaadin.book.examples.Description;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.Action;
+import com.vaadin.shared.ui.calendar.DateConstants;
 import com.vaadin.ui.Calendar;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickEvent;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.RangeSelectEvent;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.RangeSelectHandler;
 import com.vaadin.ui.components.calendar.CalendarDateRange;
 import com.vaadin.ui.components.calendar.ContainerEventProvider;
 import com.vaadin.ui.components.calendar.event.BasicEvent;
 import com.vaadin.ui.components.calendar.event.CalendarEvent;
+import com.vaadin.ui.components.calendar.handler.BasicDateClickHandler;
 
 public class CalendarExample extends CustomComponent implements AnyBookExampleBundle {
     private static final long serialVersionUID = -3205020480634478985L;
     String context;
 
-    //public static final String basicDescription =
-    //    "<h1>Basic Use of Calendar</h1>";
-
+    @Description("<h1>Basic Use of Calendar</h1>")
     public void basic(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.calendar.basic
         // Create the calendar
@@ -76,9 +78,7 @@ public class CalendarExample extends CustomComponent implements AnyBookExampleBu
         // END-EXAMPLE: component.calendar.basic
     }
 
-    public static final String rangeselectDescription =
-            "<p>Select a range by dragging.</p>";
-
+    @Description("<p>Select a range by dragging.</p>")
     public void rangeselect(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.calendar.rangeselect
         // Create the calendar
@@ -166,6 +166,42 @@ public class CalendarExample extends CustomComponent implements AnyBookExampleBu
                 weekstart.getTime(), weekend.getTime());
         //        weekEvent.setAllDay(true);
         calendar.addEvent(weekEvent);
+        
+        // Handle clicks on dates
+        calendar.setHandler(new BasicDateClickHandler() {
+            private static final long serialVersionUID = 1763979724318467578L;
+
+            public void dateClick(DateClickEvent event) {
+              Calendar cal = event.getComponent();
+              
+              // Check if the current range is already one day long
+              long currentCalDateRange = cal.getEndDate().getTime() -
+                                         cal.getStartDate().getTime();
+
+              // From one-day view, zoom out to week view
+              if (currentCalDateRange <= DateConstants.DAYINMILLIS) {
+                  // Change the date range to the current week
+                  GregorianCalendar weekstart = new GregorianCalendar();
+                  GregorianCalendar weekend   = new GregorianCalendar();
+                  weekstart.setTime(event.getDate());
+                  weekend.setTime(event.getDate());
+                  weekstart.setFirstDayOfWeek(java.util.Calendar.SUNDAY);
+                  weekstart.set(java.util.Calendar.HOUR_OF_DAY, 0);
+                  weekstart.set(java.util.Calendar.DAY_OF_WEEK,
+                               java.util.Calendar.SUNDAY);
+                  weekend.set(java.util.Calendar.HOUR_OF_DAY, 23);
+                  weekend.set(java.util.Calendar.DAY_OF_WEEK,
+                               java.util.Calendar.SATURDAY);
+                  cal.setStartDate(weekstart.getTime());
+                  cal.setEndDate(weekend.getTime());
+
+                  Notification.show("Custom zoom to week");
+              } else {
+                // Default behavior, change date range to one day
+                super.dateClick(event);
+              }
+            }
+          });       
         
         layout.addComponent(calendar);
         // END-EXAMPLE: component.calendar.monthlyview

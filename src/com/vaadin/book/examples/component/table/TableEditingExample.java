@@ -4,10 +4,12 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 import com.vaadin.book.examples.AnyBookExampleBundle;
+import com.vaadin.book.examples.Description;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.event.Action;
 import com.vaadin.event.Action.Handler;
 import com.vaadin.event.FieldEvents.BlurEvent;
@@ -366,5 +368,28 @@ public class TableEditingExample extends CustomComponent implements AnyBookExamp
         layout.addComponents(table, add);
         // END-EXAMPLE: component.table.editable.adding
 
+    }
+
+    @Description(value = "This is just a test to see if edits are preserved when the table is scrolled")
+    public void longtable(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: component.table.editable.longtable
+        // A lot of example data
+        IndexedContainer container = TableExample.generateContent();
+
+        // The table to edit
+        Table table = new Table(null, container) {
+            private static final long serialVersionUID = -2812466098538751808L;
+
+            public void refreshRowCache() {
+                super.refreshRowCache();
+                layout.addComponent(new Label("Refreshed row cache"));
+            }
+        };
+        table.setWidth("500px");
+        table.setPageLength(8);
+        table.setEditable(true);
+        
+        layout.addComponents(table);
+        // END-EXAMPLE: component.table.editable.longtable
     }
 }

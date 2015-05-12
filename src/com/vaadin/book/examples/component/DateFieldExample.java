@@ -4,9 +4,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import com.vaadin.book.examples.BookExampleBundle;
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.book.examples.AnyBookExampleBundle;
+import com.vaadin.book.examples.Description;
 import com.vaadin.data.Validator;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.util.ObjectProperty;
@@ -14,49 +13,19 @@ import com.vaadin.data.util.converter.Converter.ConversionException;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
+import com.vaadin.ui.DateField.UnparsableDateString;
 import com.vaadin.ui.InlineDateField;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.VerticalLayout;
 
-public class DateFieldExample extends CustomComponent implements BookExampleBundle {
+public class DateFieldExample extends CustomComponent implements AnyBookExampleBundle {
     private static final long serialVersionUID = -6575751250735498511L;
 
-    VerticalLayout layout = new VerticalLayout();
-    public void init (String context) {
-
-        if ("basic".equals(context))
-            basic(layout);
-        else if ("popup-basic".equals(context))
-            popup_basic(layout);
-        else if ("formatting".equals(context))
-            formatting(layout);
-        else if ("customerror".equals(context))
-            customerror(layout);
-        else if ("parsing".equals(context))
-            parsing(layout);
-        else if ("validation".equals(context))
-            validation(layout);
-        else if ("inputprompt".equals(context))
-            inputprompt(layout);
-        else if ("inlinedatefield".equals(context))
-            inlinedatefield(layout);
-        else if ("resolution-day".equals(context))
-            resolution(layout);
-        else if ("weeknumbers".equals(context))
-            weeknumbers(layout);
-        else
-            layout.addComponent(new Label("Invalid context "+context));
-        
-        setCompositionRoot(layout);
-    }
-    
-    void basic(VerticalLayout layout) {
+    public void basic(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.datefield.basic
         // Create a DateField with the default style
         DateField date = new DateField();
@@ -72,19 +41,18 @@ public class DateFieldExample extends CustomComponent implements BookExampleBund
         layout.addComponent(new Label("<div style='height: 250px;'/>", ContentMode.HTML));
     }
     
-    public static String popup_basicDescription =
-        "<h1>PopupDateField</h1>";
-    
-    void popup_basic(VerticalLayout layout) {
-        // BEGIN-EXAMPLE: component.datefield.popupdatefield.popup-basic
-        /* Create a DateField with the default style. */
+    @Description("<h1>PopupDateField</h1>")
+    public void basicpopup(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: component.datefield.popupdatefield.basicpopup
+        // Create a DateField with the default style
         PopupDateField date = new PopupDateField();
             
-        /* Set the date and time to present. */
+        // Set the date and time to present
         date.setValue(new Date());
-        
+
+        // Do not let select time
         date.setResolution(Resolution.DAY);
-        // END-EXAMPLE: component.datefield.popupdatefield.popup-basic
+        // END-EXAMPLE: component.datefield.popupdatefield.basicpopup
         
         // Always use English locale in the example
         date.setLocale(new Locale("en", "US"));
@@ -93,10 +61,8 @@ public class DateFieldExample extends CustomComponent implements BookExampleBund
         layout.addComponent(new Label("<div style='height: 250px;'/>", ContentMode.HTML));
     }
 
-    public static String formattingDescription =
-        "<h1>Formatting Date and Time in DateField</h1>";
-    
-    void formatting(VerticalLayout layout) {
+    @Description("<h1>Formatting Date and Time in DateField</h1>")
+    public void formatting(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.datefield.popupdatefield.formatting
         // Create a date field
         PopupDateField date = new PopupDateField("My Date");
@@ -120,11 +86,10 @@ public class DateFieldExample extends CustomComponent implements BookExampleBund
         layout.addComponent(new Button("You can click here to validate the date"));
     }
 
-    public static String customerrorDescription =
-        "<h1>Custom Error for Date and Time Input</h1>"+
-        "<p>Try inputting something invalid here, like \"<tt>xxxx</tt>\" and \"<tt>aa/bb/cc</tt>\"</p>";
-    
-    void customerror(VerticalLayout layout) {
+    @Description("<h1>Custom Error for Date and Time Input</h1>"+
+        "<p>Try inputting something invalid here, like \"<tt>xxxx</tt>\" and \"<tt>aa/bb/cc</tt>\" " +
+        "and then hit <b>Enter</b></p>")
+    public void customerror(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.datefield.popupdatefield.customerror
         // Create a date field with a custom error message for invalid format
         PopupDateField date = new PopupDateField("My Date") {
@@ -161,11 +126,11 @@ public class DateFieldExample extends CustomComponent implements BookExampleBund
         layout.addComponent(new Label("<div style='height: 250px;'/>", ContentMode.HTML));
     }
     
-    public static String parsingDescription =
-        "<h1>Custom Parsing for Parsing Date and Time</h1>"+
-        "<p>Try inputting something invalid here, like \"<tt>xxxx</tt>\" and \"<tt>aa/bb/cc</tt>\"</p>";
-    
-    void parsing(final VerticalLayout layout) {
+    @Description("<h1>Custom Parsing for Parsing Date and Time</h1>" +
+                 "<p>Try inputting something invalid here, like "
+                 + "\"<tt>xxxx</tt>\" and \"<tt>aa/bb/cc</tt>\" "
+                 + "and then hit <b>Enter</b></p>")
+    public void parsing(final VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.datefield.popupdatefield.parsing
         // Create a date field with a custom parsing and a
         // custom error message for invalid format
@@ -215,36 +180,30 @@ public class DateFieldExample extends CustomComponent implements BookExampleBund
 
         // Show the actual date property value
         Label dateValue = new Label(property);
-        dateValue.addValueChangeListener(new Property.ValueChangeListener() {
-            private static final long serialVersionUID = -6561440698247909665L;
-
-            public void valueChange(ValueChangeEvent event) {
-                layout.addComponent(new Label("Buffered value changed"));
-            }
-        });
+        dateValue.addValueChangeListener(event -> // Java 8
+            layout.addComponent(new Label("Buffered value changed")));
         layout.addComponent(dateValue);
 
         // Enable buffering
         date.setBuffered(false);
         date.setInvalidCommitted(false);
 
-        Button validate = new Button("You can click here to validate the date");
-        validate.addClickListener(new Button.ClickListener() {
-            private static final long serialVersionUID = -5365344852447941330L;
-
-            public void buttonClick(ClickEvent event) {
-                date.commit();
-            }
-        });
-        layout.addComponent(validate);
+        layout.addComponent(
+            new Button("You can click here to validate the date",
+                       event -> { // Java 8
+                           try {
+                               date.commit();   
+                           } catch (UnparsableDateString e) {
+                               Notification.show(e.getMessage());
+                           }
+                       }));
     }
 
-    void validation(final VerticalLayout layout) {
+    public void validation(final VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.datefield.popupdatefield.validation
-        // KB: 187 How do I set scroll position of Table? 
         // Have a date field that only accepts dates in
         // the future.
-        final PopupDateField df = new PopupDateField();
+        InlineDateField df = new InlineDateField("Select a Date");
         df.addValidator(new Validator() {
             private static final long serialVersionUID = 1811037448717711897L;
 
@@ -253,7 +212,9 @@ public class DateFieldExample extends CustomComponent implements BookExampleBund
                 Date dateValue = (Date) value;
                 Date now = new Date();
                 
-                if (dateValue.before(now))
+                if (dateValue == null)
+                    throw new InvalidValueException("Must be given");
+                else if (dateValue.before(now))
                     throw new InvalidValueException("Before now");
             }
         });
@@ -262,28 +223,24 @@ public class DateFieldExample extends CustomComponent implements BookExampleBund
         // Do not validate immediately
         df.setBuffered(true);
         
-        Button validate = new Button("Validate");
-        validate.addClickListener(new ClickListener() {
-            private static final long serialVersionUID = 1615654957316768139L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                try {
-                    df.validate();
-                    layout.addComponent(new Label("Date is OK"));
-                } catch (InvalidValueException e) {
-                    layout.addComponent(new Label("Failed because: " + e.getMessage()));
-                }
+        Button validate = new Button("Validate", event -> {// Java 8
+            try {
+                df.validate();
+                layout.addComponent(new Label("Date is OK"));
+            } catch (InvalidValueException e) {
+                layout.addComponent(new Label("Failed because: " + e.getMessage()));
             }
         });
+        validate.setEnabled(false);
+        df.addValueChangeListener(event -> // Java 8
+            validate.setEnabled(df.getValue() != null));
         layout.addComponent(validate);
         // END-EXAMPLE: component.datefield.popupdatefield.validation
+        layout.setSpacing(true);
     }
     
-    public static String inputpromptDescription =
-        "<h1>Input Prompt in PopupDateField</h1>";
-    
-    void inputprompt(VerticalLayout layout) {
+    @Description("<h1>Input Prompt in PopupDateField</h1>")
+    public void inputprompt(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.datefield.popupdatefield.inputprompt
         PopupDateField date = new PopupDateField();
 
@@ -305,28 +262,25 @@ public class DateFieldExample extends CustomComponent implements BookExampleBund
         layout.addComponent(new Label("<div style='height: 250px;'/>", ContentMode.HTML));
     }
 
-    public static String inlinedatefieldDescription =
-        "<h1>InlineDateField</h1>";
-    
-    void inlinedatefield(VerticalLayout layout) {
+    @Description("<h1>InlineDateField</h1>")
+    public void inlinedatefield(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.datefield.inlinedatefield
         // Create a DateField with the default style
         InlineDateField date = new InlineDateField();
             
         // Set the date and time to present
         date.setValue(new java.util.Date());
+
+        layout.addComponent(date);
         // END-EXAMPLE: component.datefield.inlinedatefield
         
         // Always use English locale in the example
         date.setLocale(new Locale("en", "US"));
-
-        layout.addComponent(date);
-        layout.addComponent(new Label("<div style='height: 250px;'/>", ContentMode.HTML));
     }
     
-    void resolution(VerticalLayout layout) {
+    public void resolution(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.datefield.resolution
-        PopupDateField df = new PopupDateField("Select Date");
+        InlineDateField df = new InlineDateField("Select Date");
         df.setResolution(Resolution.SECOND);
         // END-EXAMPLE: component.datefield.resolution
         
@@ -336,18 +290,30 @@ public class DateFieldExample extends CustomComponent implements BookExampleBund
         df.setImmediate(true);
         df.addValueChangeListener(event -> 
             feedback.setValue(event.getProperty().getValue().toString()));
-
-        layout.addComponent(new Label("<div style='height: 250px;'/>", ContentMode.HTML));
     }
 
-    void weeknumbers(VerticalLayout layout) {
+    @Description("Shows how to enable week numbers in the date field. "
+            + "The numbering is only applicable to countries where the week begins on Monday.")
+    public void weeknumbers(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.datefield.weeknumbers
         InlineDateField df = new InlineDateField("Select Date");
         df.setResolution(Resolution.DAY);
         
         // Enable week numbers
         df.setShowISOWeekNumbers(true);
+
+        // In Britain a week starts on Monday (required)
+        df.setLocale(new Locale("en", "GB"));
+        
+        PopupDateField pdf = new PopupDateField("Select Date");
+        pdf.setResolution(Resolution.DAY);
+        
+        // Enable week numbers
+        pdf.setShowISOWeekNumbers(true);
+        pdf.setLocale(new Locale("en", "GB"));
         // END-EXAMPLE: component.datefield.weeknumbers
-        layout.addComponent(df);
+
+        layout.addComponents(df, pdf);
+        layout.addComponent(new Label("<div style='height: 250px;'/>", ContentMode.HTML));
     }
 }
