@@ -16,6 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.vaadin.addon.spreadsheet.Spreadsheet;
 import com.vaadin.book.examples.AnyBookExampleBundle;
+import com.vaadin.book.examples.Description;
 import com.vaadin.data.Item;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.StreamResource;
@@ -43,6 +44,14 @@ public class SpreadsheetManagementExample extends CustomComponent implements Any
     private static final long serialVersionUID = 6075597050447328626L;
 
     @SuppressWarnings("unchecked")
+    @Description(title="Excel Document Management", value=
+            "<p>This is an example of an ultra-simple document management system for Excel files.</p>"
+            + "<p>You can:</p>"
+            + "<ul>"
+            + "  <li>Upload Excel documents to the system</li>"
+            + "  <li>Edit the documents in the Vaadin Spreadsheet component and save them</li>"
+            + "  <li>Download the Excel documents from the system to your workstation and them in Excel</li>"
+            + "</ul>")
     public void upload(VerticalLayout layout) {
         // BEGIN-EXAMPLE: spreadsheet.load.upload
         // BOOK: spreadsheet.using.creating

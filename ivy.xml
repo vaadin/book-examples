@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE ivy-module [
-    <!ENTITY vaadin.version "7.4.5">
+    <!ENTITY vaadin.version "7.4.6">
 
     <!-- This is normally 'default' but 'build' for locally built Vaadin core. -->
     <!ENTITY defaultconf "default">
@@ -57,7 +57,7 @@
        <!-- Disabled: -SNAPSHOT -->
        <dependency org="com.vaadin.addon" name="vaadin-touchkit-agpl" rev="4.0.0" conf="default,widgetset-compile->default"/>
 
-       <dependency org="com.vaadin.addon" name="vaadin-spreadsheet" rev="1.0.0" conf="default,widgetset-compile->default"/>
+       <dependency org="com.vaadin.addon" name="vaadin-spreadsheet" rev="1.1.0.alpha1" conf="default,widgetset-compile->default"/>
        
        <!-- Java Persistence API -->
        <dependency org="org.eclipse.persistence"
@@ -93,7 +93,7 @@
        <dependency org="com.vaadin" name="vaadin-spring" rev="1.0.0.beta2"/>
        <dependency org="javax" name="javaee-api" rev="7.0"/>
        
-       <dependency org="org.vaadin.addons" name="csvalidation" rev="0.5.2" conf="default,widgetset-compile->default"/>
+       <dependency org="org.vaadin.addons" name="csvalidation" rev="0.5.5" conf="default,widgetset-compile->default"/>
        <dependency org="org.vaadin.addons" name="refresher" rev="1.2.1.7"/>
        <dependency org="org.vaadin.addons" name="array-container" rev="0.1.1"/>
        <dependency org="org.vaadin.addons" name="gridview" rev="0.1.0"/>

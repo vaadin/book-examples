@@ -70,7 +70,6 @@ import com.vaadin.book.examples.component.CustomComponentExample;
 import com.vaadin.book.examples.component.CustomFieldExample;
 import com.vaadin.book.examples.component.DateFieldExample;
 import com.vaadin.book.examples.component.EmbeddedExample;
-import com.vaadin.book.examples.component.GeneratedColumnExample;
 import com.vaadin.book.examples.component.ImageExample;
 import com.vaadin.book.examples.component.LabelExample;
 import com.vaadin.book.examples.component.LinkExample;
@@ -94,6 +93,7 @@ import com.vaadin.book.examples.component.grid.ColumnsExample;
 import com.vaadin.book.examples.component.grid.GridDataBindingExample;
 import com.vaadin.book.examples.component.grid.GridEditingExample;
 import com.vaadin.book.examples.component.grid.GridExample;
+import com.vaadin.book.examples.component.grid.GridStyleExample;
 import com.vaadin.book.examples.component.grid.RendererExample;
 import com.vaadin.book.examples.component.properties.CaptionExample;
 import com.vaadin.book.examples.component.properties.DescriptionExample;
@@ -107,6 +107,7 @@ import com.vaadin.book.examples.component.properties.RequiredExample;
 import com.vaadin.book.examples.component.properties.StyleNameExample;
 import com.vaadin.book.examples.component.properties.ValidationExample;
 import com.vaadin.book.examples.component.properties.VisibleExample;
+import com.vaadin.book.examples.component.table.GeneratedColumnExample;
 import com.vaadin.book.examples.component.table.TableEditingExample;
 import com.vaadin.book.examples.component.table.TableExample;
 import com.vaadin.book.examples.datamodel.BeanContainerExample;
@@ -474,10 +475,10 @@ public class BookExampleLibrary {
             new BookExample("component.table.sorting-", "Sorting", TableExample.class),
             new BookExample("component.table.sorting.reversebyindex", "Show in reverse indexed order", TableExample.class),
             new BookExample("component.table.editable-", "Editable Mode", TableExample.class),
-            new BookExample("component.table.editable.editable", "Table in Editable Mode", TableExample.class),
-            new BookExample("component.table.editable.buffering", "Buffering", TableExample.class),
+            new BookExample("component.table.editable.editable", "Table in Editable Mode", TableEditingExample.class),
+            new BookExample("component.table.editable.buffering", "Buffering", TableEditingExample.class),
             new BookExample("component.table.editable.spreadsheet", "Editing on Demand", TableEditingExample.class),
-            new BookExample("component.table.editable.editableheights", "Height of Editables", TableExample.class),
+            new BookExample("component.table.editable.editableheights", "Height of Editables", TableEditingExample.class),
             new BookExample("component.table.editable.adding", "Adding New Items", TableEditingExample.class),
             new BookExample("component.table.editable.longtable", "Editing a Long Table", TableEditingExample.class),
             //new ExampleItem("component.table.editable.combobox", "ComboBoxes in Table (test)", TableExample.class),
@@ -506,6 +507,7 @@ public class BookExampleLibrary {
             new ExampleCtgr("component.treetable-", "TreeTable"),
             new BookExample("component.treetable.basic", "Basic Use", TreeTableExample.class),
             new BookExample("component.treetable.components", "Components in Tree", TreeTableExample.class),
+            new BookExample("component.treetable.editable", "Editable TreeTable", TreeTableExample.class),
             new BookExample("component.treetable.additemafter", "Adding Item After Another", TreeTableExample.class),
             new BookExample("component.treetable.draganddrop", "Drag and Drop", TreeTableExample.class),
             new BookExample("component.treetable.big", "Lots of Data", TreeTableExample.class),
@@ -537,14 +539,14 @@ public class BookExampleLibrary {
             new ExampleCtgr("component.grid.sorting-", "Sorting"),
             new BookExample("component.grid.sorting.sort", "Basic Use", GridExample.class),
             new BookExample("component.grid.sorting.sortdirection", "Sort Direction", GridExample.class),
-            new ExampleCtgr("component.grid.stylegeneration-", "Style Generators"),
-            new BookExample("component.grid.stylegeneration.rowstyle", "Row Styles", GridExample.class),
-            new BookExample("component.grid.stylegeneration.cellstyle", "Cell Styles", GridExample.class),
             new ExampleCtgr("component.grid.editing-", "Editing"),
             new BookExample("component.grid.editing.basic", "Basic Use", GridEditingExample.class),
             new BookExample("component.grid.editing.editorfields", "Setting Editor Fields", GridEditingExample.class),
             new BookExample("component.grid.editing.commit", "Handling Commit", GridEditingExample.class),
             new BookExample("component.grid.editing.fieldgroup", "FieldGroup", GridEditingExample.class),
+            new ExampleCtgr("component.grid.stylegeneration-", "Style Generators"),
+            new BookExample("component.grid.stylegeneration.rowstyle", "Row Styles", GridStyleExample.class),
+            new BookExample("component.grid.stylegeneration.cellstyle", "Cell Styles", GridStyleExample.class),
             new ExampleCtgr("component.menubar-", "MenuBar"),
             new BookExample("component.menubar.basic", "Basic Use", MenuBarExample.class),
             new BookExample("component.menubar.keep", "Keep Selection", MenuBarExample.class),
@@ -655,6 +657,7 @@ public class BookExampleLibrary {
             new BookExample("layout.tabsheet.tabchange", "Handling Tab Changes", TabSheetExample.class),
             new BookExample("layout.tabsheet.preventtabchange", "Reverting Tab Changes", TabSheetExample.class),
             new BookExample("layout.tabsheet.tabclose", "Closing Tabs", TabSheetExample.class),
+            new BookExample("layout.tabsheet.leveling", "Leveling tab heights", TabSheetExample.class),
             new BookExample("layout.tabsheet.styling", "Styling with CSS", TabSheetExample.class),
             new ExampleCtgr("layout.accordion-", "Accordion"),
             new BookExample("layout.accordion.basic", "Basic Use", AccordionExample.class),

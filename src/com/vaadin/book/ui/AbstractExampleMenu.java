@@ -114,7 +114,7 @@ public class AbstractExampleMenu extends CustomComponent {
                             // Have caption only in the beginning of the listings
                             String listingCaption = fragmentNum == 0? "Source Code" : "";
                             
-                            String srcurl = "http://dev.vaadin.com/browser/doc/book-examples/branches/vaadin-7/src" + fragment.getSrcName();
+                            String srcurl = "https://github.com/vaadin/book-examples/tree/master/src" + fragment.getSrcName();
                             SourceListing listing = new SourceListing(listingCaption, srcurl, fragment);
                             verticalListings.addComponent(listing);
 
@@ -176,7 +176,7 @@ public class AbstractExampleMenu extends CustomComponent {
                     // Show associated CSS
                     if (example.getCssFragments() != null && example.getCssFragments().size() > 0) {
                         SourceFragment csscode = example.getCssFragments().get(0);
-                        String srcurl = "http://dev.vaadin.com/browser/doc/book-examples/trunk/WebContent/VAADIN/themes/book-examples/styles.css";
+                        String srcurl = "https://github.com/vaadin/book-examples/blob/master/WebContent/VAADIN/themes/book-examples/book-examples.scss";
                         horizontalOrder.addComponent(new SourceListing("CSS Code", srcurl, csscode));
                     }
                     

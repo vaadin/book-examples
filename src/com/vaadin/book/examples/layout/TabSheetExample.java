@@ -1,45 +1,29 @@
 package com.vaadin.book.examples.layout;
 
-import com.vaadin.book.examples.BookExampleBundle;
+import com.vaadin.book.examples.AnyBookExampleBundle;
+import com.vaadin.book.examples.Description;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Embedded;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.CloseHandler;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.themes.Reindeer;
+import com.vaadin.ui.themes.ValoTheme;
 
-public class TabSheetExample extends CustomComponent implements BookExampleBundle {
+public class TabSheetExample extends CustomComponent implements AnyBookExampleBundle {
     private static final long serialVersionUID = 3321998143334619838L;
 
-    public void init(String context) {
-        VerticalLayout layout = new VerticalLayout();
-        
-        if ("basic".equals(context))
-            basic(layout);
-        else if ("tabchange".equals(context))
-            tabchange(layout);
-        else if ("preventtabchange".equals(context))
-            preventtabchange(layout);
-        else if ("tabclose".equals(context))
-            tabclose(layout);
-        else if ("styling".equals(context))
-            styling(layout);
-        else
-            setCompositionRoot(new Label("Error"));
-        
-        setCompositionRoot(layout);
-    }
-    
-    void basic(VerticalLayout layout) {
+    public void basic(VerticalLayout layout) {
         layout.setWidth("300px");
 
         // BEGIN-EXAMPLE: layout.tabsheet.basic
@@ -73,7 +57,7 @@ public class TabSheetExample extends CustomComponent implements BookExampleBundl
         
     }
     
-    void tabchange(VerticalLayout layout) {
+    public void tabchange(VerticalLayout layout) {
         layout.setWidth("300px");
 
         // BEGIN-EXAMPLE: layout.tabsheet.tabchange
@@ -110,7 +94,7 @@ public class TabSheetExample extends CustomComponent implements BookExampleBundl
         layout.addComponent(tabsheet);
     }
 
-    void preventtabchange(VerticalLayout layout) {
+    public void preventtabchange(VerticalLayout layout) {
         layout.setWidth("300px");
 
         // BEGIN-EXAMPLE: layout.tabsheet.preventtabchange
@@ -161,7 +145,7 @@ public class TabSheetExample extends CustomComponent implements BookExampleBundl
         layout.addComponent(tabsheet);
     }
 
-    void tabclose(VerticalLayout layout) {
+    public void tabclose(VerticalLayout layout) {
         layout.setWidth("300px");
 
         // BEGIN-EXAMPLE: layout.tabsheet.tabclose
@@ -197,53 +181,113 @@ public class TabSheetExample extends CustomComponent implements BookExampleBundl
         layout.addComponent(tabsheet);
     }
 
-    void styling(VerticalLayout layout) {
+    @Description("We use a crazy trick here to make two tabs have the same automatic height")
+    public void leveling(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: layout.tabsheet.leveling
+        class Tab1Content extends Panel {
+            public Tab1Content(boolean collapsed) {
+                addStyleName(ValoTheme.PANEL_BORDERLESS);
+
+                setContent(new VerticalLayout(
+                    new Label("Here's something"),
+                    new Label("Some content"),
+                    new Label("To give it more height")));
+
+                if (collapsed)
+                    addStyleName("collapsed");
+            }
+        }
+
+        class Tab2Content extends Panel {
+            public Tab2Content(boolean collapsed) {
+                addStyleName(ValoTheme.PANEL_BORDERLESS);
+
+                setContent(new VerticalLayout(
+                    new Label("Here's something")));
+
+                if (collapsed)
+                    addStyleName("collapsed");
+            }
+        }
+        
+        TabSheet sheet = new TabSheet();
+        sheet.setWidthUndefined();
+
+        sheet.addTab(new HorizontalLayout(
+            new Tab1Content(false), new Tab2Content(true)),
+            "Tab One");
+
+        sheet.addTab(new HorizontalLayout(
+            new Tab1Content(true), new Tab2Content(false)),
+            "Tab Too");
+        
+        Panel border = new Panel(sheet);
+        border.setWidthUndefined();
+        layout.addComponent(border);
+        // END-EXAMPLE: layout.tabsheet.leveling
+    }
+    
+    public void styling(VerticalLayout layout) {
         layout.setWidth("300px");
 
         // BEGIN-EXAMPLE: layout.tabsheet.styling
         TabSheet borderlesssheet = new TabSheet();
-        borderlesssheet.setCaption("Borderless TabSheet");
-        borderlesssheet.addStyleName(Reindeer.TABSHEET_BORDERLESS);
+        borderlesssheet.setCaption("Centered Tabs");
+        borderlesssheet.addStyleName(ValoTheme.TABSHEET_CENTERED_TABS);
         borderlesssheet.addTab(new Label("Some content"), "Tab 1");
         borderlesssheet.addTab(new Label("Some content"), "Tab 2");
         borderlesssheet.addTab(new Label("Some content"), "Tab 3");
         layout.addComponent(borderlesssheet);
 
         TabSheet smallsheet = new TabSheet();
-        smallsheet.setCaption("Small TabSheet");
-        smallsheet.addStyleName(Reindeer.TABSHEET_SMALL);
+        smallsheet.setCaption("TabSheet with a Compact Tab Bar");
+        smallsheet.addStyleName(ValoTheme.TABSHEET_COMPACT_TABBAR);
         smallsheet.addTab(new Label("Some content"), "Tab 1");
         smallsheet.addTab(new Label("Some content"), "Tab 2");
         smallsheet.addTab(new Label("Some content"), "Tab 3");
         layout.addComponent(smallsheet);
 
         TabSheet minsheet = new TabSheet();
-        minsheet.setCaption("Minimal TabSheet");
-        minsheet.addStyleName(Reindeer.TABSHEET_MINIMAL);
+        minsheet.setCaption("Equally Wide Tabs");
+        minsheet.addStyleName(ValoTheme.TABSHEET_EQUAL_WIDTH_TABS);
         minsheet.addTab(new Label("Some content"), "Tab 1");
         minsheet.addTab(new Label("Some content"), "Tab 2");
         minsheet.addTab(new Label("Some content"), "Tab 3");
         layout.addComponent(minsheet);
 
         TabSheet hoversheet = new TabSheet();
-        hoversheet.setCaption("Hover-Closable TabSheet");
-        hoversheet.addStyleName(Reindeer.TABSHEET_HOVER_CLOSABLE);
+        hoversheet.setCaption("Framed TabSheet");
+        hoversheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
         hoversheet.addTab(new Label("Some content"), "Tab 1");
         hoversheet.addTab(new Label("Some content"), "Tab 2");
         hoversheet.addTab(new Label("Some content"), "Tab 3");
-        for (Component c: hoversheet)
-            hoversheet.getTab(c).setClosable(true);
         layout.addComponent(hoversheet);
 
+        TabSheet iconsheet = new TabSheet();
+        iconsheet.setCaption("TabSheet with Icons on Top");
+        iconsheet.addStyleName(ValoTheme.TABSHEET_ICONS_ON_TOP);
+        iconsheet.addTab(new Label("Some content"), "Tab 1");
+        iconsheet.addTab(new Label("Some content"), "Tab 2");
+        iconsheet.addTab(new Label("Some content"), "Tab 3");
+        layout.addComponent(iconsheet);
+
         TabSheet closheet = new TabSheet();
-        closheet.setCaption("Selected-Closable TabSheet");
-        closheet.addStyleName(Reindeer.TABSHEET_SELECTED_CLOSABLE);
+        closheet.setCaption("Only Selected Tab is Closable");
+        closheet.addStyleName(ValoTheme.TABSHEET_ONLY_SELECTED_TAB_IS_CLOSABLE);
         closheet.addTab(new Label("Some content"), "Tab 1");
         closheet.addTab(new Label("Some content"), "Tab 2");
         closheet.addTab(new Label("Some content"), "Tab 3");
         for (Component c: closheet)
             closheet.getTab(c).setClosable(true);
         layout.addComponent(closheet);
+
+        TabSheet padsheet = new TabSheet();
+        padsheet.setCaption("Padded TabSheet");
+        padsheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
+        padsheet.addTab(new Label("Some content"), "Tab 1");
+        padsheet.addTab(new Label("Some content"), "Tab 2");
+        padsheet.addTab(new Label("Some content"), "Tab 3");
+        layout.addComponent(padsheet);
         // END-EXAMPLE: layout.tabsheet.styling
         
         layout.setSpacing(true);

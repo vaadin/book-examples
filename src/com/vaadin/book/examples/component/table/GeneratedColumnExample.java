@@ -1,4 +1,4 @@
-package com.vaadin.book.examples.component;
+package com.vaadin.book.examples.component.table;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -6,7 +6,8 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Locale;
 
-import com.vaadin.book.examples.BookExampleBundle;
+import com.vaadin.book.examples.AnyBookExampleBundle;
+import com.vaadin.book.examples.Description;
 import com.vaadin.data.Container;
 import com.vaadin.data.Container.Indexed;
 import com.vaadin.data.Property;
@@ -42,33 +43,18 @@ import com.vaadin.ui.themes.ValoTheme;
  * 
  * @author magi
  */
-public class GeneratedColumnExample extends CustomComponent implements BookExampleBundle {
+public class GeneratedColumnExample extends CustomComponent implements AnyBookExampleBundle {
     private static final long serialVersionUID = -2916085990831946682L;
 
-    public void init (String context) {
-        VerticalLayout layout = new VerticalLayout();
-
-        if ("layoutclick".equals(context))
-            layoutclick(layout);
-        else if ("extended".equals(context))
-            extended(layout);
-        else if ("accessing".equals(context))
-            accessing(layout);
-        
-        setCompositionRoot(layout);
-    }
-
-    public final static String layoutclickDescription =
-        "<h1>Problem with Selection in a Generated Column with a Layout</h1>" +
+    @Description(title="<h1>Problem with Selection in a Generated Column with a Layout</h1>", value=
         "<p>If you have certain layouts in a generated column, they " +
         "prevent selection in the table. You need to define a " +
         "<b>LayoutClickListener</b> for the layouts and, when clicked, " +
-        "select the table row.</p>";
-
-    void layoutclick(VerticalLayout layout) {
+        "select the table row.</p>")
+    public void layoutclick(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.table.generatedcolumns.layoutclick
         // Have a table with one regular column
-        final Table table = new Table();
+        Table table = new Table();
         table.addContainerProperty("number", Integer.class, null);
         
         // Have some data in the table
@@ -191,24 +177,16 @@ public class GeneratedColumnExample extends CustomComponent implements BookExamp
      * 
      * This generator produces non-editable components. 
      **/
-    class NoneditableDateGenerator implements Table.ColumnGenerator {
-        private static final long serialVersionUID = 3741451390162331681L;
-
-        /**
-         * Generates the cell containing the Date value. The column is
-         * irrelevant in this use case.
-         */
-        public Component generateCell(Table source, Object itemId,
-                Object columnId) {
-            Property<?> prop = source.getItem(itemId).getItemProperty(columnId);
-            if (prop.getType().equals(Date.class)) {
-                Label label = new Label(String.format("%tF",
-                        new Object[] { (Date) prop.getValue() }));
-                return label;
-            }
-
-            return null;
+    public Component generateNonEditableCell(Table source, Object itemId,
+        Object columnId) {
+        Property<?> prop = source.getItem(itemId).getItemProperty(columnId);
+        if (prop.getType().equals(Date.class)) {
+            Label label = new Label(String.format("%tF",
+                    new Object[] { (Date) prop.getValue() }));
+            return label;
         }
+    
+        return null;
     }
 
     /** Table column generator for calculating price column. */
@@ -331,7 +309,7 @@ public class GeneratedColumnExample extends CustomComponent implements BookExamp
             // ...and just set them as immediate
             ((AbstractField<?>) field).setImmediate(true);
             
-            // Modify the width of TextFields
+            // Also modify the width of TextFields
             if (field instanceof TextField)
                 field.setWidth("100%");
             
@@ -373,24 +351,29 @@ public class GeneratedColumnExample extends CustomComponent implements BookExamp
         }
     }
 
-    void extended(VerticalLayout layout) {
+    public void extended(VerticalLayout layout) {
         // Create a data source and bind it to a table
-        BeanItemContainer<FillUp> data = new BeanItemContainer<FillUp>(FillUp.class); 
+        BeanItemContainer<FillUp> data =
+            new BeanItemContainer<FillUp>(FillUp.class); 
         Table table = new Table(null, data);
         table.addStyleName(ValoTheme.TABLE_COMPACT);
         table.addStyleName("generatedcolumntable");
         table.setHeight("300px");
 
+        // Define the generated columns and their generators.
+        table.addGeneratedColumn("date", // Java 8
+                                 this::generateNonEditableCell);
+        table.addGeneratedColumn("price",
+                                 new PriceColumnGenerator());
+        table.addGeneratedColumn("consumption",
+                                 new ConsumptionColumnGenerator());
+        table.addGeneratedColumn("dailycost",
+                                 new DailyCostColumnGenerator());
+        
         // Define formatters for columns needing that
         table.setConverter("quantity", new ValueFormatter("%.2f l"));
         table.setConverter("total",    new ValueFormatter("%.2f €"));
 
-        // Define the generated columns and their generators.
-        table.addGeneratedColumn("date",        new NoneditableDateGenerator());
-        table.addGeneratedColumn("price",       new PriceColumnGenerator());
-        table.addGeneratedColumn("consumption", new ConsumptionColumnGenerator());
-        table.addGeneratedColumn("dailycost",   new DailyCostColumnGenerator());
-        
         // Generated columns are automatically placed after property columns, so
         // we have to set the order of the columns explicitly.
         table.setVisibleColumns(new Object[] { "date", "quantity", "price",
@@ -450,7 +433,7 @@ public class GeneratedColumnExample extends CustomComponent implements BookExamp
     }
     // END-EXAMPLE: component.table.generatedcolumns.extended
 
-    void accessing(final VerticalLayout vertical) {
+    public void accessing(final VerticalLayout vertical) {
         HorizontalLayout layout = new HorizontalLayout();
         layout.setSpacing(true);
         vertical.addComponent(layout);

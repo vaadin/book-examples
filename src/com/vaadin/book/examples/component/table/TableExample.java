@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Formatter;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
@@ -18,7 +17,6 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
@@ -30,8 +28,6 @@ import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.Resource;
-import com.vaadin.server.UserError;
-import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
@@ -42,7 +38,6 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.DateField;
 import com.vaadin.ui.DefaultFieldFactory;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Form;
@@ -86,14 +81,6 @@ public class TableExample extends CustomComponent implements BookExampleBundle {
             layouts();
         else if ("reversebyindex".equals(context))
             reversebyindex(layout);
-        else if ("editable".equals(context))
-            editable();
-        else if ("buffering".equals(context))
-            buffering(layout);
-        else if ("editableheights".equals(context))
-            editableHeights();
-        else if ("combobox".equals(context))
-            combobox();
         else if ("ratios".equals(context))
             ratios();
         else if ("generatedcolumn".equals(context))
@@ -691,298 +678,6 @@ public class TableExample extends CustomComponent implements BookExampleBundle {
         setCompositionRoot(layout);
     }
     
-    void editable() {
-        VerticalLayout layout = new VerticalLayout();
-
-        // BEGIN-EXAMPLE: component.table.editable.editable
-        // Table with a component column in non-editable mode
-        final Table table = new Table("The Important People");
-        table.addContainerProperty("Name", String.class, null);
-        table.addContainerProperty("Born", Date.class, null);
-        table.addContainerProperty("Alive", Boolean.class, null);
-        
-        // Insert this data
-        Object people[][] = {{"Galileo",  1564, false},
-                             {"Monnier",  1715, false},
-                             {"Väisälä",  1891, false},
-                             {"Oterma",   1915, false},
-                             {"Valtaoja", 1951, true}};
-        
-        // Insert the data, transforming the year number to Date object
-        for (int i=0; i<people.length; i++) {
-            Object item[] = {people[i][0],
-                new GregorianCalendar((Integer)people[i][1], 0, 1).getTime(),
-                people[i][2]};
-            table.addItem(item, new Integer(i));
-        }
-        table.setPageLength(table.size());
-        
-        // Set a custom field factory that overrides the default factory
-        table.setTableFieldFactory(new DefaultFieldFactory() {
-            private static final long serialVersionUID = 8585461394836108250L;
-
-            @Override
-            public Field<?> createField(Container container, Object itemId,
-                    Object propertyId, Component uiContext) {
-                // Create fields by their class
-                Class<?> cls = container.getType(propertyId);
-
-                // Create a DateField with year resolution for dates
-                if (cls.equals(Date.class)) {
-                    DateField df = new DateField();
-                    df.setResolution(Resolution.YEAR);
-                    return df;
-                }
-                
-                // Create a CheckBox for Boolean fields
-                if (cls.equals(Boolean.class))
-                    return new CheckBox();
-                
-                // Otherwise use the default field factory 
-                return super.createField(container, itemId, propertyId,
-                                         uiContext);
-            }
-        });
-        
-        // Put the table in editable mode
-        table.setEditable(true);
-        // END-EXAMPLE: component.table.editable.editable
-        table.setSelectable(true);
-        layout.addComponent(table);
-
-        // Allow switching to non-editable mode
-        final CheckBox editable = new CheckBox("Table is editable", true);
-        editable.addValueChangeListener(new Property.ValueChangeListener() {
-            private static final long serialVersionUID = 6291942958587745232L;
-
-            public void valueChange(ValueChangeEvent event) {
-                table.setEditable((Boolean) editable.getValue());
-            }
-        });
-        editable.setImmediate(true);
-        layout.addComponent(editable);        
-        
-        setCompositionRoot(layout);
-    }
-
-    void buffering(VerticalLayout layout) {
-        // BEGIN-EXAMPLE: component.table.editable.buffering
-        // The data model + some data
-        BeanItemContainer<Bean> beans =
-                new BeanItemContainer<Bean>(Bean.class);
-        beans.addBean(new Bean("Mung bean",   1452.0));
-        beans.addBean(new Bean("Chickpea",    686.0));
-        beans.addBean(new Bean("Lentil",      1477.0));
-        beans.addBean(new Bean("Common bean", 129.0));
-        beans.addBean(new Bean("Soybean",     1866.0));
-        beans.addItem(new Bean("Java Bean",   0.0));
-        
-        // This is the buffered editable table
-        final Table editable = new Table("Editable");
-        editable.setEditable(true);
-        editable.setBuffered(true);
-        editable.setContainerDataSource(beans);
-        
-        // Set all fields as immediate
-        editable.setTableFieldFactory(new DefaultFieldFactory() {
-            private static final long serialVersionUID = 3552375110999556704L;
-
-            @Override
-             public Field<?> createField(Container container, Object itemId,
-                                      Object propertyId, Component uiContext) {
-                AbstractField<?> field = (AbstractField<?>)
-                    super.createField(container, itemId,
-                                      propertyId, uiContext);
-                field.setImmediate(true);
-                field.setBuffered(true);
-                return field;
-             } 
-        });
-        
-        final Button save = new Button("Save");
-        save.addClickListener(new ClickListener() {
-            private static final long serialVersionUID = 2279611560864466987L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                try {
-                    save.setComponentError(null); // Clear
-                    editable.commit();
-                } catch (InvalidValueException e) {
-                    save.setComponentError(new UserError("Not valid"));
-                }
-            }
-        });
-        
-        // Read-only table
-        Table rotable = new Table("Rotable");
-        rotable.setContainerDataSource(beans);
-        // END-EXAMPLE: component.table.editable.buffering
-        
-        HorizontalLayout hor = new HorizontalLayout();
-        hor.addComponent(editable);
-        hor.addComponent(rotable);
-        hor.setSpacing(true);
-        layout.addComponent(hor);
-        layout.addComponent(save);
-    }
-
-    public static String editableheightsDescription =
-        "<h1>Height of Components in Editable Table</h1>"+
-        "<p>TextFields components are normally a bit lower in Table than usually, "+
-        "as it makes the table more compact and, more importantly, prevents change of "+
-        "line height when switching between editable and non-editable mode. "+
-        "Some components do not have similar "+
-        "adjustments, which can make the table rows uneven.</p>"+
-        "<p><b>Solution 1:</b> Override the CSS rules that make TextFields low in Table. (Done in the example below)</p>"+
-        "<p><b>Solution 2:</b> Use CSS to make the other components (DateField, ComboBox) the same height as TextField</p>";
-
-    void editableHeights() {
-        VerticalLayout layout = new VerticalLayout();
-
-        // BEGIN-EXAMPLE: component.table.editable.editableheights
-        // Table with some typical data types
-        final Table table = new Table("Edible Table");
-        table.addContainerProperty("Birthday", Date.class, null);
-        table.addContainerProperty("Nationality", String.class, null);
-        table.addContainerProperty("Name", String.class, null);
-        
-        // Some example data
-        Object people[][] = {
-            {new GregorianCalendar(1564, 0, 0).getTime(), "Italian", "Galileo"},
-            {new GregorianCalendar(1715, 0, 0).getTime(), "French", "Monnier"},
-            {new GregorianCalendar(1891, 0, 0).getTime(), "Finnish", "Väisälä"},
-            {new GregorianCalendar(1915, 0, 0).getTime(), "Finnish", "Oterma"},
-            {new GregorianCalendar(1951, 0, 0).getTime(), "Finnish", "Valtaoja"}};
-        
-        // Insert the data
-        for (int i=0; i<people.length; i++) {
-            Object obj[] = {people[i][0], people[i][1],
-                            people[i][2]};
-            table.addItem(obj, new Integer(i));
-        }
-        table.setPageLength(table.size());
-        
-        // Set a custom field factory that overrides the default factory
-        table.setTableFieldFactory(new DefaultFieldFactory() {
-            private static final long serialVersionUID = -3301080798105311480L;
-
-            @Override
-            public Field<?> createField(Container container, Object itemId,
-                    Object propertyId, Component uiContext) {
-                if ("Nationality".equals(propertyId)) {
-                    ComboBox select = new ComboBox();
-                    select.addItem("Italian");
-                    select.addItem("French");
-                    select.addItem("Finnish");
-                    return select;
-                }
-                
-                return super.createField(container, itemId, propertyId, uiContext);
-            }
-        });
-        table.setEditable(true);
-
-        // Allow switching to non-editable mode
-        final CheckBox editable = new CheckBox("Table is editable", true);
-        editable.addValueChangeListener(new Property.ValueChangeListener() {
-            private static final long serialVersionUID = 6291942958587745232L;
-
-            public void valueChange(ValueChangeEvent event) {
-                table.setEditable((Boolean) editable.getValue());
-            }
-        });
-        editable.setImmediate(true);
-        // END-EXAMPLE: component.table.editable.editableheights
-
-        table.addStyleName("editableexample");
-
-        layout.addComponent(table);
-        layout.addComponent(editable);        
-        
-        setCompositionRoot(layout);
-    }
-
-    void combobox() {
-        VerticalLayout layout = new VerticalLayout();
-
-        // BEGIN-EXAMPLE: component.table.editable.combobox
-        final Table table = new Table("My Table");
-        table.addContainerProperty("Name", String.class, null);
-        table.addContainerProperty("Classification", String.class, null);
-        table.addContainerProperty("Population", String.class, null);
-        for (int col=3; col<15; col++)
-            table.addContainerProperty("Col "+col, String.class, null);
-        
-        class MyFactory implements TableFieldFactory {
-            private static final long serialVersionUID = 3024342074320948062L;
-
-            public Field<?> createField(Container container, Object itemId,
-                                     Object propertyId, Component uiContext) {
-                ComboBox box = new ComboBox();
-                String[] items = null;
-                if ("Name".equals(propertyId))
-                    items = new String[] {"Mercury", "Venus", "Earth", "Mars",
-                    		"Jupiter", "Saturn", "Uranus", "Neptune", "Pluto",
-                    		"Ceres", "Eris"};
-                else if ("Classification".equals(propertyId))
-                    items = new String[] {"Planet", "Minor Planet", "Plutoid",
-                        "Dwarf Planet"};
-                else if ("Population".equals(propertyId))
-                    items = new String[] {"Nobody", "People", "Women", "Men",
-                        "Martians", "Monoliths", "Plutonians"};
-                else
-                    return new TextField();
-                
-                for (int pl=0; pl<items.length; pl++)
-                    box.addItem(items[pl]);
-                return box;
-            }
-        }
-        table.setTableFieldFactory(new MyFactory());
-        
-        String bodies[][] = {
-                {"Mercury", "Planet", "Nobody"},
-                {"Venus", "Planet", "Women"},
-                {"Earth", "Planet", "People"},
-                {"Mars", "Planet", "Men"},
-                {"Ceres", "Minor Planet", "Nobody"},
-                {"Jupiter", "Planet", "Monoliths"},
-                {"Saturn", "Planet", "Nobody"},
-                {"Uranus", "Planet", "Nobody"},
-                {"Neptune", "Planet", "Nobody"},
-                {"Pluto", "Plutoid", "Plutonians"},
-                {"Eris", "Minor Planet", "Plutonians"}};
-        for (int body=0; body<bodies.length; body++) {
-            String item[] = new String[15];
-            for (int col=0; col<item.length; col++)
-                if (col<bodies[body].length)
-                    item[col] = bodies[body][col];
-                else
-                    item[col] = "Col " + col;
-            table.addItem(item, item[0]);
-        }
-
-        layout.addComponent(table);
-
-        final CheckBox editable = new CheckBox("Editable", true);
-        editable.addValueChangeListener(new Property.ValueChangeListener() {
-            private static final long serialVersionUID = -7187332079691427001L;
-
-            public void valueChange(ValueChangeEvent event) {
-                table.setEditable((Boolean) editable.getValue());
-            }
-        });
-        editable.setImmediate(true);
-        layout.addComponent(editable);
-        
-        table.setEditable(true);
-        
-        // END-EXAMPLE: component.table.editable.combobox
-        
-        setCompositionRoot(layout);
-    }
-
     void ratios() {
         VerticalLayout layout = new VerticalLayout();
 

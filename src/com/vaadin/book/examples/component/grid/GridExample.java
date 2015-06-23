@@ -340,54 +340,6 @@ public class GridExample extends CustomComponent implements AnyBookExampleBundle
         // END-EXAMPLE: component.grid.sorting.sortdirection
     }
 
-    @SuppressWarnings("unchecked")
-    public void rowstyle(VerticalLayout layout) {
-        // BEGIN-EXAMPLE: component.grid.stylegeneration.rowstyle
-        // Have a container
-        IndexedContainer container = exampleDataSource();
-        container.addContainerProperty("alive", Boolean.class, null);
-        for (Object itemId: container.getItemIds())
-            container.getContainerProperty(itemId, "alive")
-                     .setValue(Math.random() > 0.5);
-
-        // Create a grid bound to it
-        Grid grid = new Grid(container);
-        grid.setSelectionMode(SelectionMode.NONE);
-        grid.setWidth("500px");
-        grid.setHeight("300px");
-
-        grid.setRowStyleGenerator(rowRef -> {// Java 8
-            if (! ((Boolean) rowRef.getItem()
-                                   .getItemProperty("alive")
-                                   .getValue()).booleanValue())
-                return "grayed";
-            else
-                return null;
-        });
-
-        layout.addComponent(grid);
-        // END-EXAMPLE: component.grid.stylegeneration.rowstyle
-    }
-
-    public void cellstyle(VerticalLayout layout) {
-        // BEGIN-EXAMPLE: component.grid.stylegeneration.cellstyle
-        // Have a sortable container
-        IndexedContainer container = exampleDataSource();
-
-        // Create a grid bound to it
-        Grid grid = new Grid(container);
-        grid.setSelectionMode(SelectionMode.NONE);
-        grid.setWidth("500px");
-        grid.setHeight("300px");
-
-        grid.setCellStyleGenerator(cellRef -> // Java 8
-            "year".equals(cellRef.getPropertyId())?
-                "rightalign" : null);
-
-        layout.addComponent(grid);
-        // END-EXAMPLE: component.grid.stylegeneration.cellstyle
-    }
-    
     public void editing(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.grid.editing
         Grid grid = new Grid(exampleDataSource());

@@ -821,11 +821,15 @@ $borderthickness: 5px;
 	/* TableExample  */
 	/*****************/
 	/* BEGIN-EXAMPLE: component.table.editable.editableheights */
-	.v-table-editableexample
-	.v-table-cell-wrapper input.v-textfield {
-		margin-bottom: 0px; /* Normally -2px in table */
-	    margin-top:    0px; /* Normally -2px in table */
-	    height: 19px;       /* Not auto */
+	.v-table-editableexample {
+		// No adjustments needed in Valo! No reason for the example!
+		/*
+		.v-table-cell-wrapper input.v-textfield {
+			margin-bottom: 0px; // Normally -2px in table
+		    margin-top:    0px; // Normally -2px in table
+		    height: 19px;       // Not auto
+		}
+		*/
 	}
 	/* END-EXAMPLE: component.table.editable.editableheights */
 	
@@ -1379,18 +1383,26 @@ $borderthickness: 5px;
         text-align: center;
     }
 
-    .v-grid-cell.rightalign {
-        text-align: right;
-    }
-
-    .v-grid-row.grayed {
-        color: gray;
-    }
-    
     .v-grid-cell .v-textfield {
         margin-top: 6px;
     }
     // END-EXAMPLE: component.grid.features
+
+    /* BEGIN-EXAMPLE: component.grid.stylegeneration.rowstyle */
+    .v-grid-row.grayed {
+        color: gray;
+    }
+    /* END-EXAMPLE: component.grid.stylegeneration.rowstyle */
+
+    /* BEGIN-EXAMPLE: component.grid.stylegeneration.cellstyle */
+    .v-grid-cell.rightalign {
+        text-align: right;
+    }
+
+    .v-grid-cell.supercell {
+        background: pink;
+    }
+    /* END-EXAMPLE: component.grid.stylegeneration.cellstyle */
 
     /* BEGIN-EXAMPLE: component.grid.renderer.image */
     // Set the row height to fit the pictures
@@ -1438,4 +1450,14 @@ $borderthickness: 5px;
     // BEGIN-EXAMPLE: component.button.styles
     .v-csslayout-spacing .v-button {margin-right: 5px}
     // END-EXAMPLE: component.button.styles
+
+    /********************/
+    /* TabSheetExample  */
+    /********************/
+    // BEGIN-EXAMPLE: layout.tabsheet.leveling
+    .v-panel-collapsed {
+        width: 0px;
+        overflow: hidden;
+    }
+    // END-EXAMPLE: layout.tabsheet.leveling
 }

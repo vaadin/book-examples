@@ -10,15 +10,16 @@
         <!-- Use EclipseLink as the Persistence Provider -->
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         
+        <!-- Doesn't seem to have any effect -->
+        <!--  <non-jta-data-source>jdbc/h2/mem/</non-jta-data-source> -->
+        <non-jta-data-source>jdbc/h2/mem/</non-jta-data-source>
+
         <!-- List persistent classes explicitly -->
         <!-- exclude-unlisted-classes>false</exclude-unlisted-classes>  -->
         <class>com.vaadin.book.examples.addons.jpacontainer.Person</class>
         <class>com.vaadin.book.examples.addons.jpacontainer.Country</class>
         <class>com.vaadin.book.examples.addons.jpacontainer.CelestialBody</class>
         <class>com.vaadin.book.examples.component.MyCalendarEvent</class>
-
-        <!-- Doesn't seem to have any effect -->
-        <non-jta-data-source>jdbc/h2/mem/</non-jta-data-source>
 
         <properties>
             <!-- Database Connection -->  

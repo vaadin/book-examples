@@ -23,9 +23,14 @@ import com.vaadin.ui.AbstractSelect.VerticalLocationIs;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.DefaultFieldFactory;
+import com.vaadin.ui.Field;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.TableDragMode;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.TreeTable;
 import com.vaadin.ui.VerticalLayout;
@@ -110,6 +115,60 @@ public class TreeTableExample extends CustomComponent implements AnyBookExampleB
         // END-EXAMPLE: component.treetable.components
         
         layout.addComponent(ttable);
+    }
+
+    public void editable(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: component.treetable.editable
+        TreeTable ttable = new TreeTable("My TreeTable");
+        ttable.addContainerProperty("name", String.class, "");
+        ttable.addContainerProperty("city", String.class, "");
+        ttable.setWidth("400px");
+        ttable.setPageLength(5);
+        
+        // Create the tree nodes
+        ttable.addItem(new Object[]{"Root", "Helsinki"}, 0);
+        ttable.addItem(new Object[]{"Branch 1", "Tampere"}, 1);
+        ttable.addItem(new Object[]{"Branch 2", "Turku"}, 2);
+        ttable.addItem(new Object[]{"Leaf 1", "Piikkiö"}, 3);
+        ttable.addItem(new Object[]{"Leaf 2", "Parainen"}, 4);
+        ttable.addItem(new Object[]{"Leaf 3", "Raisio"}, 5);
+        ttable.addItem(new Object[]{"Leaf 4", "Naantali"}, 6);
+        
+        // Set the hierarchy
+        ttable.setParent(1, 0);
+        ttable.setParent(2, 0);
+        ttable.setParent(3, 1);
+        ttable.setParent(4, 1);
+        ttable.setParent(5, 2);
+        ttable.setParent(6, 2);
+        
+        // Counter for counting field factory calls
+        Label counter = new Label("No calls yet");
+
+        // Allow editing
+        ttable.setEditable(true);
+        ttable.setTableFieldFactory(new DefaultFieldFactory() {
+            private static final long serialVersionUID = 7171599235716520257L;
+            
+            int callCount = 0;
+
+            @SuppressWarnings({"unchecked", "rawtypes"})
+            @Override
+            public Field createField(Container container, Object itemId,
+                Object propertyId, Component uiContext) {
+                counter.setValue("Field factory called " + callCount++ + " times");
+                
+                // Create a short TextField for all columns
+                TextField tf = new TextField();
+                tf.setColumns(10);
+                return tf;
+            }
+        });
+        
+        // END-EXAMPLE: component.treetable.editable
+        
+        layout.addComponents(ttable, counter);
+        layout.setSpacing(true);
     }
 
     public void additemafter(VerticalLayout layout) {

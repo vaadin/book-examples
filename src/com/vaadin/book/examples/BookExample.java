@@ -96,8 +96,13 @@ public class BookExample extends CaptionedExampleItem {
             try {
                 Method method = exclass.getMethod(context, VerticalLayout.class);
                 Description descAnnotation = method.getDeclaredAnnotation(Description.class);
-                if (descAnnotation != null)
-                    description = descAnnotation.value();
+                if (descAnnotation != null) {
+                    description = "";
+                    if (! descAnnotation.title().isEmpty())
+                        description += "<h1>" + descAnnotation.title() + "</h1>\n";
+                    if (! descAnnotation.value().isEmpty())
+                        description += descAnnotation.value();
+                }
             } catch (NoSuchMethodException e) {
                 // It fails for all private methods in the old-style example bundles
             }
