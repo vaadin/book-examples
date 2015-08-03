@@ -1,17 +1,18 @@
 package com.vaadin.book.examples.layout;
 
 import java.util.Iterator;
+import java.util.function.Consumer;
 
 import com.vaadin.book.examples.AnyBookExampleBundle;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -70,50 +71,51 @@ public class SubWindowExample extends CustomComponent implements AnyBookExampleB
         // BEGIN-EXAMPLE: layout.sub-window.inheritance
         // Define a sub-window by inheritance
         class MySub extends Window {
-            private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = -8852697079889700064L;
 
-            public MySub() {
-                super("Subs on Sale"); // Set window caption
+            public MySub(String value, Consumer<String> save) {
+                super("Subs for Sale"); // Set window caption
                 center();
 
-                // Some basic content for the window
-                VerticalLayout content = new VerticalLayout();
-                content.addComponent(new Label("Just say it's OK!"));
-                content.setMargin(true);
-                setContent(content);
-                
-                // Disable the close button
+                setModal(true);
                 setClosable(false);
+                setResizable(false);
 
-                // Trivial logic for closing the sub-window
-                Button ok = new Button("OK");
-                ok.addClickListener(new ClickListener() {
-                    private static final long serialVersionUID = 1L;
-
-                    public void buttonClick(ClickEvent event) {
-                        // Close the sub-window
-                        close();
-                    }
+                VerticalLayout content = new VerticalLayout();
+                content.setMargin(true);
+                content.setSpacing(true);
+                
+                TextField valueEditor = new TextField("Value to edit", value);
+                
+                // Trivial logic for saving the edited data
+                Button saveButton = new Button("Save", (click) -> {
+                    // Close the sub-window
+                    close();
+                    
+                    save.accept(valueEditor.getValue());
                 });
-                content.addComponent(ok);
+                
+                content.addComponents(valueEditor, saveButton);
+
+                setContent(content);
             }
         }
         
-        // Some UI logic to open the sub-window
-        final Button open = new Button("Open Sub-Window");
-        open.addClickListener(new ClickListener() {
-            private static final long serialVersionUID = 5249151941312555613L;
-
-            public void buttonClick(ClickEvent event) {
-                MySub sub = new MySub();
-                
-                // Add it to the root component
-                UI.getCurrent().addWindow(sub);
-            }
+        // Have some application data to edit
+        Label value = new Label("<edit this>");
+        
+        // UI logic to open the sub-window and process save action
+        Button edit = new Button("Edit");
+        edit.addClickListener((click) -> {
+            UI.getCurrent().addWindow(new MySub(value.getValue(),
+                (newValue) -> {
+                    value.setValue(newValue);
+                    Notification.show("Saved");
+                }));
         });
         // END-EXAMPLE: layout.sub-window.inheritance
         
-        layout.addComponent(open);
+        layout.addComponents(value, edit);
         
         Label space = new Label(" ");
         space.setHeight("300px");

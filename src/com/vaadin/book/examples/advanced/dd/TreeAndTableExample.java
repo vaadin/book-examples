@@ -291,7 +291,8 @@ public class TreeAndTableExample extends CustomComponent implements BookExampleB
                     
                     // Copy the property values from the BeanItem to the container item
                     for (Object propertyId: container.getContainerPropertyIds())
-                        container.getItem(item).getItemProperty(propertyId).setValue(item.getItemProperty(propertyId));
+                        container.getItem(item).getItemProperty(propertyId)
+                                 .setValue(item.getItemProperty(propertyId).getValue());
 
                     container.setParent(item, parent);
                     

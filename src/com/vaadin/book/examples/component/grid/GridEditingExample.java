@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.vaadin.book.examples.AnyBookExampleBundle;
+import com.vaadin.book.examples.Description;
 import com.vaadin.book.examples.advanced.MyAppCaptions;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
@@ -19,7 +20,10 @@ import com.vaadin.data.fieldgroup.FieldGroup.CommitHandler;
 import com.vaadin.data.fieldgroup.FieldGroupFieldFactory;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.validator.RegexpValidator;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.UserError;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Grid;
@@ -137,6 +141,49 @@ public class GridEditingExample extends CustomComponent implements AnyBookExampl
         
         layout.addComponent(grid);
         // END-EXAMPLE: component.grid.editing.commit
+    }
+
+    @Description("This is a test for a workaround for issue #16842 to handle Enter key to save editor")
+    public void entersave(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: component.grid.editing.entersave
+        Grid grid = new Grid(GridExample.exampleDataSource());
+        grid.setWidth("600px");
+        grid.setHeight("400px");
+
+        // Enable editing
+        grid.setEditorEnabled(true);
+
+        // Validation can cause commit to fail
+        TextField nameEditor = new TextField();
+        nameEditor.addValidator(new RegexpValidator(
+            "^\\p{Alpha}+ \\p{Alpha}+$",
+            "Need first and last name"));
+        grid.getColumn("name").setEditorField(nameEditor);
+
+        grid.addShortcutListener(new ShortcutListener("ENTER",
+                                 ShortcutAction.KeyCode.ENTER, null) {
+            private static final long serialVersionUID = -5750865238489191851L;
+
+            @Override
+            public void handleAction(Object sender, Object target) {
+                Object targetParent = ((AbstractComponent) target).getParent();
+                if ((targetParent != null) && (targetParent instanceof Grid)) {
+                    Grid targetGrid = (Grid) targetParent;
+    
+                    if (targetGrid.isEditorActive()) {
+                        try {
+                            targetGrid.saveEditor();
+                            targetGrid.cancelEditor();
+                        } catch (CommitException e) {
+                            Notification.show("Validation failed");
+                        }
+                    }
+                }
+            }
+        });        
+        
+        layout.addComponent(grid);
+        // END-EXAMPLE: component.grid.editing.entersave
     }
     
     // BEGIN-EXAMPLE: component.grid.editing.fieldgroup

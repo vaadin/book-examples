@@ -34,10 +34,8 @@ public class ResponsiveExample extends CustomComponent implements BookExampleBun
         // Have some component with an appropriate style name
         Label c = new Label("Here be text");
         c.addStyleName("myresponsive");
+        c.setResponsive(true); // Enable responsive selectors
         content.addComponent(c);
-        
-        // Enable Responsive CSS selectors for the component
-        Responsive.makeResponsive(c);
         // END-EXAMPLE: themes.responsive.basic
     }
     

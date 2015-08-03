@@ -15,6 +15,14 @@ import com.vaadin.ui.VerticalLayout
 
 @Theme("book-examples")
 class MyScalaUI extends UI {
+  // Enable implicit conversion from a lambda expression to a listener
+  implicit def clickListener(f: ClickEvent => Unit) =
+    new ClickListener {
+      override def buttonClick(event: ClickEvent) {
+        f(event)
+      }
+    }    
+
   override def init(request: VaadinRequest) = {
     val content: VerticalLayout = new VerticalLayout
     setContent(content)

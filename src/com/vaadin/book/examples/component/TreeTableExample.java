@@ -1,9 +1,11 @@
 package com.vaadin.book.examples.component;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Stack;
 
 import com.vaadin.book.examples.AnyBookExampleBundle;
+import com.vaadin.book.examples.Description;
 import com.vaadin.book.examples.advanced.dd.TreeAndTableExample;
 import com.vaadin.book.examples.advanced.dd.TreeAndTableExample.InventoryObject;
 import com.vaadin.data.Container;
@@ -11,7 +13,6 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.HierarchicalContainer;
 import com.vaadin.event.DataBoundTransferable;
-import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
@@ -19,9 +20,9 @@ import com.vaadin.event.dd.acceptcriteria.Not;
 import com.vaadin.event.dd.acceptcriteria.Or;
 import com.vaadin.shared.ui.dd.VerticalDropLocation;
 import com.vaadin.ui.AbstractSelect.AbstractSelectTargetDetails;
+import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.AbstractSelect.VerticalLocationIs;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
@@ -34,52 +35,55 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.TreeTable;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
 public class TreeTableExample extends CustomComponent implements AnyBookExampleBundle {
     private static final long serialVersionUID = -4292553844521293140L;
 
     public void basic(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.treetable.basic
-        final TreeTable ttable = new TreeTable("My TreeTable");
-        ttable.addContainerProperty("Name", String.class, "");
+        TreeTable ttable = new TreeTable("My TreeTable");
+        ttable.addContainerProperty("Name", String.class, null);
+        ttable.addContainerProperty("Number", Integer.class, null);
         ttable.setWidth("20em");
         
-        // Create the tree nodes
-        ttable.addItem(new Object[]{"UI"}, 0);
-        ttable.addItem(new Object[]{"Branch 1"}, 1);
-        ttable.addItem(new Object[]{"Branch 2"}, 2);
-        ttable.addItem(new Object[]{"Leaf 1"}, 3);
-        ttable.addItem(new Object[]{"Leaf 2"}, 4);
-        ttable.addItem(new Object[]{"Leaf 3"}, 5);
-        ttable.addItem(new Object[]{"Leaf 4"}, 6);
-        
-        // Set the hierarchy
+        // Create the tree nodes and set the hierarchy
+        ttable.addItem(new Object[]{"Menu", null}, 0);
+        ttable.addItem(new Object[]{"Beverages", null}, 1);
         ttable.setParent(1, 0);
+        ttable.addItem(new Object[]{"Foods", null}, 2);
         ttable.setParent(2, 0);
+        ttable.addItem(new Object[]{"Coffee", 23}, 3);
+        ttable.addItem(new Object[]{"Tea", 42}, 4);
         ttable.setParent(3, 1);
         ttable.setParent(4, 1);
+        ttable.addItem(new Object[]{"Bread", 13}, 5);
+        ttable.addItem(new Object[]{"Cake", 11}, 6);
         ttable.setParent(5, 2);
         ttable.setParent(6, 2);
         
         // Expand the tree
-        ttable.setCollapsed(2, false);
-        //for (Object itemId: tree.getItemIds())
-        //    tree.setCollapsed(itemId, false);
+        for (Object itemId: ttable.getContainerDataSource()
+                                  .getItemIds()) {
+            ttable.setCollapsed(itemId, false);
+            
+            // Also disallow expanding leaves
+            if (! ttable.hasChildren(itemId))
+                ttable.setChildrenAllowed(itemId, false);
+        }
         
-        Button foo = new Button("Foo", new Button.ClickListener() {
-            private static final long serialVersionUID = 8903978809209811750L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                Object newItemId = ttable.addItemAfter(1);
-                ttable.getContainerProperty(newItemId, "Name").setValue("New One");
-                ttable.setParent(newItemId, 2);
-            }
+        // Limit the size
+        ttable.setPageLength(ttable.getContainerDataSource().size());
+        
+        Button add = new Button("Add Item", event ->  {
+            Object newItemId = ttable.addItemAfter(1);
+            ttable.getContainerProperty(newItemId, "Name").setValue("New One");
+            ttable.setParent(newItemId, 2);
         });
         // END-EXAMPLE: component.treetable.basic
         
-        layout.addComponent(ttable);
-        layout.addComponent(foo);
+        layout.addComponents(ttable, add);
+        layout.setSpacing(true);
     }
 
     public void components(VerticalLayout layout) {
@@ -90,7 +94,7 @@ public class TreeTableExample extends CustomComponent implements AnyBookExampleB
         ttable.setWidth("20em");
         
         // Create the tree nodes
-        ttable.addItem(new Object[]{new CheckBox("UI"), "Helsinki"}, 0);
+        ttable.addItem(new Object[]{new CheckBox("Root"), "Helsinki"}, 0);
         ttable.addItem(new Object[]{new CheckBox("Branch 1"), "Tampere"}, 1);
         ttable.addItem(new Object[]{new CheckBox("Branch 2"), "Turku"}, 2);
         ttable.addItem(new Object[]{new CheckBox("Leaf 1"), "Piikkiö"}, 3);
@@ -117,6 +121,7 @@ public class TreeTableExample extends CustomComponent implements AnyBookExampleB
         layout.addComponent(ttable);
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public void editable(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.treetable.editable
         TreeTable ttable = new TreeTable("My TreeTable");
@@ -152,7 +157,6 @@ public class TreeTableExample extends CustomComponent implements AnyBookExampleB
             
             int callCount = 0;
 
-            @SuppressWarnings({"unchecked", "rawtypes"})
             @Override
             public Field createField(Container container, Object itemId,
                 Object propertyId, Component uiContext) {
@@ -160,69 +164,71 @@ public class TreeTableExample extends CustomComponent implements AnyBookExampleB
                 
                 // Create a short TextField for all columns
                 TextField tf = new TextField();
+                tf.addStyleName(ValoTheme.TEXTFIELD_TINY);
                 tf.setColumns(10);
                 return tf;
             }
         });
-        
         // END-EXAMPLE: component.treetable.editable
         
         layout.addComponents(ttable, counter);
         layout.setSpacing(true);
     }
 
+    @SuppressWarnings("unchecked")
     public void additemafter(VerticalLayout layout) {
-        final TreeTable ttable = new TreeTable("Simple test with builtin container");
+        // BEGIN-EXAMPLE: component.treetable.additemafter
+        TreeTable ttable = new TreeTable("My Tree Table");
         ttable.addContainerProperty("Name", String.class, "");
         ttable.addContainerProperty("Type", String.class, "");
+        ttable.setPageLength(8);
         layout.addComponent(ttable);
         
-        // populate table
-        final Object rootId = ttable.addItem();
-        ttable.getContainerProperty(rootId, "Name").setValue("UI");
-        final Object branch1Id = ttable.addItem();
+        // Reserve excess space for the tree column
+        ttable.setWidth("400px");
+        ttable.setColumnExpandRatio("Name", 1);
+
+        // Populate table
+        Object rootId = ttable.addItem();
+        ttable.getContainerProperty(rootId, "Name").setValue("Root");
+        ttable.getContainerProperty(rootId, "Type").setValue("Root");
+        ttable.setCollapsed(rootId, false);
+        Object branch1Id = ttable.addItem();
         ttable.getContainerProperty(branch1Id, "Name").setValue("Branch 1");
-        final Object branch2Id = ttable.addItem();
+        ttable.getContainerProperty(branch1Id, "Type").setValue("Branch");
+        ttable.setParent(branch1Id, rootId);
+        ttable.setCollapsed(branch1Id, false);
+        Object branch2Id = ttable.addItem();
         ttable.getContainerProperty(branch2Id, "Name").setValue("Branch 2");
+        ttable.getContainerProperty(branch2Id, "Type").setValue("Branch");
+        ttable.setParent(branch2Id, rootId);
+        ttable.setCollapsed(branch2Id, false);
         Object leafId = ttable.addItem();
         ttable.getContainerProperty(leafId, "Name").setValue("Leaf");
-
-        // build hierarchy
+        ttable.getContainerProperty(leafId, "Type").setValue("Leaf");
         ttable.setParent(leafId, branch1Id);
-        ttable.setParent(branch1Id, rootId);
-
-        // flag to last item to be leaf
         ttable.setChildrenAllowed(leafId, false);
 
-        // reserve excess space for the "treecolumn"
-        ttable.setWidth("100%");
-        ttable.setColumnExpandRatio("Name", 1);
-       
-        Button lAddItemButton = new Button("Add Item");
-        layout.addComponent(lAddItemButton);
-       
-        lAddItemButton.addListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 6810618553723194020L;
+        layout.addComponent(new Button("Add Root Item", click -> {
+            Object newItem = ttable.addItem();
+            ttable.getContainerProperty(newItem, "Name")
+                  .setValue("New Root Item");
+            ttable.getContainerProperty(newItem, "Type")
+                  .setValue("Root");
+        }));
 
-            public void buttonClick(ClickEvent event) {
-                Object newItem = ttable.addItem();
-                ttable.getContainerProperty(newItem, "Name").setValue("New Add Item");
-            }
-        });
-       
-        Button lAddItemAfterButton = new Button("Add Item After");
-        layout.addComponent(lAddItemAfterButton);
-       
-        lAddItemAfterButton.addListener(new Button.ClickListener() {
-            private static final long serialVersionUID = 1304303387443588874L;
-
-            public void buttonClick(ClickEvent event) {
-                Object newItemId = ttable.addItemAfter(branch1Id);
-                ttable.setParent(newItemId, rootId);
-                ttable.getContainerProperty(newItemId, "Name").setValue("New Add Item After");
-            }
-        });
-    }        
+        layout.addComponent(new Button("Add Item Under Root", click -> {
+            Object newItemId = ttable.addItemAfter(branch1Id);
+            ttable.setParent(newItemId, rootId);
+            ttable.getContainerProperty(newItemId, "Name")
+                  .setValue("New Branch");
+            ttable.getContainerProperty(newItemId, "Type")
+                  .setValue("Branch");
+        }));
+        // END-EXAMPLE: component.treetable.additemafter
+        
+        layout.setSpacing(true);
+    }
 
     public void draganddrop (VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.treetable.draganddrop
@@ -230,7 +236,7 @@ public class TreeTableExample extends CustomComponent implements AnyBookExampleB
 
         // Bind to some demo data
         ttable.setContainerDataSource(new TreeAndTableExample().createTreeContent());
-        ttable.setItemCaptionMode(Table.ITEM_CAPTION_MODE_EXPLICIT_DEFAULTS_ID);
+        ttable.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
         
         // Expand all nodes
         for (Object item: ttable.getItemIds().toArray())
@@ -289,7 +295,8 @@ public class TreeTableExample extends CustomComponent implements AnyBookExampleB
 
                 // More hassle: copy the property values from the BeanItem to the container item
                 for (Object propertyId: container.getContainerPropertyIds())
-                    container.getItem(beanItem).getItemProperty(propertyId).setValue(beanItem.getItemProperty(propertyId));
+                    container.getItem(beanItem).getItemProperty(propertyId)
+                             .setValue(beanItem.getItemProperty(propertyId).getValue());
 
                 InventoryObject bean = (InventoryObject) beanItem.getBean();
                 ttable.setChildrenAllowed(beanItem, bean.isContainer());
@@ -319,6 +326,41 @@ public class TreeTableExample extends CustomComponent implements AnyBookExampleB
         // END-EXAMPLE: component.treetable.draganddrop
         
         layout.addComponent(ttable);
+    }
+
+    // TODO something with this
+    /** A hierarchical bean */
+    class Thing implements Serializable {
+        private static final long serialVersionUID = 2587697847732360532L;
+
+        String name;
+        int number;
+        Thing parent;
+        
+        public Thing(String name, int number) {
+            this.name = name;
+            this.number = number;
+        }
+        
+        // Setters and getters
+        public void setName(String name) {
+            this.name = name;
+        }
+        public String getName() {
+            return name;
+        }
+        public void setNumber(int number) {
+            this.number = number;
+        }
+        public int getNumber() {
+            return number;
+        }
+        public void setParent(Thing parent) {
+            this.parent = parent;
+        }
+        public Thing getParent() {
+            return parent;
+        }
     }
     
     public void big(VerticalLayout layout) {
@@ -351,16 +393,14 @@ public class TreeTableExample extends CustomComponent implements AnyBookExampleB
         layout.addComponent(ttable);
     }
 
-    public final static String itemstylegeneratorDescription =
-            "<h1>Cell Style for Tree Column in TreeTable</h1>" +
-            "<p>This example shows how to style the tree column. It's the same example as for Tree, but it's not as easy to style because " +
-            "the HTML structure is rather different.</p>";
-    
-    public void itemstylegenerator() {
-        VerticalLayout layout = new VerticalLayout();
-
+    @Description(title="Cell Style for Tree Column in TreeTable", value=
+            "<p>This example shows how to style the tree column. " +
+            "It's the same example as for Tree, but it's not as easy to style because " +
+            "the HTML structure is rather different.</p>"
+            + "<p><b>Note:</b> The style setting does not seem to have immediate effect. Bug?</p>")
+    public void itemstylegenerator(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.treetable.itemstylegenerator
-        final TreeTable ttable = new TreeTable("Clickable Inventory");
+        TreeTable ttable = new TreeTable("Clickable Inventory");
         ttable.addStyleName("checkboxed");
         ttable.setContainerDataSource(TreeExample.createTreeContent());
         
@@ -372,18 +412,14 @@ public class TreeTableExample extends CustomComponent implements AnyBookExampleB
         
         // Allow the user to "check" and "uncheck" tree nodes
         // by clicking them
-        ttable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
-            private static final long serialVersionUID = 5548609446898735032L;
-
-            public void itemClick(ItemClickEvent event) {
-                if (checked.contains(event.getItemId()))
-                    checked.remove(event.getItemId());
-                else
-                    checked.add((String) event.getItemId());
-                
-                // TODO: Is this necessary?
-                ttable.markAsDirty();
-            }
+        ttable.addItemClickListener(event -> {
+            if (checked.contains(event.getItemId()))
+                checked.remove(event.getItemId());
+            else
+                checked.add((String) event.getItemId());
+            
+            // TODO: Is this necessary?
+            ttable.markAsDirty();
         });
         
         Table.CellStyleGenerator cellStyleGenerator = new Table.CellStyleGenerator() {
@@ -404,7 +440,5 @@ public class TreeTableExample extends CustomComponent implements AnyBookExampleB
         ttable.setCellStyleGenerator(cellStyleGenerator);
         // END-EXAMPLE: component.treetable.itemstylegenerator
         layout.addComponent(ttable);
-        
-        setCompositionRoot(layout);
     }
 }

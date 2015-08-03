@@ -620,14 +620,8 @@ $borderthickness: 5px;
 	/************************/
 	
 	/* BEGIN-EXAMPLE: component.treetable.itemstylegenerator */
-	.v-table-checkboxed .v-table-cell-content-unchecked div {
-	    background: url("img/checkbox-unchecked.png") no-repeat left;
-	    padding-left: 10px;
-	}
-	
-	.v-table-checkboxed .v-table-cell-content-checked div {
-	    background: url("img/checkbox-checked.png") no-repeat left;
-	    padding-left: 10px;
+	.v-table-checkboxed .v-table-cell-content-checked .v-table-cell-wrapper {
+	    background: lightgreen;
 	}
 	/* END-EXAMPLE: component.treetable.itemstylegenerator */
 	
@@ -647,7 +641,7 @@ $borderthickness: 5px;
 	}
 	
 	/* This actually works for DateField */
-	.v-datefield-right-to-left {
+	.v-inline-datefield-right-to-left {
 		direction: rtl;
 	} 
 	/* END-EXAMPLE: advanced.i18n.rtl */
@@ -1166,25 +1160,25 @@ $borderthickness: 5px;
     /***************/
     /* BEGIN-EXAMPLE: themes.responsive.basic */
     /* Basic settings for all sizes */
-    .myresponsive.v-label {
+    .myresponsive {
         padding: 5px;
         line-height: 36pt;
     }
     
     /* Small size */
-    .myresponsive.v-label[width-range~="0-300px"] {
+    .myresponsive[width-range~="0-300px"] {
         background: orange;
         font-size: 16pt;
     }
 
     /* Medium size */
-    .myresponsive.v-label[width-range~="301px-600px"] {
+    .myresponsive[width-range~="301px-600px"] {
         background: azure;
         font-size: 24pt;
     }
 
     /* Anything bigger */
-    .myresponsive.v-label[width-range~="601px-"] {
+    .myresponsive[width-range~="601px-"] {
         background: palegreen;
         font-size: 36pt;
     }

@@ -1,33 +1,21 @@
 package com.vaadin.book.examples.layout;
 
-import com.vaadin.book.examples.BookExampleBundle;
+import com.vaadin.book.examples.AnyBookExampleBundle;
+import com.vaadin.book.examples.Description;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
-public class OrderedLayoutExample extends CustomComponent implements BookExampleBundle {
+public class OrderedLayoutExample extends CustomComponent implements AnyBookExampleBundle {
     private static final long serialVersionUID = 5602882631420102318L;
 
-    public void init(String context) {
-        VerticalLayout layout = new VerticalLayout();
-
-        if ("basic".equals(context))
-            basic();
-        else if ("sizing-undefined-defining".equals(context))
-            sizing_undefined_defining();
-        else if ("sizing-relative".equals(context))
-            sizingrelative(layout);
-        else
-            layout.addComponent(new Label("Invalid context " + context));
-        
-        if (getCompositionRoot() == null)
-            setCompositionRoot(layout);
-    }
-    
-    void basic() {
+    public void basic(VerticalLayout layout) {
         // BEGIN-EXAMPLE: layout.orderedlayout.basic
         // BOOK: layout.components.orderedlayout
         VerticalLayout vertical = new VerticalLayout();
@@ -39,28 +27,50 @@ public class OrderedLayoutExample extends CustomComponent implements BookExample
         horizontal.addComponent(new TextField("Name"));
         horizontal.addComponent(new TextField("Street address"));
         horizontal.addComponent(new TextField("Postal code"));
-        // END-EXAMPLE: layout.orderedlayout.basic
-        
-        VerticalLayout root = new VerticalLayout();
-        root.addComponent(vertical);
-        root.addComponent(horizontal);
-        root.setSpacing(true);
 
-        setCompositionRoot(root);
+        layout.addComponents(vertical, horizontal);
+        // END-EXAMPLE: layout.orderedlayout.basic
+    }
+
+    public void adjustments(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: layout.orderedlayout.adjustments
+        // BOOK: layout.components.orderedlayout
+        // A containing layout with a border
+        Panel container = new Panel("Panel");
+        container.setWidth("500px");
+        
+        HorizontalLayout horizontal = new HorizontalLayout();
+        horizontal.setWidth("100%");
+        horizontal.setMargin(true);
+        horizontal.setSpacing(true);
+        
+        // Expanding component 
+        Label description = new Label("This is a very long "
+            + "description that is shown left of the input");
+        horizontal.addComponent(description);
+        horizontal.setExpandRatio(description, 1.0f);
+        
+        // Text field without caption
+        TextField tf = new TextField();
+        tf.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
+        tf.setIcon(FontAwesome.SEARCH);
+        horizontal.addComponent(tf);
+        
+        container.setContent(horizontal);
+        // END-EXAMPLE: layout.orderedlayout.adjustments
+        layout.addComponent(container);
     }
     
-    public static final String sizing_undefined_definingDescription =
-        "<h1>Defining the Width of an VerticalLayout by Contained Component</h1>" +
+    @Description(title="Defining the Width of an VerticalLayout by Contained Component</h1>", value =
         "<p>Normally, you wouldn't be able to put components with percentual size "+
         "in a layout with undefined size. In <b>VerticalLayout</b> and <b>HorizontalLayout</b>, "+
         "you can use a contained component to "+
         "define the size in the secondary direction of the layout, and then use "+
         "that size for relative sizing of other contained components.</p>"+
         "<p>Here, we define the size by a contained component with undefined size; "+
-        "you could also use a component with fixed size.</p>";
-
-    void sizing_undefined_defining () {
-        // BEGIN-EXAMPLE: layout.orderedlayout.sizing.sizing-undefined-defining
+        "you could also use a component with fixed size.</p>")
+    public void undefineddefiningsize(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: layout.orderedlayout.sizing.undefineddefiningsize
         // BOOK: layout.components.orderedlayout
         // Vertical layout would normally have 100% width
         VerticalLayout vertical = new VerticalLayout();
@@ -81,17 +91,17 @@ public class OrderedLayoutExample extends CustomComponent implements BookExample
                                  "of the width \u2192");
         butt.setWidth("100%");
         vertical.addComponent(butt);
-        // END-EXAMPLE: layout.orderedlayout.sizing.sizing-undefined-defining
+        // END-EXAMPLE: layout.orderedlayout.sizing.undefineddefiningsize
         
         vertical.addStyleName("bordered");
         vertical.setSpacing(true);
         setCaption("This is a VerticalLayout with two components");
 
-        setCompositionRoot(vertical);
+        layout.addComponent(vertical);
     }
 
-    void sizingrelative(VerticalLayout content) {
-        // BEGIN-EXAMPLE: layout.orderedlayout.sizing.sizing-relative
+    void relativesize(VerticalLayout content) {
+        // BEGIN-EXAMPLE: layout.orderedlayout.sizing.relativesize
         VerticalLayout wrapper = new VerticalLayout();
         wrapper.addStyleName("redborder");
         
@@ -105,7 +115,7 @@ public class OrderedLayoutExample extends CustomComponent implements BookExample
             button.setWidth("100%");
             layout.addComponent(button);
         }
-        // END-EXAMPLE: layout.orderedlayout.sizing.sizing-relative
+        // END-EXAMPLE: layout.orderedlayout.sizing.relativesize
         
         content.addComponent(wrapper);
     }
