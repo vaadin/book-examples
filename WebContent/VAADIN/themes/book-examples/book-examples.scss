@@ -1438,6 +1438,58 @@ $borderthickness: 5px;
         background: pink;
     }
 
+    /****************************/
+    /* HierarchicalGridExample  */
+    /****************************/
+    // BEGIN-EXAMPLE: component.grid.tricks.hierarchical
+    $grid-node-indent: 40px;
+    
+    .hierarchicalgrid {
+        .grid-node-parents-1 {padding-left: $grid-node-indent;}
+        .grid-node-parents-2 {padding-left: $grid-node-indent*2;}
+        .grid-node-parents-3 {padding-left: $grid-node-indent*3;}
+        .grid-node-parents-4 {padding-left: $grid-node-indent*4;}
+        .grid-node-parents-5 {padding-left: $grid-node-indent*5;}
+        .grid-node-parents-6 {padding-left: $grid-node-indent*6;}
+
+        // Collapsed node style
+        .v-grid-cell.grid-tree-node::before {
+            // TODO Could use 'valo-tree-collapsed-icon-style' here
+            content: "\f0da";
+            display: inline-block;
+            font-family: FontAwesome;
+            text-align: center;
+            transition: all 100ms ease 0s;
+            width: 1.0em;
+        }
+        
+        // Expanded node style
+        .v-grid-cell.grid-node-expanded::before {
+            content: "\f0da";
+            transform: rotate(90deg);
+        }        
+    
+        // Leaf style
+        .v-grid-cell.grid-tree-node.grid-node-leaf::before {
+            content: "";
+            display: none;
+            position: relative;
+        }
+    }
+
+    // This is needed because otherwise focusing will mess it up
+    .v-grid:focus {
+        .grid-tree-node.v-grid-cell-focused::before {
+            display: inline-block;
+            position: relative;
+            border: none;
+        }
+        .grid-tree-node.grid-node-leaf.v-grid-cell-focused::before {
+            display: none;
+        }
+    }
+    // END-EXAMPLE: component.grid.tricks.hierarchical
+
     /******************/
     /* ButtonExample  */
     /******************/
@@ -1454,4 +1506,5 @@ $borderthickness: 5px;
         overflow: hidden;
     }
     // END-EXAMPLE: layout.tabsheet.leveling
+
 }

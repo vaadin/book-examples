@@ -47,7 +47,7 @@ public class ResponsiveExample extends CustomComponent implements BookExampleBun
         content.addComponent(layout);
         
         // Enable Responsive CSS selectors for the layout
-        Responsive.makeResponsive(layout);
+        layout.setResponsive(true);
 
         Label title = new Label("Space is big, really big");
         title.addStyleName("title");

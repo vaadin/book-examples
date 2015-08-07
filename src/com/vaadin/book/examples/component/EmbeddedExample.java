@@ -1,6 +1,6 @@
 package com.vaadin.book.examples.component;
 
-import com.vaadin.book.examples.BookExampleBundle;
+import com.vaadin.book.examples.AnyBookExampleBundle;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
@@ -10,24 +10,9 @@ import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Flash;
 import com.vaadin.ui.VerticalLayout;
 
-public class EmbeddedExample extends CustomComponent implements BookExampleBundle {
+public class EmbeddedExample extends CustomComponent implements AnyBookExampleBundle {
     private static final long serialVersionUID = -3644786684841597587L;
 
-    public void init (String context) {
-        VerticalLayout layout = new VerticalLayout();
-        if ("embedded".equals(context))
-            embedded(layout);
-        else if ("svg".equals(context))
-            svg(layout);
-        else if ("pdf".equals(context))
-            pdf(layout);
-        else if ("flash".equals(context))
-            flash(layout);
-        else if ("browserframe".equals(context))
-            browserframe(layout);
-        setCompositionRoot(layout);
-    }
-    
     public void flash(VerticalLayout layout) { 
         // BEGIN-EXAMPLE: component.embedded.flash
         Flash flash = new Flash(null,

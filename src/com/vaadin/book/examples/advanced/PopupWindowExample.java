@@ -4,6 +4,7 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.book.examples.BookExampleBundle;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.ExternalResource;
+import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.shared.ui.BorderStyle;
@@ -62,6 +63,20 @@ public class PopupWindowExample extends CustomComponent implements BookExampleBu
         
         // Attach it to a button
         Button button = new Button("Pop It Up");
+        opener.extend(button);
+        // END-EXAMPLE: advanced.windows.popup
+        layout.addComponent(button);
+    }
+    
+    void open(Layout layout) {
+        // Create an opener extension
+        BrowserWindowOpener opener = new BrowserWindowOpener(MyPopupUI.class);
+        opener.setFeatures("height=200,width=300,resizable");
+        
+        // Attach it to a button
+        Button button = new Button("Open It Up", click -> {
+            Page.getCurrent().open("/book-examples-vaadin7/popupui", "_blank", true);
+        });
         opener.extend(button);
         // END-EXAMPLE: advanced.windows.popup
         layout.addComponent(button);

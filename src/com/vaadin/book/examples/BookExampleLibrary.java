@@ -94,6 +94,7 @@ import com.vaadin.book.examples.component.grid.GridDataBindingExample;
 import com.vaadin.book.examples.component.grid.GridEditingExample;
 import com.vaadin.book.examples.component.grid.GridExample;
 import com.vaadin.book.examples.component.grid.GridStyleExample;
+import com.vaadin.book.examples.component.grid.HierarchicalGridExample;
 import com.vaadin.book.examples.component.grid.RendererExample;
 import com.vaadin.book.examples.component.properties.CaptionExample;
 import com.vaadin.book.examples.component.properties.DescriptionExample;
@@ -548,6 +549,8 @@ public class BookExampleLibrary {
             new ExampleCtgr("component.grid.stylegeneration-", "Style Generators"),
             new BookExample("component.grid.stylegeneration.rowstyle", "Row Styles", GridStyleExample.class),
             new BookExample("component.grid.stylegeneration.cellstyle", "Cell Styles", GridStyleExample.class),
+            new ExampleCtgr("component.grid.tricks-", "Tricks"),
+            new BookExample("component.grid.tricks.hierarchical", "Hierarchical Grid", HierarchicalGridExample.class),
             new ExampleCtgr("component.menubar-", "MenuBar"),
             new BookExample("component.menubar.basic", "Basic Use", MenuBarExample.class),
             new BookExample("component.menubar.keep", "Keep Selection", MenuBarExample.class),
@@ -805,6 +808,7 @@ public class BookExampleLibrary {
             new BookExample("advanced.shortcut.defaultbutton", "Default Button", ShortcutExample.class),
             new BookExample("advanced.shortcut.focus", "Focus Shortcuts", ShortcutExample.class),
             new BookExample("advanced.shortcut.modifier", "Modifier Keys", ShortcutExample.class),
+            new BookExample("advanced.shortcut.scope", "Shortcut Scope", ShortcutExample.class),
             new ExampleCtgr("advanced.printing-", "Printing"),
             new BookExample("advanced.printing.this", "Print This Page", PrintingExample.class),
             new BookExample("advanced.printing.open", "Open Page to Print", PrintingExample.class),
