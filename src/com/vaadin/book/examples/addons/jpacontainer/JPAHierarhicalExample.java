@@ -13,6 +13,9 @@ import com.vaadin.ui.VerticalLayout;
 
 public class JPAHierarhicalExample extends CustomComponent implements BookExampleBundle {
     private static final long serialVersionUID = -3205020480634478985L;
+
+    public final static String PERSISTENCE_UNIT = "book-examples-vaadin7";
+
     String context;
 
     public void init(String context) {
@@ -69,7 +72,7 @@ public class JPAHierarhicalExample extends CustomComponent implements BookExampl
             proteus, nereid, larissa
         };
         EntityManager em = JPAContainerFactory.
-                createEntityManagerForPersistenceUnit("book-examples");
+                createEntityManagerForPersistenceUnit(PERSISTENCE_UNIT);
         em.getTransaction().begin();
         em.createQuery("DELETE FROM CelestialBody p").executeUpdate();
         em.getTransaction().commit();
@@ -83,7 +86,7 @@ public class JPAHierarhicalExample extends CustomComponent implements BookExampl
         // Create the container
         JPAContainer<CelestialBody> bodies =
                 JPAContainerFactory.makeReadOnly(CelestialBody.class,
-                                                 "book-examples");
+                                                 PERSISTENCE_UNIT);
         
         // Set it up for hierarchical representation
         bodies.setParentProperty("parent");
@@ -150,7 +153,7 @@ public class JPAHierarhicalExample extends CustomComponent implements BookExampl
             proteus, nereid, larissa
         };
         EntityManager em = JPAContainerFactory.
-                createEntityManagerForPersistenceUnit("book-examples");
+                createEntityManagerForPersistenceUnit(PERSISTENCE_UNIT);
         em.getTransaction().begin();
         em.createQuery("DELETE FROM CelestialBody p").executeUpdate();
         em.getTransaction().commit();

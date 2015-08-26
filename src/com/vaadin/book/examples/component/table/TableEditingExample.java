@@ -110,15 +110,9 @@ public class TableEditingExample extends CustomComponent implements AnyBookExamp
         layout.addComponent(table);
 
         // Allow switching to non-editable mode
-        final CheckBox editable = new CheckBox("Table is editable", true);
-        editable.addValueChangeListener(new Property.ValueChangeListener() {
-            private static final long serialVersionUID = 6291942958587745232L;
-
-            public void valueChange(ValueChangeEvent event) {
-                table.setEditable((Boolean) editable.getValue());
-            }
-        });
-        editable.setImmediate(true);
+        CheckBox editable = new CheckBox("Editable", true);
+        editable.addValueChangeListener(valueChange -> // Java 8
+            table.setEditable((Boolean) editable.getValue()));
         layout.addComponent(editable);        
     }
 

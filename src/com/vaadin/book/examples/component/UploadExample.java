@@ -15,7 +15,6 @@ import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.ProgressBar;
@@ -121,7 +120,8 @@ public class UploadExample extends CustomComponent implements BookExampleBundle 
 
         // Put the components in a panel
         Panel panel = new Panel("Cool Image Storage");
-        Layout panelContent = new VerticalLayout();
+        VerticalLayout panelContent = new VerticalLayout();
+        panelContent.setMargin(true);
         panelContent.addComponents(upload, image);
         panel.setContent(panelContent);
         // END-EXAMPLE: component.upload.basic

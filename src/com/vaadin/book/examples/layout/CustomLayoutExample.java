@@ -3,7 +3,8 @@ package com.vaadin.book.examples.layout;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import com.vaadin.book.examples.BookExampleBundle;
+import com.vaadin.book.examples.AnyBookExampleBundle;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -12,40 +13,27 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-public class CustomLayoutExample extends CustomComponent implements BookExampleBundle {
+public class CustomLayoutExample extends CustomComponent implements AnyBookExampleBundle {
     private static final long serialVersionUID = -8458669675797366833L;
 
-    public void init(String context) {
-        VerticalLayout layout = new VerticalLayout();
-        
-        if ("basic".equals(context))
-            basic();
-        else if ("styling".equals(context))
-            styling();
-        else if ("stream".equals(context))
-            stream();
-        else if ("maxwidth".equals(context))
-            maxwidth(layout);
-        else
-            setCompositionRoot(new Label("Error"));
-        
-        if (getCompositionRoot() == null)
-            setCompositionRoot(layout);
-    }
-    
-    void basic() {
+    public void basic(VerticalLayout layout) {
         // BEGIN-EXAMPLE: layout.customlayout.basic
-        CustomLayout layout = new CustomLayout("layoutname");
+        Panel loginPanel = new Panel("Login");
+        CustomLayout content = new CustomLayout("layoutname");
+        content.setSizeUndefined();
+        loginPanel.setContent(content);
+        loginPanel.setSizeUndefined();
         
         // No captions for fields is they are provided in the template
-        layout.addComponent(new TextField(), "username");
-        layout.addComponent(new TextField(), "password");
+        content.addComponent(new TextField(), "username");
+        content.addComponent(new TextField(), "password");
+        content.addComponent(new Button("Login"), "okbutton");
         // END-EXAMPLE: layout.customlayout.basic
         
-        setCompositionRoot(layout);
+        layout.addComponent(loginPanel);
     }
     
-    void stream() {
+    public void stream(VerticalLayout root) {
         // BEGIN-EXAMPLE: layout.customlayout.stream
         // So here's the template
         String template =
@@ -70,10 +58,10 @@ public class CustomLayoutExample extends CustomComponent implements BookExampleB
         layout.addComponent(new TextField(), "password");
         // END-EXAMPLE: layout.customlayout.stream
         
-        setCompositionRoot(layout);
+        root.addComponent(layout);
     }
 
-    void maxwidth(VerticalLayout rootlayout) {
+    public void maxwidth(VerticalLayout rootlayout) {
         // BEGIN-EXAMPLE: layout.customlayout.maxwidth
         // A containing panel - this could just as well be
         // the main window (Window inherits Panel)
@@ -124,19 +112,18 @@ public class CustomLayoutExample extends CustomComponent implements BookExampleB
         rootlayout.addComponent(panel);
     }    
     
-    void styling() {
+    public void styling(VerticalLayout layout) {
         // BEGIN-EXAMPLE: layout.customlayout.styling
-        CustomLayout layout = new CustomLayout("stylingexample");
-        layout.addStyleName("customlayoutstyling");
+        CustomLayout cl = new CustomLayout("stylingexample");
+        cl.addStyleName("customlayoutstyling");
 
         // The stylingexample.html is simply:
         //   <div location="username"></div>
         //   <div location="password"></div>
         
-        layout.addComponent(new TextField("Username"), "username");
-        layout.addComponent(new TextField("Password"), "password");
+        cl.addComponent(new TextField("Username"), "username");
+        cl.addComponent(new TextField("Password"), "password");
         // END-EXAMPLE: layout.customlayout.styling
-        
-        setCompositionRoot(layout);
+        layout.addComponent(cl);
     }
 }

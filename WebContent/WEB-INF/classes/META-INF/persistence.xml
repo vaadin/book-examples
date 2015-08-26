@@ -11,7 +11,6 @@
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         
         <!-- Doesn't seem to have any effect -->
-        <!--  <non-jta-data-source>jdbc/h2/mem/</non-jta-data-source> -->
         <non-jta-data-source>jdbc/h2/mem/</non-jta-data-source>
 
         <!-- List persistent classes explicitly -->

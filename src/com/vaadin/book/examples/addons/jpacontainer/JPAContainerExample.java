@@ -29,6 +29,9 @@ import com.vaadin.ui.VerticalLayout;
 
 public class JPAContainerExample extends CustomComponent implements AnyBookExampleBundle {
     private static final long serialVersionUID = -3205020480634478985L;
+    
+    public final static String PERSISTENCE_UNIT = "book-examples-vaadin7";
+    
     String context;
     
     // BEGIN-EXAMPLE: jpacontainer.nonpersistent
@@ -80,7 +83,7 @@ public class JPAContainerExample extends CustomComponent implements AnyBookExamp
         // BEGIN-EXAMPLE: jpacontainer.basic
         // Let's have some data created with pure JPA
         EntityManager em = JPAContainerFactory.
-            createEntityManagerForPersistenceUnit("book-examples");
+            createEntityManagerForPersistenceUnit(PERSISTENCE_UNIT);
         em.getTransaction().begin();
         em.createQuery("DELETE FROM Person p").executeUpdate();
         em.persist(new Person("Jeanne Calment", 122));
@@ -90,7 +93,7 @@ public class JPAContainerExample extends CustomComponent implements AnyBookExamp
         
         // Create a persistent person container
         JPAContainer<Person> persons =
-            JPAContainerFactory.make(Person.class, "book-examples");
+            JPAContainerFactory.make(Person.class, PERSISTENCE_UNIT);
 
         // You can add entities to the container as well
         persons.addEntity(new Person("Marie-Louise Meilleur", 117));
@@ -124,7 +127,7 @@ public class JPAContainerExample extends CustomComponent implements AnyBookExamp
         // BEGIN-EXAMPLE: jpacontainer.thehardway
         // We need a factory to create entity manager
         EntityManagerFactory emf =
-            Persistence.createEntityManagerFactory("book-examples");
+            Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
         
         // We need an entity manager to create entity provider
         EntityManager em = emf.createEntityManager();
@@ -168,7 +171,7 @@ public class JPAContainerExample extends CustomComponent implements AnyBookExamp
         // BEGIN-EXAMPLE: jpacontainer.buffering
         // Let's have some data created with pure JPA
         EntityManager em = JPAContainerFactory.
-            createEntityManagerForPersistenceUnit("book-examples");
+            createEntityManagerForPersistenceUnit(PERSISTENCE_UNIT);
         em.getTransaction().begin();
         em.createQuery("DELETE FROM Person p").executeUpdate();
         em.createQuery("DELETE FROM Country c").executeUpdate();
@@ -183,7 +186,7 @@ public class JPAContainerExample extends CustomComponent implements AnyBookExamp
         
         // Create a persistent person container
         final JPAContainer<Person> persons =
-            JPAContainerFactory.makeBatchable(Person.class, "book-examples");
+            JPAContainerFactory.makeBatchable(Person.class, PERSISTENCE_UNIT);
         
         // Enable container-level buffering
         persons.setBuffered(true);
@@ -311,7 +314,7 @@ public class JPAContainerExample extends CustomComponent implements AnyBookExamp
         // BEGIN-EXAMPLE: jpacontainer.nested
         // Have a persistent container
         JPAContainer<Person> persons =
-            JPAContainerFactory.make(Person.class, "book-examples");
+            JPAContainerFactory.make(Person.class, PERSISTENCE_UNIT);
 
         // Add a nested property to a many-to-one property
         persons.addNestedContainerProperty("country.name");
@@ -377,7 +380,7 @@ public class JPAContainerExample extends CustomComponent implements AnyBookExamp
     static void insertExampleData() {
         /*
         // Check if there already is data
-        EntityManager em = JPAContainerFactory.createEntityManagerForPersistenceUnit("book-examples");
+        EntityManager em = JPAContainerFactory.createEntityManagerForPersistenceUnit(PERSISTENCE_UNIT);
         Query q = em.createQuery("SELECT COUNT(p.id) FROM Person p");
         int count = (Integer) q.getSingleResult();
         BookExamplesUI.getLogger().info("First result= " + count);
@@ -387,7 +390,7 @@ public class JPAContainerExample extends CustomComponent implements AnyBookExamp
 
         // Let's have some data created with using pure JPA
         EntityManager em = JPAContainerFactory.
-            createEntityManagerForPersistenceUnit("book-examples");
+            createEntityManagerForPersistenceUnit(PERSISTENCE_UNIT);
         em.getTransaction().begin();
         em.createQuery("DELETE FROM Person p").executeUpdate();
         em.createQuery("DELETE FROM Country c").executeUpdate();

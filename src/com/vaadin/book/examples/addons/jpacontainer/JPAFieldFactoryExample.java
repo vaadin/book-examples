@@ -42,6 +42,8 @@ public class JPAFieldFactoryExample extends CustomComponent implements BookExamp
     private static final long serialVersionUID = -3205020480634478985L;
     String context;
 
+    public final static String PERSISTENCE_UNIT = "book-examples-vaadin7";
+    
     public void init(String context) {
         VerticalLayout layout = new VerticalLayout();
         
@@ -72,7 +74,7 @@ public class JPAFieldFactoryExample extends CustomComponent implements BookExamp
         // BEGIN-EXAMPLE: jpacontainer.fieldfactory.formonetomany
         // Have a persistent container
         final JPAContainer<Country> countries =
-            JPAContainerFactory.make(Country.class, "book-examples");
+            JPAContainerFactory.make(Country.class, PERSISTENCE_UNIT);
 
         // For selecting an item to edit
         final ComboBox countrySelect =
@@ -142,7 +144,7 @@ public class JPAFieldFactoryExample extends CustomComponent implements BookExamp
         // BEGIN-EXAMPLE: jpacontainer.fieldfactory.tableonetomany
         // Have a persistent container
         final JPAContainer<Country> countries =
-            JPAContainerFactory.make(Country.class, "book-examples");
+            JPAContainerFactory.make(Country.class, PERSISTENCE_UNIT);
         
         Table table = new Table(null, countries);
         table.setVisibleColumns(new Object[]{"name", "people"});
@@ -190,7 +192,7 @@ public class JPAFieldFactoryExample extends CustomComponent implements BookExamp
         // BEGIN-EXAMPLE: jpacontainer.fieldfactory.tableonetomany2
         // Have a persistent container
         final JPAContainer<Country> countries =
-            JPAContainerFactory.make(Country.class, "book-examples");
+            JPAContainerFactory.make(Country.class, PERSISTENCE_UNIT);
         
         Table table = new Table(null, countries);
         table.addGeneratedColumn("people", new ColumnGenerator() {
@@ -230,7 +232,7 @@ public class JPAFieldFactoryExample extends CustomComponent implements BookExamp
         // BEGIN-EXAMPLE: jpacontainer.fieldfactory.masterdetail
         // Create persistent containers
         final JPAContainer<Country> countries =
-            JPAContainerFactory.make(Country.class, "book-examples");
+            JPAContainerFactory.make(Country.class, PERSISTENCE_UNIT);
 
         // Create, configure, and use a field factory
         final FieldFactory fieldFactory = new FieldFactory();
@@ -276,7 +278,7 @@ public class JPAFieldFactoryExample extends CustomComponent implements BookExamp
         // BEGIN-EXAMPLE: jpacontainer.fieldfactory.manytoone
         // Create persistent container
         JPAContainer<Person> persons =
-                JPAContainerFactory.make(Person.class, "book-examples");
+                JPAContainerFactory.make(Person.class, PERSISTENCE_UNIT);
 
         // For selecting an item to edit
         ComboBox personSelect =
@@ -303,7 +305,7 @@ public class JPAFieldFactoryExample extends CustomComponent implements BookExamp
                                                        Class<T> fieldType) {
                     if (dataType == Country.class) {
                         JPAContainer<Country> countries =
-                            JPAContainerFactory.make(Country.class, "book-examples");
+                            JPAContainerFactory.make(Country.class, PERSISTENCE_UNIT);
                         ComboBox cb = new ComboBox(null, countries);
                         cb.setNullSelectionAllowed(false);
                         cb.setItemCaptionMode(ItemCaptionMode.PROPERTY);

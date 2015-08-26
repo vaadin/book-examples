@@ -20,7 +20,9 @@ import com.vaadin.ui.Grid.FooterCell;
 import com.vaadin.ui.Grid.FooterRow;
 import com.vaadin.ui.Grid.HeaderCell;
 import com.vaadin.ui.Grid.HeaderRow;
+import com.vaadin.ui.Grid.MultiSelectionModel;
 import com.vaadin.ui.Grid.SelectionMode;
+import com.vaadin.ui.Grid.SingleSelectionModel;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -221,6 +223,40 @@ public class GridExample extends CustomComponent implements AnyBookExampleBundle
         // END-EXAMPLE: component.grid.features
     }
     
+    public void single(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: component.grid.selection.single
+        // Create a grid bound to a container
+        Grid grid = new Grid(exampleDataSource());
+        grid.setWidth("500px");
+        grid.setHeight("300px");
+
+        // Enable single-selection mode (default)
+        grid.setSelectionMode(SelectionMode.SINGLE);
+        
+        // Pre-select an item
+        SingleSelectionModel selection =
+            (SingleSelectionModel) grid.getSelectionModel();
+        selection.select( // Select 3rd item
+            grid.getContainerDataSource().getIdByIndex(2));
+        
+        // Handle selection changes
+        grid.addSelectionListener(selectionEvent -> { // Java 8
+            // Get selection from the selection model
+            Object selected = ((SingleSelectionModel)
+                grid.getSelectionModel()).getSelectedRow();
+
+            if (selected != null)
+                Notification.show("Selected " +
+                    grid.getContainerDataSource().getItem(selected)
+                        .getItemProperty("name"));
+            else
+                Notification.show("Nothing selected");
+        });
+        // END-EXAMPLE: component.grid.selection.single
+        
+        layout.addComponent(grid);
+    }
+
     public void multi(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.grid.selection.multi
         // Create a grid bound to a container
@@ -231,33 +267,40 @@ public class GridExample extends CustomComponent implements AnyBookExampleBundle
         // Enable multi-selection mode
         grid.setSelectionMode(SelectionMode.MULTI);
         
+        // Pre-select some items
+        MultiSelectionModel selection =
+            (MultiSelectionModel) grid.getSelectionModel();
+        selection.setSelected(
+            grid.getContainerDataSource().getItemIds(2, 3));
+        
         // Allow deleting the selected items
-        Button deleteSelected = new Button("Delete Selected", e -> {
+        Button delSelected = new Button("Delete Selected", e -> {
             // Delete all selected data items
-            for (Object itemId: grid.getSelectedRows())
+            for (Object itemId: selection.getSelectedRows())
                 grid.getContainerDataSource().removeItem(itemId);
             
-            // TODO A workaround for #16195
+            // Otherwise out of sync with container (TODO #16195)
             grid.getSelectionModel().reset();
 
             // Disable after deleting
             e.getButton().setEnabled(false);
         });
-        deleteSelected.setEnabled(false); // Enable later
+        delSelected.setEnabled(grid.getSelectedRows().size() > 0);
 
         // Handle selection changes
-        grid.addSelectionListener(selection -> { // Java 8
-            Notification.show(selection.getAdded().size() +
+        grid.addSelectionListener(selectionEvent -> { // Java 8
+            Notification.show(selectionEvent.getAdded().size() +
                               " items added, " +
-                              selection.getRemoved().size() +
+                              selectionEvent.getRemoved().size() +
                               " removed.");
 
             // Allow deleting selected only if there's any selected
-            deleteSelected.setEnabled(grid.getSelectedRows().size() > 0);
+            delSelected.setEnabled(grid.getSelectedRows().size() > 0);
         });
 
-        layout.addComponents(grid, deleteSelected);
+        layout.addComponents(grid, delSelected);
         // END-EXAMPLE: component.grid.selection.multi
+        layout.setSpacing(true);
     }
     
     public void filtering(VerticalLayout layout) {

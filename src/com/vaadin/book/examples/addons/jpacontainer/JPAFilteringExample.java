@@ -25,6 +25,9 @@ import com.vaadin.ui.VerticalLayout;
 
 public class JPAFilteringExample extends CustomComponent implements BookExampleBundle {
     private static final long serialVersionUID = -3205020480634478985L;
+
+    public final static String PERSISTENCE_UNIT = "book-examples-vaadin7";
+
     String context;
 
     public void init(String context) {
@@ -50,7 +53,7 @@ public class JPAFilteringExample extends CustomComponent implements BookExampleB
         // BEGIN-EXAMPLE: jpacontainer.filtering.basic
         // Create a persistent container
         final JPAContainer<Person> persons =
-            JPAContainerFactory.make(Person.class, "book-examples");
+            JPAContainerFactory.make(Person.class, PERSISTENCE_UNIT);
 
         // Show only all people older than 116
         Filter filter = new Compare.Greater("age", 116);
@@ -76,9 +79,9 @@ public class JPAFilteringExample extends CustomComponent implements BookExampleB
         // BEGIN-EXAMPLE: jpacontainer.filtering.entity
         // Create persistent containers
         final JPAContainer<Person> persons =
-            JPAContainerFactory.make(Person.class, "book-examples");
+            JPAContainerFactory.make(Person.class, PERSISTENCE_UNIT);
         final JPAContainer<Country> countries =
-            JPAContainerFactory.make(Country.class, "book-examples");
+            JPAContainerFactory.make(Country.class, PERSISTENCE_UNIT);
 
         // A list for selecting the filter object 
         ListSelect countrySelect = new ListSelect("Pick a Filter", countries);
@@ -125,7 +128,7 @@ public class JPAFilteringExample extends CustomComponent implements BookExampleB
         // BEGIN-EXAMPLE: jpacontainer.criteria.querymodification
         // Create persistent container
         final JPAContainer<Person> persons =
-            JPAContainerFactory.make(Person.class, "book-examples");
+            JPAContainerFactory.make(Person.class, PERSISTENCE_UNIT);
 
         // Modify the query to include only people over 116
         persons.getEntityProvider().setQueryModifierDelegate(
@@ -162,7 +165,7 @@ public class JPAFilteringExample extends CustomComponent implements BookExampleB
         // BEGIN-EXAMPLE: jpacontainer.criteria.querymodification
         // Create persistent container
         final JPAContainer<Person> persons =
-            JPAContainerFactory.make(Person.class, "book-examples");
+            JPAContainerFactory.make(Person.class, PERSISTENCE_UNIT);
     
         // Modify the query to include only people over 116
         persons.getEntityProvider().setQueryModifierDelegate(

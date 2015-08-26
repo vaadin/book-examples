@@ -39,34 +39,34 @@ public class AccordionExample extends CustomComponent implements BookExampleBund
         layout.setWidth("300px");
 
         // BEGIN-EXAMPLE: layout.accordion.basic
+        // Create the accordion
         Accordion accordion = new Accordion();
-        layout.addComponent(accordion);
 
         // Create the first tab, specify caption when adding
         Layout tab1 = new VerticalLayout(); // Wrap in a layout
-        tab1.addComponent(new Image(null,
-                new ThemeResource("img/planets/Mercury.jpg")));
+        tab1.addComponent(new Image(null, // No component caption
+            new ThemeResource("img/planets/Mercury.jpg")));
         accordion.addTab(tab1, "Mercury",
-                new ThemeResource("img/planets/Mercury_symbol.png"));
+            new ThemeResource("img/planets/Mercury_symbol.png"));
 
         // This tab gets its caption from the component caption
         Component tab2 = new Image("Venus",
-                new ThemeResource("img/planets/Venus.jpg"));
+            new ThemeResource("img/planets/Venus.jpg"));
         accordion.addTab(tab2).setIcon(
-                new ThemeResource("img/planets/Venus_symbol.png"));
+            new ThemeResource("img/planets/Venus_symbol.png"));
 
         // And so forth the other tabs...
         String[] tabs = {"Earth", "Mars", "Jupiter", "Saturn"};
         for (String caption: tabs) {
+            String basename = "img/planets/" + caption;
             VerticalLayout tab = new VerticalLayout();
             tab.addComponent(new Embedded(null,
-                    new ThemeResource("img/planets/"+caption+".jpg")));
+                    new ThemeResource(basename + ".jpg")));
             accordion.addTab(tab, caption,
-                    new ThemeResource("img/planets/"+caption+"_symbol.png"));
+                    new ThemeResource(basename + "_symbol.png"));
         }
         // END-EXAMPLE: layout.accordion.basic
-        
-        
+        layout.addComponent(accordion);
     }
     
     void tabchange(VerticalLayout layout) {

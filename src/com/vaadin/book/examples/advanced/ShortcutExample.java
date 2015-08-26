@@ -45,6 +45,7 @@ public class ShortcutExample extends CustomComponent implements AnyBookExampleBu
         // END-EXAMPLE: advanced.shortcut.defaultbutton
         
         layout.setComponentAlignment(buttons, Alignment.MIDDLE_RIGHT);
+        layout.setSpacing(true);
         
         layout.setSizeUndefined();
     }
@@ -52,14 +53,16 @@ public class ShortcutExample extends CustomComponent implements AnyBookExampleBu
     public void focus(VerticalLayout layout) {
         // BEGIN-EXAMPLE: advanced.shortcut.focus
         // A field with Alt+N bound to it
-        TextField name = new TextField("Name (Alt+N)");
+        TextField name = new TextField("<u>N</u>ame (Alt+N)");
+        name.setCaptionAsHtml(true);
         name.addShortcutListener(
                 new AbstractField.FocusShortcut(name, KeyCode.N,
                                                 ModifierKey.ALT));
         layout.addComponent(name);
 
         // A field with Alt+A bound to it, using shorthand notation
-        TextField address = new TextField("Address (Alt+A)");
+        TextField address = new TextField("<u>A</u>ddress (Alt+A)");
+        address.setCaptionAsHtml(true);
         address.addShortcutListener(
                 new AbstractField.FocusShortcut(address, "&Address"));
         layout.addComponent(address);
@@ -75,8 +78,7 @@ public class ShortcutExample extends CustomComponent implements AnyBookExampleBu
                                                 ModifierKey.CTRL,
                                                 ModifierKey.SHIFT));
         // END-EXAMPLE: advanced.shortcut.modifier
-        
-        setCompositionRoot(layout);
+        layout.addComponent(name);
     }
 
     @Description("Click Enter key in any of the fields to launch the shortcut action")

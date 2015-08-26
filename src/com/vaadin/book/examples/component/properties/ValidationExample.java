@@ -1,8 +1,7 @@
 package com.vaadin.book.examples.component.properties;
 
-import com.vaadin.book.examples.BookExampleBundle;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.book.examples.AnyBookExampleBundle;
+import com.vaadin.book.examples.Description;
 import com.vaadin.data.Validator;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.util.ObjectProperty;
@@ -10,38 +9,17 @@ import com.vaadin.data.validator.IntegerRangeValidator;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-public class ValidationExample extends CustomComponent implements BookExampleBundle {
+public class ValidationExample extends CustomComponent implements AnyBookExampleBundle {
 	private static final long serialVersionUID = -1770451668233870037L;
 
-	public void init (String context) {
-        VerticalLayout layout = new VerticalLayout();
-
-        if ("basic".equals(context))
-            basic(layout);
-        else if ("explicit".equals(context))
-            explicit(layout);
-        else if ("customvalidator".equals(context))
-            customvalidator(layout);
-        else if ("automatic".equals(context))
-            automatic(layout);
-        else if ("integer".equals(context))
-            integer(layout);
-        else
-            layout.addComponent(new Label("Invalid context " + context));
-        
-        if (getCompositionRoot() == null)
-            setCompositionRoot(layout);
-	}
-	
-    void basic(final VerticalLayout layout) {
+	public void basic(final VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.field.validation.basic
         TextField field = new TextField("Name");
         field.setBuffered(true);
@@ -55,41 +33,39 @@ public class ValidationExample extends CustomComponent implements BookExampleBun
         // END-EXAMPLE: component.field.validation.basic
     }
     
-    void explicit(final VerticalLayout layout) {
+    public void explicit(final VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.field.validation.explicit
         // A field with automatic validation disabled
-        final TextField field = new TextField("Name");
+        TextField field = new TextField("Name");
         field.setValidationVisible(false);
+        field.setNullRepresentation("");
+        field.setNullSettingAllowed(true);
         layout.addComponent(field);
         
         // Define validation
         field.addValidator(new StringLengthValidator(
-            "The name must be 1-10 letters (was {0})",
-            1, 10, true));
+            "The name must be 6-10 letters (was {0})",
+            6, 10, true));
         
         // Run validation
-        Button validate = new Button("Validate");
-        validate.addClickListener(new ClickListener() {
-            private static final long serialVersionUID = 7729516791241492195L;
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                try {
-                    field.validate();
-                } catch (InvalidValueException e) {
-                    Notification.show(e.getMessage());
-                }
+        layout.addComponent(new Button("Validate", click -> { // Java 8
+            if (! field.isValid())
+                layout.addComponent(new Label("It's invalid"));
+            
+            try {
+                field.validate();
+            } catch (InvalidValueException e) {
+                Notification.show(e.getMessage());
             }
-        });
-        layout.addComponent(validate);
+        }));
         // END-EXAMPLE: component.field.validation.explicit
     }
 
-    void automatic(final VerticalLayout layout) {
+    public void automatic(final VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.field.validation.automatic
         // Have a string property with invalid initial value
         // TODO This doesn't work currently
-        final ObjectProperty<String> property =
+        ObjectProperty<String> property =
                 new ObjectProperty<String>("");
         property.setValue(null);
 
@@ -104,18 +80,13 @@ public class ValidationExample extends CustomComponent implements BookExampleBun
         // before it has changed
         field.setValidationVisible(false);
         field.setImmediate(true);
-        field.addValueChangeListener(new ValueChangeListener() {
-            private static final long serialVersionUID = -1183074712643340495L;
-
-            @Override
-            public void valueChange(ValueChangeEvent event) {
-                field.setValidationVisible(true);
-                if (field.getValue() == null)
-                    layout.addComponent(new Label("Null value"));
-                else
-                    layout.addComponent(new Label("Value edited, now: " +
-                                                  field.getValue()));
-            }
+        field.addValueChangeListener(click -> { // Java 8
+            field.setValidationVisible(true);
+            if (field.getValue() == null)
+                layout.addComponent(new Label("Null value"));
+            else
+                layout.addComponent(new Label("Value edited, now: " +
+                                              field.getValue()));
         });
         layout.addComponent(field);
 
@@ -123,8 +94,70 @@ public class ValidationExample extends CustomComponent implements BookExampleBun
         layout.addComponent(new Button("Validate"));
         // END-EXAMPLE: component.field.validation.automatic
     }
+
+    public void stringlengthvalidator(final VerticalLayout layout) {
+        // BEGIN-EXAMPLE: component.field.validation.stringlengthvalidator
+        FormLayout form = new FormLayout();
+        
+        TextField field1 = new TextField("6-10 letters, null allowed, 'null' is null");
+        field1.setBuffered(true);
+        field1.addValidator(new StringLengthValidator(
+            "The name must be 6-10 letters (input: {0})",
+            6, 10, true));
+        field1.setNullRepresentation("null"); // Default but set explicitly
+        field1.setNullSettingAllowed(true);
+        field1.setValidationVisible(true);
+        field1.setValue(null);
+        form.addComponent(field1);
+        
+        TextField field2 = new TextField("6-10 letters, null allowed, empty is null");
+        field2.setBuffered(true);
+        field2.addValidator(new StringLengthValidator(
+            "The name must be 6-10 letters (input: {0})",
+            6, 10, true));
+        field2.setNullRepresentation("");
+        field2.setNullSettingAllowed(true);
+        field2.setValidationVisible(true);
+        field2.setValue(null);
+        form.addComponent(field2);
+
+        TextField field3 = new TextField("6-10 letters, null not allowed, 'null' is null");
+        field3.setBuffered(true);
+        field3.addValidator(new StringLengthValidator(
+            "The name must be 6-10 letters (input: {0})",
+            6, 10, true));
+        field3.setNullRepresentation("null"); // Default but set explicitly
+        field3.setNullSettingAllowed(true);
+        field3.setValidationVisible(true);
+        field3.setValue(null);
+        form.addComponent(field3);
+        
+        TextField field4 = new TextField("6-10 letters, null not allowed, empty is null");
+        field4.setBuffered(true);
+        field4.addValidator(new StringLengthValidator(
+            "The name must be 6-10 letters (input: {0})",
+            6, 10, true));
+        field4.setNullRepresentation("");
+        field4.setNullSettingAllowed(true);
+        field4.setValidationVisible(true);
+        field4.setValue(null);
+        form.addComponent(field4);
+        
+        layout.addComponent(form);
+
+        // Runs validation implicitly
+        layout.addComponent(new Button("Validate", click -> {// Java 8
+           String valid = "";
+           TextField[] fields = new TextField[]{field1,field2,field3,field4};
+           for (int i=0; i<4; i++)
+               valid += "Field " + (i+1) + " value '" + fields[i].getValue() + "' is " +
+                        (fields[i].isValid()? "valid":"invalid") + ", ";
+           layout.addComponent(new Label(valid));
+        }));
+        // END-EXAMPLE: component.field.validation.stringlengthvalidator
+    }
     
-    void integer(final VerticalLayout layout) {
+    public void integer(final VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.field.validation.integer
         // Have a property of integer type
         ObjectProperty<Integer> property = new ObjectProperty<Integer>(0);
@@ -150,13 +183,11 @@ public class ValidationExample extends CustomComponent implements BookExampleBun
         // END-EXAMPLE: component.field.validation.integer
     }
     
-    public static final String customvalidatorDescription =
-        "<h1>Custom Field Validator</h1>\n" +
+    @Description(title="Custom Field Validator", value=
         "<p>You can make custom field validators by implementing the <b>Validator</b> interface.</p>" +
         "<p>Notice that validators are not run if the field value is empty. This causes the " +
-        "NullValidator to not work when the null representation is set to \"\".</p>";
-    
-    void customvalidator(final VerticalLayout layout) {
+        "NullValidator to not work when the null representation is set to \"\".</p>")
+    public void customvalidator(final VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.field.validation.customvalidator
         class MyValidator implements Validator {
             private static final long serialVersionUID = -8281962473854901819L;

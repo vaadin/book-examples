@@ -13,7 +13,6 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
@@ -46,7 +45,8 @@ public class CustomComponentExample extends CustomComponent implements BookExamp
         public MyComposite(String message) {
             // A layout structure used for composition
             Panel panel = new Panel("My Custom Component");
-            Layout panelContent = new VerticalLayout();
+            VerticalLayout panelContent = new VerticalLayout();
+            panelContent.setMargin(true); // Very useful
             panel.setContent(panelContent);
             
             // Compose from multiple components
@@ -56,7 +56,7 @@ public class CustomComponentExample extends CustomComponent implements BookExamp
             panelContent.addComponent(new Button("Ok"));
 
             // Set the size as undefined at all levels
-            panel.getContent().setSizeUndefined();
+            panelContent.setSizeUndefined();
             panel.setSizeUndefined();
             setSizeUndefined();
 

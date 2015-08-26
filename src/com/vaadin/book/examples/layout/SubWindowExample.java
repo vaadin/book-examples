@@ -3,6 +3,7 @@ package com.vaadin.book.examples.layout;
 import java.util.Iterator;
 import java.util.function.Consumer;
 
+import com.vaadin.annotations.Theme;
 import com.vaadin.book.examples.AnyBookExampleBundle;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.Page;
@@ -32,6 +33,7 @@ public class SubWindowExample extends CustomComponent implements AnyBookExampleB
     }
     
     // BEGIN-EXAMPLE: layout.sub-window.basic
+    @Theme("valo")
     public static class SubWindowUI extends UI {
         private static final long serialVersionUID = -4813641359577526734L;
 
