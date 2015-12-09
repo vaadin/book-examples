@@ -210,4 +210,4 @@ public class CustomViewProviderUI extends UI {
 }
 // END-EXAMPLE: advanced.navigator.customviewprovider
 // EXAMPLE-FILE: advanced.navigator.customviewprovider /com/vaadin/book/examples/advanced/MainView.html
-// EXAMPLE-FILE: advanced.navigator.customviewprovider /com/vaadin/book/examples/advanced/AnimalViewer.html
+// EXAMPLE-FILE: advanced.navigator.customviewprovider /com/vaadin/book/examples/advanced/AnimalView.html

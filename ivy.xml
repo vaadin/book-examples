@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE ivy-module [
-    <!ENTITY vaadin.version "7.5.4">
+    <!ENTITY vaadin.version "7.5.10">
 
     <!-- This is normally 'default' but 'build' for locally built Vaadin core. -->
     <!ENTITY defaultconf "default">
@@ -55,7 +55,7 @@
         <dependency org="javax.servlet" name="javax.servlet-api" rev="3.0.1" conf="nodeploy->default" />
 
        <!-- Disabled: -SNAPSHOT -->
-       <dependency org="com.vaadin.addon" name="vaadin-touchkit-agpl" rev="4.0.0" conf="default,widgetset-compile->default"/>
+       <dependency org="com.vaadin.addon" name="vaadin-touchkit-agpl" rev="4.0.3" conf="default,widgetset-compile->default"/>
 
        <dependency org="com.vaadin.addon" name="vaadin-spreadsheet" rev="1.1.0.alpha1" conf="default,widgetset-compile->default"/>
        

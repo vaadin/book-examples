@@ -20,12 +20,14 @@ public class MainView extends CustomComponent
     
     public final static String NAME = "main";
 
-    @Autowired
     User user;
     
     Label greeting = new Label();
     
-    public MainView() {
+    @Autowired
+    public MainView(User user) {
+        this.user = user;
+
         VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
         layout.addComponent(greeting);

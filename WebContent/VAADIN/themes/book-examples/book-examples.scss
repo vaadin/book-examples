@@ -577,14 +577,19 @@ $borderthickness: 5px;
 	/* END-EXAMPLE: component.passwordfield.css */
 	
 	/* BEGIN-EXAMPLE: component.textfield.widthfitting */
-	.textfieldexample .v-label-monospace,
-	.textfieldexample .v-textfield {
-		font-family: monospace;
-	}
-	.textfieldexample .v-label-monospace {
-		padding: 0px 5px;
-		color: #a0a0a0;
-	}
+	.textfieldexample {
+        .v-label-monospace, .v-textfield {
+            font-family: monospace;
+        }
+	   .v-label-monospace {
+            padding: 0px 10px;
+            color: #a0a0a0;
+            overflow: hidden;
+        }
+        .v-textfield {
+            width: 100%;
+        }
+    }
 	/* END-EXAMPLE: component.textfield.widthfitting */
 	
 	/************************/

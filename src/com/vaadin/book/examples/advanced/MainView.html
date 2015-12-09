@@ -1,12 +1,9 @@
-<v-vertical-layout size-full>
+<v-horizontal-layout size-full>
   <v-label _id="title">Animal Farm</v-label>
-  <v-horizontal-layout size-full :expand>
-    <v-panel caption="List of Equals" height-full width-auto>
-      <v-vertical-layout _id="menuContent" width-auto margin/>
-    </v-panel>
+  <v-css-layout _id="menuContent" width-auto/>
 
     <v-panel _id="equalPanel" caption="An Equal" size-full :expand/>
   </v-horizontal-layout>
 
-  <v-button _id="logout">Logout</v-button>
-</v-vertical-layout>
+  <v-button _id="logoutButton">Logout</v-button>
+</v-horizontal-layout>

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Locale;
 
 import com.vaadin.book.examples.AnyBookExampleBundle;
+import com.vaadin.book.examples.Description;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.fieldgroup.FieldGroup;
@@ -15,7 +16,6 @@ import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.validator.DoubleRangeValidator;
 import com.vaadin.data.validator.IntegerRangeValidator;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -356,14 +356,16 @@ public class TextFieldExample extends CustomComponent implements AnyBookExampleB
         layout.addComponent(tf);
     }
 
-    public static String widthfittingDescription =
-        "<h1>Fitting the Width of a TextField</h1>" +
+    @Description(title="Fitting the Width of a TextField", value=
         "<p>Setting the max width of a TextField does not set its width, "+
         "and setting the width with em widths is too wide for the number of letters. "+
         "You can use this trick to fit the width almost exactly. "+
         "You need to add some small padding as the TextField borders take some space."+
-        "The sizer label can be hidden by setting its height to 0px (here it's not).</p>";
-    
+        "The sizer label can be hidden by setting its height to 0px (here it's not).</p>" +
+        "<p><b>This does not work any longer because of changes in Vaadin's layout logic " +
+        "that nowadays uses more pure HTML logic. " +
+        "More exactly, a component with relative width can no longer shrink smaller " +
+        "than its natural default width, which is rather wide for TextField.</p>")
     public void widthfitting(VerticalLayout layout) {
         // BEGIN-EXAMPLE: component.textfield.widthfitting
         // A vertical layout with undefined width
@@ -373,20 +375,21 @@ public class TextFieldExample extends CustomComponent implements AnyBookExampleB
         // This text field takes all the width given
         // in the layout, which is the same as the
         // width of the label.
-        TextField tf = new TextField("Give Date and Time");
+        TextField tf = new TextField("Give Date");
         tf.setWidth("100%");
         tf.setMaxLength(10);
-        tf.setValue("01/01/2011 01:01");
+        tf.setValue("2011-01-01");
         box.addComponent(tf);
 
         // The layout shrinks to fit this label
-        Label label = new Label("01/01/2011 01:01");
+        Label label = new Label("2011-01-01");
         label.addStyleName("monospace");
-        label.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
-        label.setHeight("1em"); // Hide: Could be 0px
+        label.setSizeUndefined();
+        label.setHeight("15px"); // Hide: Could be 0px
         box.addComponent(label);
         // END-EXAMPLE: component.textfield.widthfitting
-        
+
+        layout.addStyleName("textfieldexample");
         layout.addComponent(box);
     }
     
