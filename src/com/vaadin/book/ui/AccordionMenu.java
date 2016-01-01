@@ -82,8 +82,8 @@ public class AccordionMenu extends AbstractExampleMenu {
 
     TOCTabContent historytab;
 
-    public AccordionMenu(Layout viewLayout, Panel viewpanel) {
-        super(viewLayout, viewpanel);
+    public AccordionMenu(Layout viewLayout, Label exampleTitle) {
+        super(viewLayout, exampleTitle);
 
         addStyleName("menupanel");
         setWidth("300px");

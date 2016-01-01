@@ -49,6 +49,7 @@ public class AddonTests extends CustomComponent implements BookExampleBundle {
         String fn_regexp = "^\\d+$";
         validator.setRegExp(fn_regexp);
         validator.setErrorMessage("Enter a number");
+        validator.setPreventInvalidTyping(true);
         validator.extend(tf);
         
         layout.addComponent(tf);

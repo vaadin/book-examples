@@ -39,11 +39,11 @@ public class AbstractExampleMenu extends CustomComponent {
         private static final long serialVersionUID = 8236533959795019956L;
         
         Layout viewLayout;
-        Panel viewpanel;
+        Label exampleTitle;
         
-        public MenuSelectionListener(Layout viewLayout, Panel viewPanel) {
+        public MenuSelectionListener(Layout viewLayout, Label exampleTitle) {
             this.viewLayout = viewLayout;
-            this.viewpanel = viewPanel;
+            this.exampleTitle = exampleTitle;
         }
 
         public void valueChange(ValueChangeEvent event) {
@@ -63,7 +63,7 @@ public class AbstractExampleMenu extends CustomComponent {
                 } else { // A leaf
                     BookExample example = (BookExample) exampleItem;
 
-                    viewpanel.setCaption(example.getShortName());
+                    exampleTitle.setValue(example.getShortName());
                             
                     // Load unless already loaded
                     File baseDir = VaadinService.getCurrent().getBaseDirectory();
@@ -180,7 +180,7 @@ public class AbstractExampleMenu extends CustomComponent {
                         horizontalOrder.addComponent(new SourceListing("CSS Code", srcurl, csscode));
                     }
                     
-                    if (horizontalOrder.getComponentIterator().hasNext())
+                    if (horizontalOrder.iterator().hasNext())
                         viewLayout.addComponent(horizontalOrder);
                     if (bookRefs != null)
                         viewLayout.addComponent(bookRefs);
@@ -202,14 +202,14 @@ public class AbstractExampleMenu extends CustomComponent {
     
     HashMap<String,CaptionedExampleItem> exampleitems;
     
-    public AbstractExampleMenu(Layout viewLayout, Panel viewpanel) {
+    public AbstractExampleMenu(Layout viewLayout, Label exampleTitle) {
         menu = createMenuTree();
 
         // Collect examples here
         exampleitems = new HashMap<String,CaptionedExampleItem>();
 
         // Handle menu selection
-        menu.addValueChangeListener(new MenuSelectionListener(viewLayout, viewpanel));
+        menu.addValueChangeListener(new MenuSelectionListener(viewLayout, exampleTitle));
     }
     
     protected Tree createMenuTree() {

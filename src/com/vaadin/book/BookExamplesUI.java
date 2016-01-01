@@ -14,17 +14,16 @@ import com.vaadin.server.Responsive;
 import com.vaadin.server.SystemMessages;
 import com.vaadin.server.SystemMessagesInfo;
 import com.vaadin.server.SystemMessagesProvider;
-import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
 // BEGIN-EXAMPLE: themes.misc.webfonts
 
@@ -58,67 +57,46 @@ public class BookExamplesUI extends UI {
         getLogger().info(
             "MaxInactiveInterval " + VaadinSession.getCurrent().getSession().getMaxInactiveInterval());
 
-        VerticalLayout mainLayout = new VerticalLayout();
-        setContent(mainLayout);
+        HorizontalLayout mainLayout = new HorizontalLayout();
         mainLayout.setSizeFull();
+        setContent(mainLayout);
         
         Responsive.makeResponsive(mainLayout);
 
+        VerticalLayout viewArea = new VerticalLayout();
+        viewArea.setSizeFull();
+        
         // Title bar
         HorizontalLayout titlebar = new HorizontalLayout();
         titlebar.addStyleName("titlebar");
         titlebar.setWidth("100%");
-        VerticalLayout titlebox = new VerticalLayout();
-        titlebox.setSizeUndefined();
-        titlebox.addStyleName("titlebox");
         Label title = new Label("Book of Vaadin Examples");
         title.addStyleName("title");
-        title.setWidth(null);
-        titlebox.addComponent(title);
-        Label subtitle = new Label("Vaadin 7 Edition");
-        subtitle.addStyleName("subtitle");
-        subtitle.setWidth(null);
-        titlebox.addComponent(subtitle);
-        titlebar.addComponent(titlebox);
-        titlebar.setComponentAlignment(titlebox, Alignment.TOP_LEFT);
+        title.setWidthUndefined();
+        titlebar.addComponent(title);
+        Label exampleTitle = new Label();
+        exampleTitle.setWidthUndefined();
+        titlebar.addComponent(exampleTitle);
+        titlebar.setComponentAlignment(exampleTitle, Alignment.MIDDLE_RIGHT);
+        viewArea.addComponent(titlebar);
 
-        // Right part of title bar
-        VerticalLayout logobox = new VerticalLayout();
-        Image logo = new Image(null, new ThemeResource("img/vaadin-logo.png"));
-        logobox.addComponent(logo);
-        logobox.setComponentAlignment(logo, Alignment.TOP_RIGHT);
-        Label broken = new Label("Notice - some examples are broken at the moment");
-        broken.setSizeUndefined();
-        broken.addStyleName("subtitle");
-        logobox.addComponent(broken);
-        logobox.setComponentAlignment(broken, Alignment.BOTTOM_RIGHT);
-        logobox.setHeight("100%"); // Should take height from the titlebox
-        titlebar.addComponent(logobox);
-
-        mainLayout.addComponent(titlebar);
-
-        HorizontalLayout hor = new HorizontalLayout();
-        hor.addStyleName("menu-and-view");
-        hor.setMargin(true);
-        hor.setSpacing(true);
-        hor.setSizeFull();
-        mainLayout.addComponent(hor);
-        mainLayout.setExpandRatio(hor, 1.0f);
-
-        final Panel viewpanel = new Panel("Selected Example");
-        viewpanel.addStyleName("viewpanel");
-        viewpanel.setSizeFull();
-        final VerticalLayout viewLayout = new VerticalLayout();
+        Panel examplePanel = new Panel();
+        examplePanel.addStyleName("viewpanel");
+        examplePanel.addStyleName(ValoTheme.PANEL_BORDERLESS);
+        examplePanel.setSizeFull();
+        VerticalLayout viewLayout = new VerticalLayout();
         viewLayout.addStyleName("viewlayout");
         viewLayout.setSpacing(true);
         viewLayout.setMargin(true);
-        viewpanel.setContent(viewLayout);
+        examplePanel.setContent(viewLayout);
+        viewArea.addComponent(examplePanel);
+        viewArea.setExpandRatio(examplePanel, 1.0f);
 
-        menu = new TreeMenu(viewLayout, viewpanel);
-        hor.addComponent(menu);
+        menu = new TreeMenu(viewLayout, exampleTitle);
+        mainLayout.addComponent(menu);
 
-        hor.addComponent(viewpanel);
-        hor.setExpandRatio(viewpanel, 1.0f);
+        mainLayout.addComponent(viewArea);
+        mainLayout.setExpandRatio(viewArea, 1.0f);
 
         File baseDir = VaadinService.getCurrent().getBaseDirectory();
         BookExampleLibrary library = BookExampleLibrary.getInstance(baseDir);
@@ -141,7 +119,7 @@ public class BookExamplesUI extends UI {
                 }
             });
     }
-
+    
     // BEGIN-EXAMPLE: advanced.servletrequestlistener.introduction
     // In the sending application class we define:
     int clicks = 0;

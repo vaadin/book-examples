@@ -1,7 +1,7 @@
 /*****************************************************************************/
 /* Valo parameters.                                                          */
 /*****************************************************************************/
-$v-app-background-color: #ffffff;
+$v-app-background-color: #e0e0e0;
 
 @import "../valo/valo";
 
@@ -14,6 +14,8 @@ $vaadingreen:  #00b400;
 $vaadinorange: #f39300;
 $vaadingray:   #d9d9cd;
 $borderthickness: 5px;
+
+$menuwidth:    300px;
 
 @mixin vaadinfontbold {
 	font-family: "HelveticaW01-RoundedBd","Helvetica Neue",sans-serif;
@@ -43,7 +45,7 @@ $borderthickness: 5px;
     @include valo;
 	
     .titlebar {
-        padding: 5px;
+        padding: 10px;
         
         .v-embedded {
             margin: 10px;
@@ -54,16 +56,22 @@ $borderthickness: 5px;
 	    margin: 0px;
 	    padding: 10px;
 	    padding-right: 100px;
-	    border-bottom: thin solid gray;
 	    border-radius: 10px;
 	    
 	    border: solid $vaadinblue $borderthickness;
         color: black;
 	}
 	
+	.v-slot-vaadinlogo {
+	    text-align: left;
+	    padding-left: 20px;
+        padding-bottom: 30px;
+        border-bottom: thin solid gray;
+    }
+	
 	.v-label-title {
 	    @include vaadinfontbold;
-	    font-size: 30px;
+	    font-size: 15px;
 	    line-height: 30px;
 	}
 	
@@ -86,10 +94,10 @@ $borderthickness: 5px;
     }
 
     .examplemenu {
-        background: $vaadingreen url("icons/vaadin-arrow-down-white.png") no-repeat 10px 0px;
-        border-radius: 10px;
+        background: white;
         padding-top: 30px;
-        color: white;
+        border-bottom: solid 1px gray;
+        color: gray;
 
         /* This is not used at the moment
         .v-accordion {
@@ -134,8 +142,8 @@ $borderthickness: 5px;
 	        border: none;
 	    
 	        .v-panel-caption {
-                background: $vaadingreen;
-                color: white;
+                background: white;
+                color: gray;
 	            padding-top: 5px;
 	            box-shadow: none; 
 	            @include vaadinfontbold;
@@ -143,7 +151,7 @@ $borderthickness: 5px;
 
 		    .v-tree-node-caption.v-tree-node-caption-chaptertitle {
 		        @include vaadinfontbold;
-	            color: white;
+	            color: black;
 	            font-size: $menu-font-size + 2pt;
                 line-height: $menu-font-size + 6pt;
                 height: $menu-font-size + 6pt;
@@ -152,7 +160,7 @@ $borderthickness: 5px;
 		    .v-tree-node-caption {
 		        /* Vaadin font is a bit too thin here without bold */
 		        @include vaadinfontnormal;
-		        color: white;
+		        color: gray;
 		        font-size: $menu-font-size;
 		        font-weight: bold;
 		        line-height: $menu-font-size + 4pt;
@@ -165,7 +173,7 @@ $borderthickness: 5px;
 		        margin-top: -20px; // This is needed for some odd reason for on-the-fly compilation
 		    }
             .v-tree-node-selected:after {
-                background-color: green;
+                background-color: lightgray;
                 background-image: none;
             }
 
@@ -192,17 +200,16 @@ $borderthickness: 5px;
 	        }
 
 		    .v-panel-content {
-	            background: $vaadingreen;
+	            background: white;
 	            padding-bottom: 20px;
 	        }
 	    }
     }
 	
     .viewpanel {
-        border-radius: 10px;
-        border: solid $vaadinorange $borderthickness;
+        border: none;
         color: black;
-        
+
         .v-panel-caption-viewpanel {
             background: white url("icons/vaadin-arrow-right-orange.png") no-repeat 0px 10px;
             padding-left: 35px;
@@ -281,25 +288,6 @@ $borderthickness: 5px;
         font-size: round(0.85 * $v-font-size);
     }
     
-    /* jQuery custom content scroller */
-    .v-panel-content-scrollcontent {
-        .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
-            width: 8px;
-        }
-        .mCSB_scrollTools .mCSB_draggerRail {
-            background: rgba(255,255,255,0.5);
-        }
-    }
-
-    .viewpanel .v-panel-content-scrollcontent {
-        .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
-            background: rgba(243,147,0,1.0); /* f39300 */
-        }
-        .mCSB_scrollTools .mCSB_draggerRail {
-            background: rgba(243,147,0,0.5);
-        }
-    }
-	
 	.v-form-bordered > fieldset {
 		border: thin solid;
 	    padding: 5px;
