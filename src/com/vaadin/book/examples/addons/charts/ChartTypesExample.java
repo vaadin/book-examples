@@ -115,9 +115,10 @@ public class ChartTypesExample extends CustomComponent implements BookExampleBun
             DataSeries series = new DataSeries();
             series.setName(columns[s]);
             final int startValue = 1959;
-            for (int i = 0; i < data[s].length; i++)
-                series.add(new DataSeriesItem(startValue + i,
-                                              data[s][i]));
+            for (int aaa = 0; aaa < 100; aaa++)
+                for (int i = 0; i < data[s].length; i++)
+                    series.add(new DataSeriesItem(startValue + i,
+                                                  data[s][i]));
         
             // Modify the color of one point
             int maxitem = findMaxItem(data, s);

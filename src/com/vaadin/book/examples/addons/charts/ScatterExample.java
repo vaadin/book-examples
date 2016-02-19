@@ -20,7 +20,7 @@ import com.vaadin.ui.VerticalLayout;
 public class ScatterExample extends CustomComponent implements AnyBookExampleBundle {
     private static final long serialVersionUID = 6699462235800845680L;
 
-    public void scatterchart (VerticalLayout layout) {
+    public void scatter (VerticalLayout layout) {
         // BEGIN-EXAMPLE: charts.charttype.scatter
         Chart chart = new Chart(ChartType.SCATTER);
         chart.setWidth("500px");

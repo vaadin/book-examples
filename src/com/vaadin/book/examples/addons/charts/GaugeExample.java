@@ -29,7 +29,7 @@ public class GaugeExample extends CustomComponent implements AnyBookExampleBundl
         
         // Modify the default configuration a bit
         Configuration conf = chart.getConfiguration();
-        conf.setTitle("Gauge");
+        conf.setTitle("Speedometer");
         conf.getPane().setStartAngle(-135);
         conf.getPane().setEndAngle(135);
         
@@ -49,10 +49,16 @@ public class GaugeExample extends CustomComponent implements AnyBookExampleBundl
         yaxis.setMax(100);
         yaxis.getLabels().setStep(1);
         yaxis.setTickInterval(10);
+        yaxis.setTickLength(10);
+        yaxis.setTickWidth(1);
+        yaxis.setMinorTickInterval(1);
+        yaxis.setMinorTickLength(5);
+        yaxis.setMinorTickWidth(1);
         yaxis.setPlotBands(new PlotBand[]{
                 new PlotBand(0,  60,  SolidColor.GREEN),
                 new PlotBand(60, 80,  SolidColor.YELLOW),
                 new PlotBand(80, 100, SolidColor.RED)});
+        yaxis.setGridLineWidth(0); // Disable grid
         conf.addyAxis(yaxis);
         
         layout.addComponent(chart);
@@ -117,6 +123,7 @@ public class GaugeExample extends CustomComponent implements AnyBookExampleBundl
         yaxis.setTickInterval(100); // At 0, 100, and 200
         yaxis.getLabels().setY(16); // Move 16 px downwards
         // yaxis.getLabels().setRotationPerpendicular();
+        yaxis.setGridLineWidth(0); // Disable grid
 
         // Configure color change stops
         yaxis.setStops(new Stop(0.1f, SolidColor.GREEN),
