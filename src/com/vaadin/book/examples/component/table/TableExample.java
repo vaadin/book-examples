@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Formatter;
 import java.util.HashMap;
@@ -12,22 +13,24 @@ import java.util.Iterator;
 import java.util.Locale;
 
 import com.vaadin.book.examples.BookExampleBundle;
+import com.vaadin.book.examples.Description;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.util.GeneratedPropertyContainer;
 import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.data.util.ObjectProperty;
+import com.vaadin.data.util.PropertyValueGenerator;
 import com.vaadin.event.Action;
 import com.vaadin.event.Action.Handler;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.Resource;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
@@ -58,7 +61,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Reindeer;
 
 public class TableExample extends CustomComponent implements BookExampleBundle {
-    private static final long serialVersionUID = -4292553844521293140L;
+    private static final long serialVersionUID = 8927954340596631505L;
 
     public void init (String context) {
         VerticalLayout layout = new VerticalLayout();
@@ -1224,7 +1227,8 @@ public class TableExample extends CustomComponent implements BookExampleBundle {
         }
     }
     
-    void rowheaders() {
+    @Description("Shows how to add row header icon")
+    public void rowheaders() {
         VerticalLayout layout = new VerticalLayout();
 
         // BEGIN-EXAMPLE: component.table.rowheaders
@@ -1238,38 +1242,33 @@ public class TableExample extends CustomComponent implements BookExampleBundle {
                 new Planet("Uranus", 0, 0, 0, 0, false),    
                 new Planet("Neptune", 0, 0, 0, 0, false),    
         };
-        
-        // Create a container that has an image filename property
-        IndexedContainer container = new IndexedContainer();
 
-        // Copy the bean properties to the container
-        BeanItem<Planet> itemtemplate =
-            new BeanItem<Planet>(planets[0]);
-        for (Object pid: itemtemplate.getItemPropertyIds())
-            container.addContainerProperty(pid, pid.getClass(), null);
+        // Put the beans to a container 
+        BeanItemContainer<Planet> bic = new BeanItemContainer<Planet>(Planet.class);
+        bic.addAll(Arrays.asList(planets));
         
         // Add an icon property
-        container.addContainerProperty("icon", Resource.class, null);
+        GeneratedPropertyContainer gpc = new GeneratedPropertyContainer(bic);
+        gpc.addGeneratedProperty("icon", new PropertyValueGenerator<Resource>() {
+            private static final long serialVersionUID = -5268147622752316987L;
 
-        // Copy the data
-        for (Planet planet: planets) {
-            BeanItem<Planet> beanitem = new BeanItem<Planet>(planet);
+            @Override
+            public Resource getValue(Item item, Object itemId,
+                Object propertyId) {
+                return new ThemeResource("img/planets/" +
+                    item.getItemProperty("name").getValue().toString() +
+                    "_symbol.png");
+            }
 
-            // Create an item in the table
-            Item item = container.getItem(container.addItem());
-            
-            // Copy the bean properties to the actual item
-            for (Object pid: beanitem.getItemPropertyIds())
-                container.addContainerProperty(pid, pid.getClass(), null);
-            
-            // Add the column icon filename
-            item.getItemProperty("icon").setValue(
-                    new ObjectProperty<String>("img/planets/" +
-                            planet.getName() + "_symbol.png"));
-        }
+            @Override
+            public Class<Resource> getType() {
+                return Resource.class;
+            }
+        });
 
         // Bind it to a table
-        Table table = new Table("Custom Column Headers", container);
+        Table table = new Table("Custom Column Headers", gpc);
+        table.setVisibleColumns(new Object[]{"name"});
         
         // Use only icons in the row header
         table.setRowHeaderMode(Table.RowHeaderMode.ICON_ONLY);
