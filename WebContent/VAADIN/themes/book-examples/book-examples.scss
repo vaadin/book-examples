@@ -1,7 +1,7 @@
 /*****************************************************************************/
 /* Valo parameters.                                                          */
 /*****************************************************************************/
-$v-app-background-color: #e0e0e0;
+$v-app-background-color: #ffffff;
 
 @import "../valo/valo";
 
@@ -306,21 +306,23 @@ $menuwidth:    300px;
 	/*****************************************************************************/
 	
 	/* BEGIN-EXAMPLE: component.slider */ 
-	.sliderexample .boxcontainer {
-		background: blue;
-	}
-	
-	.sliderexample .v-verticallayout-margin {
-		padding: 2px;
-	}
-	
-	.sliderexample .boxcontainer > div {
-		background: white;
-	}
-	
-	.sliderexample .sizeablebox {
-		background: gray;
-	}
+    .sliderexample {
+        .boxcontainer {
+            background: blue;
+        }
+        .boxcontainer.v-margin-left {padding-left: 1px}
+        .boxcontainer.v-margin-top {padding-top: 1px}
+        .boxcontainer.v-margin-bottom {padding-bottom: 1px}
+        .boxcontainer.v-margin-right {padding-right: 1px}
+
+        .boxcontainer > div {
+            background: white;
+        }
+
+        .sizeablebox {
+            background: gray;
+        }
+    }
 	/* END-EXAMPLE: component.slider */ 
 	
 	/*****************************************************************************/
