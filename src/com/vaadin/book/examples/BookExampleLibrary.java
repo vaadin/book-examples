@@ -621,6 +621,7 @@ public class BookExampleLibrary {
             new BookExample("layout.orderedlayout.basic", "Basic Use", OrderedLayoutExample.class),
             new BookExample("layout.orderedlayout.adjustments", "Layout Adjustments", OrderedLayoutExample.class),
             new ExampleCtgr("layout.orderedlayout.sizing", "Sizing Contained Components"),
+            new BookExample("layout.orderedlayout.sizing.shrinktofit", "Shrinking to Fit", OrderedLayoutExample.class),
             new BookExample("layout.orderedlayout.sizing.undefineddefiningsize", "Defining with Contained Size", OrderedLayoutExample.class),
             new BookExample("layout.orderedlayout.sizing.relativesize", "Relative Size", OrderedLayoutExample.class),
             new ExampleCtgr("layout.formlayout-", "FormLayout"),

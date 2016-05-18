@@ -403,13 +403,30 @@ $menuwidth:    300px;
 	/*****************************************************************************/
 	/* OrderedLayoutExample                                                      */
 	/*****************************************************************************/
-	/* BEGIN-EXAMPLE: layout.orderedlayout.sizing.sizing-undefined-defining */
-	/* Red border on left and right */
-	.v-verticallayout-bordered {
-	    border: medium solid red;
-	}
-	/* END-EXAMPLE: layout.orderedlayout.sizing.sizing-undefined-defining */
-	
+    /* BEGIN-EXAMPLE: layout.orderedlayout.sizing.shrinktofit */
+    /* Color the component borders and have some spacing and padding. */
+    .v-verticallayout-shrinktofit {
+        border: 2px solid #ff3a49;
+        padding: 2px;
+
+        .v-spacing {
+            height: 2px;
+        }
+
+        .v-label {
+            border: 2px solid #00b4f0;
+            padding: 2px;
+        }
+    }
+    /* END-EXAMPLE: layout.orderedlayout.sizing.shrinktofit */
+
+    /* BEGIN-EXAMPLE: layout.orderedlayout.sizing.undefineddefiningsize */
+    /* Red border on left and right */
+    .v-verticallayout-bordered {
+        border: medium solid red;
+    }
+    /* END-EXAMPLE: layout.orderedlayout.sizing.undefineddefiningsize */
+
 	/*****************************************************************************/
 	/* ExpandRatioExample                                                        */
 	/*****************************************************************************/

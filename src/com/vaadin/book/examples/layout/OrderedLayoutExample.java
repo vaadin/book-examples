@@ -61,6 +61,27 @@ public class OrderedLayoutExample extends CustomComponent implements AnyBookExam
         layout.addComponent(container);
     }
     
+    @Description(title="Shrinking to fit", value=
+        "<p>Layout with undefined size shrinks to fit the largest contained component.</p>")
+    public void shrinktofit(VerticalLayout layout) {
+        // BEGIN-EXAMPLE: layout.orderedlayout.sizing.shrinktofit
+        VerticalLayout vertical = new VerticalLayout();
+        vertical.setWidthUndefined(); // Shrink to fit
+        
+        for (String str: new String[]{"Short", "A bit longer",
+                "Really really really long",
+                "Quite long still"}) {
+            Label label = new Label(str);
+            label.setWidthUndefined(); // Shrink to fit text
+            vertical.addComponent(label);
+        }
+        // END-EXAMPLE: layout.orderedlayout.sizing.shrinktofit
+        
+        vertical.addStyleName("shrinktofit");
+        vertical.setSpacing(true);
+        layout.addComponent(vertical);
+    }
+    
     @Description(title="Defining the Width of an VerticalLayout by Contained Component</h1>", value =
         "<p>Normally, you wouldn't be able to put components with percentual size "+
         "in a layout with undefined size. In <b>VerticalLayout</b> and <b>HorizontalLayout</b>, "+
