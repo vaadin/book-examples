@@ -15,6 +15,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
 public class LayoutExample extends CustomComponent implements BookExampleBundle {
     private static final long serialVersionUID = -8458669675797366833L;
@@ -31,20 +32,21 @@ public class LayoutExample extends CustomComponent implements BookExampleBundle 
     }
     
     void catfinder() {
-        setWidth("700px");
-        setHeight("400px");
+        setWidth("600px");
+        setHeight("350px");
         
         // BEGIN-EXAMPLE: layout.overview.catfinder
         // Create the root content layout
         VerticalLayout root = new VerticalLayout();
         root.addStyleName("catfinder");
-        root.setMargin(true);
         root.setSizeFull();
         
         // Add the components
         
         // Title bar
         HorizontalLayout titleBar = new HorizontalLayout();
+        titleBar.addStyleName("titlebar");
+        titleBar.setMargin(true);
         titleBar.setWidth("100%");
         root.addComponent(titleBar);
 
@@ -60,75 +62,95 @@ public class LayoutExample extends CustomComponent implements BookExampleBundle 
         // Horizontal layout with selection tree on the left and 
         // a details panel on the right.
         HorizontalLayout horlayout = new HorizontalLayout();
+        horlayout.addStyleName("treedetailsview");
         horlayout.setSizeFull();
         horlayout.setSpacing(true);
         root.addComponent(horlayout);
         root.setExpandRatio(horlayout, 1);
 
-        // Layout for the menu area. Wrap the menu in a Panel to allow
-        // scrollbar.
-        Panel menuContainer = new Panel("The Possible Places");
-        menuContainer.addStyleName("menucontainer");
-        menuContainer.addStyleName("light"); // No border
-        menuContainer.setWidth(null); // Undefined width
-        menuContainer.setHeight("100%");
-        horlayout.addComponent(menuContainer);
+        // Layout for the menu area.
+        // Wrap the menu in a Panel to allow scrollbar.
+        Panel menuPanel = new Panel("The Possible Places");
+        menuPanel.addStyleName("planetpanel");
+        menuPanel.addStyleName(ValoTheme.PANEL_BORDERLESS);
+        menuPanel.setWidth("180px");
+        menuPanel.setHeight("100%");
+        horlayout.addComponent(menuPanel);
         
         // A menu tree, fill it later.
         Tree menu = new Tree();
         menu.setSizeUndefined();
-        menuContainer.setContent(menu);
+        menuPanel.setContent(menu);
 
         // A panel for the main view area on the right side
-        Panel detailspanel = new Panel("Details");
-        detailspanel.addStyleName("detailspanel");
-        detailspanel.addStyleName("light"); // No borders
-        detailspanel.setSizeFull();
-        horlayout.addComponent(detailspanel);
+        Panel detailsPanel = new Panel("Details");
+        detailsPanel.addStyleName("detailspanel");
+        detailsPanel.addStyleName(ValoTheme.PANEL_BORDERLESS);
+        detailsPanel.setSizeFull();
+        horlayout.addComponent(detailsPanel);
 
         // Have a vertical layout in the Details panel.
         VerticalLayout detailsLayout = new VerticalLayout();
         detailsLayout.setSizeFull();
-        detailspanel.setContent(detailsLayout);
+        detailsPanel.setContent(detailsLayout);
         
         // Put some stuff in the Details view.
         VerticalLayout detailsbox = new VerticalLayout();
         detailsbox.setSizeUndefined();
-        final Label question = new Label("Where is the cat?");
+        Label question = new Label("Where is the cat?");
         question.setSizeUndefined(); 
         detailsbox.addComponent(question);
-        final Label location = new Label("I don't know! Tell me!");
+        Label location = new Label("I don't know! Tell me!");
         location.setSizeUndefined(); 
         detailsbox.addComponent(location);
         detailsLayout.addComponent(detailsbox);
-        detailsLayout.setComponentAlignment(detailsbox, Alignment.MIDDLE_CENTER);
+        detailsLayout.setComponentAlignment(
+            detailsbox, Alignment.MIDDLE_CENTER);
 
         // Let the details panel take as much space as possible and
         // have the selection tree to be as small as possible
-        horlayout.setExpandRatio(detailspanel, 1);
-        horlayout.setExpandRatio(menuContainer, 0);
+        horlayout.setExpandRatio(detailsPanel, 1);
+        horlayout.setExpandRatio(menuPanel, 0);
         
         // A footer
-        Label footer = new Label("You can not hear the paws");
+        Label footer = new Label("You cannot hear the paws");
         footer.addStyleName("footer");
         root.addComponent(footer);
 
         //////////////////////////////////////////////////////
         // Put in the application data and handle the UI logic
         
-        final Object[][] planets = new Object[][] {
-            new Object[] {"Mercury"},
-            new Object[] {"Venus"},
-            new Object[] {"Earth",   "The Moon"},
-            new Object[] {"Mars",    "Phobos", "Deimos"},
-            new Object[] {"Jupiter", "Io", "Europa", "Ganymedes", "Callisto"},
-            new Object[] {"Saturn",  "Titan", "Tethys", "Dione", "Rhea", "Iapetus"},
-            new Object[] {"Uranus",  "Miranda", "Ariel", "Umbriel", "Titania", "Oberon"},
-            new Object[] {"Neptune", "Triton", "Proteus", "Nereid", "Larissa"}};
+        // Couple of childless root items
+        menu.addItem("Mercury");
+        menu.setChildrenAllowed("Mercury", false);
+        menu.addItem("Venus");
+        menu.setChildrenAllowed("Venus", false);
+        
+        // An item with hierarchy
+        menu.addItem("Earth");
+        menu.addItem("The Moon");
+        menu.setChildrenAllowed("The Moon", false);
+        menu.setParent("The Moon", "Earth");
+        menu.expandItem("Earth"); // Expand programmatically
 
+        Object[][] planets = new Object[][] {
+        //  new Object[] {"Mercury"},
+        //  new Object[] {"Venus"},
+        //  new Object[] {"Earth",   "The Moon"},
+            new Object[] {"Mars",    "Phobos", "Deimos"},
+            new Object[] {"Jupiter", "Io", "Europa",
+                                     "Ganymedes", "Callisto"},
+            new Object[] {"Saturn",  "Titan", "Tethys",
+                                     "Dione", "Rhea", "Iapetus"},
+            new Object[] {"Uranus",  "Miranda", "Ariel",
+                                     "Umbriel", "Titania",
+                                     "Oberon"},
+            new Object[] {"Neptune", "Triton", "Proteus",
+                                     "Nereid", "Larissa"}};
+                                     
         // Add planets as root items in the tree.
         for (int i = 0; i < planets.length; i++) {
-            final String planet = (String) (planets[i][0]);
+            String planet = (String) (planets[i][0]);
             menu.addItem(planet);
 
             if (planets[i].length == 1) {
@@ -137,7 +159,7 @@ public class LayoutExample extends CustomComponent implements BookExampleBundle 
             } else {
                 // Add children (moons) under the planets.
                 for (int j = 1; j < planets[i].length; j++) {
-                    final String moon = (String) planets[i][j];
+                    String moon = (String) planets[i][j];
 
                     // Add the item as a regular item.
                     menu.addItem(moon);
@@ -154,18 +176,13 @@ public class LayoutExample extends CustomComponent implements BookExampleBundle 
             }
         }
         
-        menu.addValueChangeListener(new Property.ValueChangeListener() {
-            private static final long serialVersionUID = 1L;
-
-            public void valueChange(ValueChangeEvent event) {
-                if (event.getProperty() != null &&
-                    event.getProperty().getValue() != null) {
-                    location.setValue("The cat is in " + event.getProperty().getValue());
-                }
+        menu.addValueChangeListener(event -> {
+            if (event.getProperty() != null &&
+                event.getProperty().getValue() != null) {
+                location.setValue("The cat is in " +
+                    event.getProperty().getValue());
             }
         });
-        menu.setImmediate(true);
-
         // END-EXAMPLE: layout.overview.catfinder
 
         setCompositionRoot(root);
@@ -176,7 +193,8 @@ public class LayoutExample extends CustomComponent implements BookExampleBundle 
         VerticalLayout layout = new VerticalLayout();
         
         Panel panel = new Panel("My Panel");
-        panel.setWidth(Sizeable.SIZE_UNDEFINED, Unit.POINTS);
+        panel.setWidthUndefined();
+        // TODO What is this supposed to do???
         
         layout.addComponent(panel);
         // END-EXAMPLE: layout.overview.relative

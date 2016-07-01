@@ -14,7 +14,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import com.vaadin.book.examples.BookExampleBundle;
+import com.vaadin.book.examples.AnyBookExampleBundle;
+import com.vaadin.book.examples.Description;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -47,35 +48,28 @@ import com.vaadin.ui.Upload.SucceededEvent;
 import com.vaadin.ui.Upload.SucceededListener;
 import com.vaadin.ui.VerticalLayout;
 
-public class CustomFieldExample extends CustomComponent implements BookExampleBundle {
+public class CustomFieldExample extends CustomComponent implements AnyBookExampleBundle {
     private static final long serialVersionUID = -2893838661604268626L;
     
-    public void init (String context) {
-        VerticalLayout layout = new VerticalLayout();
-        if ("basic".equals(context))
-            basic(layout);
-        else if ("complex".equals(context))
-            complex(layout);
-        else if ("calendar".equals(context))
-            calendar(layout);
-        else if ("imagefield".equals(context))
-            imagefield(layout);
-        else
-            layout.addComponent(new Label("Invalid context"));
-        setCompositionRoot(layout);
-    }
-  
     // BEGIN-EXAMPLE: component.customfield.basic
     public class BooleanField extends CustomField<Boolean> {
         private static final long serialVersionUID = 8869338016971784657L;
 
         Button button = new Button();
         
+        public BooleanField() {
+            setValue(true); // On by default
+        }
+
+        public BooleanField(Boolean initialValue) {
+            setValue(initialValue);
+        }
+        
         @Override
         protected Component initContent() {
             // Flip the field value on click
-            button.addClickListener(event -> // Java 8
-                    setValue(! (Boolean) getValue()));
+            button.addClickListener(click ->
+                setValue(! (Boolean) getValue()));
 
             return new VerticalLayout(
                 new Label("Click the button"), button);
@@ -94,26 +88,33 @@ public class CustomFieldExample extends CustomComponent implements BookExampleBu
             super.setValue(newFieldValue);
         }
     }
-  
-    void basic(VerticalLayout layout) {
-        BooleanField field = new BooleanField();
-        field.focus();
+
+    @Description(title="Basic Use of CustomField",
+            value="<p>(The extra field is just for taking a screenshot)</p>")
+    public void basic(VerticalLayout layout) {
+        // Create it
+        BooleanField field = new BooleanField(false);
         
         // It's a field so we can set its value
         field.setValue(new Boolean(true));
         
         // ...and read the value
-        Label value = new Label();
-        value.setValue(field.getValue()?
-                "Initially on" : "Initially off");
+        Label value = new Label(field.getValue()?
+            "Initially on" : "Initially off");
         
         // ...and handle value changes
-        field.addValueChangeListener(event -> // Java 8
-                value.setValue(field.getValue()?
-                        "It's now on" : "It's now off"));
+        field.addValueChangeListener(event ->
+            value.setValue(field.getValue()?
+                "It's now on" : "It's now off"));
         
-        layout.addComponents(field, value);
+        // layout.addComponents(field, value);
         // END-EXAMPLE: component.customfield.basic
+        HorizontalLayout hl = new HorizontalLayout(field, new BooleanField(false));
+        hl.setSpacing(true);
+        layout.addComponents(hl, value);
+        
+        // TODO: This has no effect (should be after creation)
+        field.focus();
         
         layout.setSpacing(true);
     }
@@ -185,7 +186,7 @@ public class CustomFieldExample extends CustomComponent implements BookExampleBu
         }
     }
 
-    void complex(VerticalLayout layout) {
+    public void complex(VerticalLayout layout) {
         ComplexField field = new ComplexField();
         
         // It's a field so we can set its value
@@ -296,7 +297,7 @@ public class CustomFieldExample extends CustomComponent implements BookExampleBu
         }
     }
     
-    void calendar(VerticalLayout layout) {
+    public void calendar(VerticalLayout layout) {
         QuickCalendar calendar = new QuickCalendar(new Date());
         calendar.focus();
         layout.addComponent(calendar);

@@ -924,7 +924,8 @@ public class TableExample extends CustomComponent implements BookExampleBundle {
         
         // Set the footers
         table.setFooterVisible(true);
-        table.setColumnFooter("Source of Fear", "Sum of All Fears");
+        table.setColumnFooter("Source of Fear",
+                              "The Sum of All Fears");
 
         // Calculate the sum every time any of the values change
         final Property.ValueChangeListener listener =
@@ -1255,6 +1256,8 @@ public class TableExample extends CustomComponent implements BookExampleBundle {
             @Override
             public Resource getValue(Item item, Object itemId,
                 Object propertyId) {
+                // We have the icons in a theme folder. We just need to
+                // generate the path according to the data.
                 return new ThemeResource("img/planets/" +
                     item.getItemProperty("name").getValue().toString() +
                     "_symbol.png");

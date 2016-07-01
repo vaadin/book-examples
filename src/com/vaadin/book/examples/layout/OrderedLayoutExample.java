@@ -121,7 +121,7 @@ public class OrderedLayoutExample extends CustomComponent implements AnyBookExam
         layout.addComponent(vertical);
     }
 
-    void relativesize(VerticalLayout content) {
+    public void relativesize(VerticalLayout content) {
         // BEGIN-EXAMPLE: layout.orderedlayout.sizing.relativesize
         VerticalLayout wrapper = new VerticalLayout();
         wrapper.addStyleName("redborder");

@@ -15,8 +15,16 @@ $vaadinorange: #f39300;
 $vaadingray:   #d9d9cd;
 $borderthickness: 5px;
 
+$vaadincharcoal: #33383a;
+$vaadinlava:     #ff3a49;
+$vaadinwater:    #00b4f0;
+$vaadinsnow:     #e5e8e8;
+$vaadinsalmon:   #e61e6d;
+$vaadingold:     #ffc13f;
+
 $menuwidth:    300px;
 
+/*
 @mixin vaadinfontbold {
 	font-family: "HelveticaW01-RoundedBd","Helvetica Neue",sans-serif;
 	font-weight: bold;
@@ -24,6 +32,16 @@ $menuwidth:    300px;
 
 @mixin vaadinfontnormal {
     font-family: "Helvetica W01 Light","Helvetica Neue",sans-serif;
+    font-weight: normal;
+}
+*/
+@mixin vaadinfontbold {
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+}
+
+@mixin vaadinfontnormal {
+    font-family: "Montserrat", sans-serif;
     font-weight: normal;
 }
 
@@ -329,75 +347,76 @@ $menuwidth:    300px;
 	/* LayoutExample (Cat Finder)                                                */
 	/*****************************************************************************/
 	/* BEGIN-EXAMPLE: layout.overview.catfinder */
-	/* For the title bar and black border around the view */
-	.v-verticallayout-catfinder {
-	    background: black;
-	}
+    /* For the title bar and black border around the view */
+    .v-verticallayout-catfinder {
+        background: black;
+        border: solid 3px black;
+    }
+    
+	.catfinder {
 	
-	/* Padding to create a border around the view */
-	.v-verticallayout-catfinder.v-margin-top,
-	.v-verticallayout-catfinder.v-margin-bottom,
-	.v-verticallayout-catfinder.v-margin-left,
-	.v-verticallayout-catfinder.v-margin-right {
-	    padding: 3px;
-	}
-	
-	/* The main title */
-	.catfinder .v-label-title {
-	    font-size: 24pt;
-	    color: white;
-	    line-height:36pt;
-	    background: black;
-	}   
-	
-	.catfinder .v-label-titlecomment {
-	    font-size: 12pt;
-	    color: white;
-	    line-height:36pt;
-	    background: black;
-	}   
-	
-	.catfinder .v-label-footer {
-	    color: white;
-	}   
-	
-	/* The horizontal area */
-	.catfinder .v-horizontallayout .v-horizontallayout-spacing-on {
-	    background: gray;
-	    padding-left: 1px;
-	}
-	
-	/* The menu tree panel */
-	.catfinder .v-panel-caption-menucontainer,
-	.catfinder .v-panel-caption-detailspanel {
-	    padding: 3px;
-	    color: white;
-	    background: gray;
-	    font-size: 12pt;
-	    line-height: 35pt;
-	    height: 44px;
-	}
-	
-	/* The details caption. */
-	.catfinder .v-panel-caption-detailspanel {
-		font-size: 18pt;
-	}
-	
-	/* The details text. */
-	.catfinder .v-panel .v-label {
-	    font-size: 24pt;
-	    color: gray;
-	    line-height: 36pt;
-	    background: white;
-	}
-	
-	.catfinder .treecontainer, .catfinder .v-panel, .catfinder .v-caption {
-	    background: white;
-	}
-	
-	.catfinder .v-horizontallayout-spacing-on {
-	    padding-left: 4px;
-	}
+        .titlebar {
+            background: $vaadincharcoal;
+    	}  
+            
+        /* The main title */
+		.v-label-title {
+		    font-size: 24pt;
+		    color: $vaadinsnow;
+		    line-height:36pt;
+		}   
+		
+		.v-label-titlecomment {
+		    font-size: 12pt;
+		    color: white;
+		    line-height:36pt;
+		}   
+		
+		.v-label-footer {
+		    color: $vaadinsnow;
+		    background: $vaadincharcoal;
+		}   
+		
+		/* The horizontal area */
+		.v-horizontallayout .v-horizontallayout-spacing-on {
+		    background: $vaadincharcoal;
+		    padding-left: 1px;
+		}
+		
+		/* The menu tree panel */
+		.planetpanel .v-panel-captionwrap,
+		.detailspanel .v-panel-captionwrap {
+		    color: $vaadinsnow;
+		    background: $vaadincharcoal;
+		    /*
+            padding: 3px;
+		    font-size: 12pt;
+		    line-height: 35pt;
+		    height: 44px;
+		    border-radius: 0px;
+		    */
+		}
+		
+		/* The details text. */
+		.v-panel .v-label {
+		    font-size: 24pt;
+		    color: $vaadincharcoal;
+		    line-height: 36pt;
+		    background: $vaadinsnow;
+		}
+		
+		.treecontainer, .v-panel, .v-caption {
+		    background: $vaadinsnow;
+		}
+		
+		.v-horizontallayout .v-spacing {
+		    width: 4px;
+		}
+		.treedetailsview {
+            background: $vaadincharcoal;
+		}
+
+    }
 	/* END-EXAMPLE: layout.overview.catfinder */
 	
 	/*****************************************************************************/
