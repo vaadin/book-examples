@@ -1,0 +1,1522 @@
+/*****************************************************************************/
+/* Valo parameters.                                                          */
+/*****************************************************************************/
+$v-app-background-color: #ffffff;
+
+@import "../valo/valo";
+
+/*****************************************************************************/
+/* Styling for the application.                                              */
+/*****************************************************************************/
+
+$vaadinblue:   #49c2f1;
+$vaadingreen:  #00b400;
+$vaadinorange: #f39300;
+$vaadingray:   #d9d9cd;
+$borderthickness: 5px;
+
+$menuwidth:    300px;
+
+@mixin vaadinfontbold {
+	font-family: "HelveticaW01-RoundedBd","Helvetica Neue",sans-serif;
+	font-weight: bold;
+}
+
+@mixin vaadinfontnormal {
+    font-family: "Helvetica W01 Light","Helvetica Neue",sans-serif;
+    font-weight: normal;
+}
+
+/*****************************************************************************/
+/* Valo customization                                                        */
+/*****************************************************************************/
+@mixin valo-focus-style($include-box-shadow: false) {
+  @if $include-box-shadow and type-of($v-focus-style) == list {
+    @include box-shadow($v-focus-style);
+  } @else if type-of($v-focus-style) == color {
+    border-color: blue;
+  }
+}
+
+/*****************************************************************************/
+/* The theme                                                                 */
+/*****************************************************************************/
+@mixin book-examples {
+    @include valo;
+	
+    .titlebar {
+        padding: 10px;
+        
+        .v-embedded {
+            margin: 10px;
+        }
+    }
+    
+	.titlebox {
+	    margin: 0px;
+	    padding: 10px;
+	    padding-right: 100px;
+	    border-radius: 10px;
+	    
+	    border: solid $vaadinblue $borderthickness;
+        color: black;
+	}
+	
+	.v-slot-vaadinlogo {
+	    text-align: left;
+	    padding-left: 20px;
+        padding-bottom: 30px;
+        border-bottom: thin solid gray;
+    }
+	
+	.v-label-title {
+	    @include vaadinfontbold;
+	    font-size: 15px;
+	    line-height: 30px;
+	}
+	
+    .v-label-subtitle {
+        @include vaadinfontnormal;
+        font-size: 20px;
+        line-height: 30px;
+    }
+
+    .v-slot-menu-and-view {
+        .menu-and-view.v-layout {padding: 5px;}
+    }
+
+    .v-panel-caption-menupanel, .v-panel-caption-viewpanel {
+        @include vaadinfontbold;
+        font-size: 20pt;
+        line-height: 16pt; 
+        padding: 10px;
+        border: none;
+    }
+
+    .examplemenu {
+        background: white;
+        padding-top: 30px;
+        border-bottom: solid 1px gray;
+        color: gray;
+
+        /* This is not used at the moment
+        .v-accordion {
+            border: none;
+
+            .v-accordion-item-caption {
+                background: $vaadingreen;
+                height: 35px;
+                border: none;
+
+                .v-caption {
+                    padding: 0 0 0 10px;
+	                @include vaadinfontbold;
+	                color: white;
+                    font-size: 20pt;
+                }
+            }
+
+            .v-accordion-item-content {
+                background: $vaadingreen;
+            }
+        } */
+
+        /* Not currently implemented
+        .menupanel {
+            background: $vaadingreen;
+
+            .searchfield {
+                margin-left: 10px;
+                margin-bottom: 3px;
+                background: $vaadingreen;
+                border: 1px solid white;
+                border-radius: 3px;
+                color: white;
+            }
+        */
+
+	    .v-panel-menupanel {
+	        $menu-font-size: 10pt;
+	        $menu-chapter-font-size: $menu-font-size + 2;
+	        
+	        border: none;
+	    
+	        .v-panel-caption {
+                background: white;
+                color: gray;
+	            padding-top: 5px;
+	            box-shadow: none; 
+	            @include vaadinfontbold;
+	        }
+
+		    .v-tree-node-caption.v-tree-node-caption-chaptertitle {
+		        @include vaadinfontbold;
+	            color: black;
+	            font-size: $menu-font-size + 2pt;
+                line-height: $menu-font-size + 6pt;
+                height: $menu-font-size + 6pt;
+		    }
+
+		    .v-tree-node-caption {
+		        /* Vaadin font is a bit too thin here without bold */
+		        @include vaadinfontnormal;
+		        color: gray;
+		        font-size: $menu-font-size;
+		        font-weight: bold;
+		        line-height: $menu-font-size + 4pt;
+		        height: $menu-font-size + 4pt;
+		    }
+		    
+		    /* Valo has red background here - disable it */
+		    .v-tree-node-caption:after {
+		        height: 14pt;
+		        margin-top: -20px; // This is needed for some odd reason for on-the-fly compilation
+		    }
+            .v-tree-node-selected:after {
+                background-color: lightgray;
+                background-image: none;
+            }
+
+            /* Doesn't currently work with valo */
+//	        .v-tree-node {
+//	           background: url("img/tree-arrows-white.png") no-repeat scroll 6px -8px transparent;
+//	        }
+//
+//	        .v-tree-node-expanded {
+//	           background: url("img/tree-arrows-white.png") no-repeat scroll -7px 5px transparent;
+//	        }
+//
+//	        /* We could use bigger arrows here */
+//	        .v-tree-node.v-tree-node-chaptertitle {
+//	           background: url("img/tree-arrows-white.png") no-repeat scroll 6px -5px transparent;
+//	        }
+//
+//	        .v-tree-node-expanded.v-tree-node-chaptertitle {
+//	           background: url("img/tree-arrows-white.png") no-repeat scroll -7px 10px transparent;
+//	        }
+
+	        .v-tree-node-leaf {
+	           background: none;
+	        }
+
+		    .v-panel-content {
+	            background: white;
+	            padding-bottom: 20px;
+	        }
+	    }
+    }
+	
+    .viewpanel {
+        border: none;
+        color: black;
+
+        .v-panel-caption-viewpanel {
+            background: white url("icons/vaadin-arrow-right-orange.png") no-repeat 0px 10px;
+            padding-left: 35px;
+            padding-top: 12px;
+            padding-bottom: 20px;
+        }
+
+		.viewlayout .v-verticallayout-spacing-on {
+			padding-top: 10px;
+		}
+		
+		.example-description {
+			padding-top:    5px;
+			padding-bottom: 5px;
+			padding-left:   10px;
+			padding-right:  20px;
+			background: $vaadingray;
+			border-radius: 10px;
+	
+	        h1 {
+	            @include vaadinfontbold;
+	        }
+	        
+	        margin-bottom: 20px;
+		}
+		
+		.example-description h1 {
+		    font-size: 16pt;
+		    margin-top:    3px;
+		    margin-bottom: 5px;
+		}
+		
+		.example-description p {
+		    margin-top:    3px;
+		    margin-bottom: 3px;
+		}
+		
+		.verticalspacing10px .v-verticallayout-spacing-on {
+		    padding-top: 10px;
+		}
+		
+		.sourcecontainer {
+			margin-top: 50px;
+            background: $vaadingray url("icons/vaadin-arrow-down-white.png") no-repeat 10px 0px;
+			border-radius: 10px;
+            padding: 10px;
+            padding-top: 32px;
+		}
+		
+		.sourcecontainer .v-label-sourcecaption {
+	        @include vaadinfontbold;
+	        font-size: 16pt;
+	        padding-bottom: 10px;
+		}
+		
+		.sourcecontainer .v-label-sourcecode {
+		    background: white;
+		    border-radius: 10px;
+		    padding: 5px;
+		}
+		
+		.sourcecontainer .v-horizontallayout-spacing-on {
+			padding-left: 5px;
+		}
+		
+		.sourcecontainer .v-horizontallayout-margin {
+		    padding-top: 5px;
+		    padding-bottom: 5px;
+		    padding-left: 5px;
+		    padding-right: 5px;
+		}
+    }
+    
+    /* Some style fixes for valo */
+    .v-calendar-header-day {
+        font-size: round(0.85 * $v-font-size);
+    }
+    
+	.v-form-bordered > fieldset {
+		border: thin solid;
+	    padding: 5px;
+	}
+
+	.redborder {
+	   border: solid 2px red;
+	}
+	
+    .blueborder {
+       border: solid 2px blue;
+    }
+
+    /*****************************************************************************/
+	/* SliderExample                                                             */
+	/*****************************************************************************/
+	
+	/* BEGIN-EXAMPLE: component.slider */ 
+    .sliderexample {
+        .boxcontainer {
+            background: blue;
+        }
+        .boxcontainer.v-margin-left {padding-left: 1px}
+        .boxcontainer.v-margin-top {padding-top: 1px}
+        .boxcontainer.v-margin-bottom {padding-bottom: 1px}
+        .boxcontainer.v-margin-right {padding-right: 1px}
+
+        .boxcontainer > div {
+            background: white;
+        }
+
+        .sizeablebox {
+            background: gray;
+        }
+    }
+	/* END-EXAMPLE: component.slider */ 
+	
+	/*****************************************************************************/
+	/* LayoutExample (Cat Finder)                                                */
+	/*****************************************************************************/
+	/* BEGIN-EXAMPLE: layout.overview.catfinder */
+	/* For the title bar and black border around the view */
+	.v-verticallayout-catfinder {
+	    background: black;
+	}
+	
+	/* Padding to create a border around the view */
+	.v-verticallayout-catfinder.v-margin-top,
+	.v-verticallayout-catfinder.v-margin-bottom,
+	.v-verticallayout-catfinder.v-margin-left,
+	.v-verticallayout-catfinder.v-margin-right {
+	    padding: 3px;
+	}
+	
+	/* The main title */
+	.catfinder .v-label-title {
+	    font-size: 24pt;
+	    color: white;
+	    line-height:36pt;
+	    background: black;
+	}   
+	
+	.catfinder .v-label-titlecomment {
+	    font-size: 12pt;
+	    color: white;
+	    line-height:36pt;
+	    background: black;
+	}   
+	
+	.catfinder .v-label-footer {
+	    color: white;
+	}   
+	
+	/* The horizontal area */
+	.catfinder .v-horizontallayout .v-horizontallayout-spacing-on {
+	    background: gray;
+	    padding-left: 1px;
+	}
+	
+	/* The menu tree panel */
+	.catfinder .v-panel-caption-menucontainer,
+	.catfinder .v-panel-caption-detailspanel {
+	    padding: 3px;
+	    color: white;
+	    background: gray;
+	    font-size: 12pt;
+	    line-height: 35pt;
+	    height: 44px;
+	}
+	
+	/* The details caption. */
+	.catfinder .v-panel-caption-detailspanel {
+		font-size: 18pt;
+	}
+	
+	/* The details text. */
+	.catfinder .v-panel .v-label {
+	    font-size: 24pt;
+	    color: gray;
+	    line-height: 36pt;
+	    background: white;
+	}
+	
+	.catfinder .treecontainer, .catfinder .v-panel, .catfinder .v-caption {
+	    background: white;
+	}
+	
+	.catfinder .v-horizontallayout-spacing-on {
+	    padding-left: 4px;
+	}
+	/* END-EXAMPLE: layout.overview.catfinder */
+	
+	/*****************************************************************************/
+	/* OrderedLayoutExample                                                      */
+	/*****************************************************************************/
+    /* BEGIN-EXAMPLE: layout.orderedlayout.sizing.shrinktofit */
+    /* Color the component borders and have some spacing and padding. */
+    .v-verticallayout-shrinktofit {
+        border: 2px solid #ff3a49;
+        padding: 2px;
+
+        .v-spacing {
+            height: 2px;
+        }
+
+        .v-label {
+            border: 2px solid #00b4f0;
+            padding: 2px;
+        }
+    }
+    /* END-EXAMPLE: layout.orderedlayout.sizing.shrinktofit */
+
+    /* BEGIN-EXAMPLE: layout.orderedlayout.sizing.undefineddefiningsize */
+    /* Red border on left and right */
+    .v-verticallayout-bordered {
+        border: medium solid red;
+    }
+    /* END-EXAMPLE: layout.orderedlayout.sizing.undefineddefiningsize */
+
+	/*****************************************************************************/
+	/* ExpandRatioExample                                                        */
+	/*****************************************************************************/
+	.v-horizontallayout-redaroundyellow {
+	  border: 2px solid red;
+	  background: yellow;
+	}
+	
+	.expandratioexample .v-button {
+	  height: 25px;
+	}
+	
+	/* BEGIN-EXAMPLE: layout.formatting.alignment.maxwidth */
+	.maxwidthexample .expandingpanel {
+		max-width: 570px; /* A bit less than the containing layout width */
+	}
+	/* END-EXAMPLE: layout.formatting.alignment.maxwidth */
+	
+	
+	/*****************************************************************************/
+	/* GridLayoutExample                                                         */
+	/*****************************************************************************/
+	
+	/* BEGIN-EXAMPLE: layout.gridlayout.expandratio */
+    /* BEGIN-EXAMPLE: layout.gridlayout.basic */
+	$cellborder-color: blue;
+	$cellborder-width: 1px;
+    $cellborder-slot-padding: 5px;
+	.v-gridlayout-cellborders {
+	    // Have border for the GridLayout to compensate for the
+	    // double-thick inner cell borders, as they don't collapse
+	    border: solid $cellborder-color $cellborder-width;
+	
+	    .v-gridlayout-slot {
+	        // Have to use box-shadow instead of border, as a border would
+	        // affect layout calculations
+            box-shadow: inset 0px 0px 0px $cellborder-width $cellborder-color;
+
+	        .v-widget {
+	            // Padding in the slot elements would mess size calculations
+	            // in GridLayout, so we have to set the padding as
+	            // margin for the contained widgets. Also, the inset border
+	            // makes it necessary to add some extra margin.
+	            margin: $cellborder-slot-padding + $cellborder-width;
+	        }
+	    }
+    }
+    /* END-EXAMPLE: layout.gridlayout.basic */
+	/* END-EXAMPLE: layout.gridlayout.expandratio */
+	
+	/***********************/
+	/* MarginExample       */
+	/***********************/
+	
+	/* BEGIN-EXAMPLE: layout.formatting.margin */
+	.v-verticallayout-mymargins {
+		background: #c0c0c0;
+	}
+	
+	.mymargins.v-margin-left   {padding-left:   10px;}
+	.mymargins.v-margin-right  {padding-right:  20px;}
+	.mymargins.v-margin-top    {padding-top:    40px;}
+	.mymargins.v-margin-bottom {padding-bottom: 80px;}
+	
+	.mymargins .v-label {
+	    background: white;
+	}
+	/* END-EXAMPLE: layout.formatting.margin */
+	
+	/************************/
+	/* SpacingExample       */
+	/************************/
+	
+	/* BEGIN-EXAMPLE: layout.formatting.spacing.vertical */
+	.myspacing.v-vertical > .v-spacing {
+		height: 50px;
+	}
+	/* END-EXAMPLE: layout.formatting.spacing.vertical */
+	
+	/* BEGIN-EXAMPLE: layout.formatting.spacing.horizontal */
+	.myspacing.v-horizontal > .v-spacing {
+	    width: 100px;
+	}
+	/* END-EXAMPLE: layout.formatting.spacing.horizontal */
+	
+	/* BEGIN-EXAMPLE: layout.formatting.spacing.grid */
+	.myspacing .v-gridlayout-spacing-on {
+		padding-left: 100px;
+	    padding-top:  50px;
+	}
+	/* END-EXAMPLE: layout.formatting.spacing.grid */
+	
+	/************************/
+	/* CaptionExample       */
+	/************************/
+	/* BEGIN-EXAMPLE: component.features.caption.styling */
+	/* Centering a caption */
+	.v-caption-in-middle .v-captiontext {
+		float: none; /* Floating has to be disabled */
+		text-align: center;
+	}
+	
+	/* Right-aligning a caption */
+	.v-caption-on-right .v-captiontext {
+		float: right;
+	}
+	/* END-EXAMPLE: component.features.caption.styling */
+	
+	/************************/
+	/* EnabledExample       */
+	/************************/
+	/* BEGIN-EXAMPLE: component.features.enabled.styling */
+	.v-textfield.v-disabled {
+		border: dotted;
+	}
+	/* END-EXAMPLE: component.features.enabled.styling */
+	
+	/* BEGIN-EXAMPLE: component.features.readonly.styling */
+	.stylingexample .v-textfield.v-readonly {
+		font-style: italic;
+		border: thin solid gray;
+	}
+	/* END-EXAMPLE: component.features.readonly.styling */
+	
+	/************************/
+	/* StyleNameExample     */
+	/************************/
+	/* BEGIN-EXAMPLE: component.features.stylename.add */
+	.mystyle {font-style: italic;}
+	/* END-EXAMPLE: component.features.stylename.add */
+	
+	/* BEGIN-EXAMPLE: component.features.stylename.set */
+	.myonestyle {
+		font-style: italic;
+	}
+	.myotherstyle {
+	    font-family: fantasy;
+	    font-size: 25px;
+	    font-weight: bolder;
+	    line-height: 30px;
+	}
+	/* END-EXAMPLE: component.features.stylename.set */
+	
+	/************************/
+	/* TextFieldExample     */
+	/************************/
+	
+	/* BEGIN-EXAMPLE: component.textfield.css */
+	/* BEGIN-EXAMPLE: component.passwordfield.css */
+	.v-textfield-dashing {
+		border:     thin dashed;
+		background: white; /* Has shading image by default */
+	}
+	/* END-EXAMPLE: component.textfield.css */
+	/* END-EXAMPLE: component.passwordfield.css */
+	
+	/* BEGIN-EXAMPLE: component.textfield.widthfitting */
+	.textfieldexample {
+        .v-label-monospace, .v-textfield {
+            font-family: monospace;
+        }
+	   .v-label-monospace {
+            padding: 0px 10px;
+            color: #a0a0a0;
+            overflow: hidden;
+        }
+        .v-textfield {
+            width: 100%;
+        }
+    }
+	/* END-EXAMPLE: component.textfield.widthfitting */
+	
+	/************************/
+	/* TextAreaExample      */
+	/************************/
+	
+	/*******************/
+	/* TreeExample     */
+	/*******************/
+	/* BEGIN-EXAMPLE: component.tree.disable */
+	.v-tree-node-caption-disabled {
+		color: graytext;
+		font-style: italic;
+	}
+	/* END-EXAMPLE: component.tree.disable */
+	
+	/* BEGIN-EXAMPLE: component.tree.itemstylegenerator */
+	.v-tree-checkboxed .v-tree-node-caption-unchecked div span {
+	    background: url("img/checkbox-unchecked.png") no-repeat;
+	    background-position: 0px 7px;
+	    padding-left: 24px;
+	}
+	
+	.v-tree-checkboxed .v-tree-node-caption-checked div span {
+	    background: url("img/checkbox-checked.png") no-repeat;
+        background-position: 0px 7px;
+	    padding-left: 24px;
+	}
+	/* END-EXAMPLE: component.tree.itemstylegenerator */
+	
+	/************************/
+	/* TreeTableExample     */
+	/************************/
+	
+	/* BEGIN-EXAMPLE: component.treetable.itemstylegenerator */
+	.v-table-checkboxed .v-table-cell-content-checked .v-table-cell-wrapper {
+	    background: lightgreen;
+	}
+	/* END-EXAMPLE: component.treetable.itemstylegenerator */
+	
+	
+	/*******************/
+	/* I18NExample     */
+	/*******************/
+	/* BEGIN-EXAMPLE: advanced.i18n.rtl */
+	/* Captions */
+	.v-caption-right-to-left .v-captiontext {
+		float: right;
+	}
+	
+	/* TextField content */
+	.v-textfield-right-to-left {
+		text-align: right;
+	}
+	
+	/* This actually works for DateField */
+	.v-inline-datefield-right-to-left {
+		direction: rtl;
+	} 
+	/* END-EXAMPLE: advanced.i18n.rtl */
+	
+	/*******************/
+	/* Drag & Drop     */
+	/*******************/
+	/* BEGIN-EXAMPLE: advanced.dragndrop.component.absolute */
+	/* Use the wrapper to draw a border around the layout. */
+	.componentdndexample .v-ddwrapper.layoutwrapper {
+		background: blue;
+	}
+	.componentdndexample .v-ddwrapper.layoutwrapper .v-absolutelayout {
+	    background: white;
+	}
+	
+	.componentdndexample .v-absolutelayout-wrapper,
+	.componentdndexample .overflowable {
+	    overflow: visible;
+	}
+	/* END-EXAMPLE: advanced.dragndrop.component.absolute */
+	
+	.component-resize-example .draggable-resize-handle {
+	    background: url("img/resize-handle.png");
+	}
+	
+	/*******************/
+	/* Label           */
+	/*******************/
+	/* BEGIN-EXAMPLE: component.label.content-modes.contentmodes */
+    .v-formlayout-withborders .v-formlayout-row .v-formlayout-contentcell {
+       border: solid 1px black;
+       border-bottom: none;
+       padding: 3px;
+    }
+    .v-formlayout-withborders .v-formlayout-lastrow .v-formlayout-contentcell {
+       border-bottom: solid 1px black;
+    }
+	/* END-EXAMPLE: component.label.content-modes.contentmodes */
+	
+	/* BEGIN-EXAMPLE: component.label.styling.css */
+	.fancylabel {
+		margin: 5px;
+		padding: 20px;
+		background: yellow;
+		color: blue;
+		font-size: 30px;
+		font-weight: bold;
+	}
+	/* END-EXAMPLE: component.label.styling.css */
+	
+	/*******************/
+	/* DateField       */
+	/*******************/
+	/* BEGIN-EXAMPLE: component.datefield.popupdatefield.formatting */
+	.mydate.v-datefield-parseerror .v-textfield {
+		background: pink;
+	}
+	/* END-EXAMPLE: component.datefield.popupdatefield.formatting */
+	
+	/*******************/
+	/* CustomComponent */
+	/*******************/
+	/* BEGIN-EXAMPLE: component.customcomponent.joining */
+	.splitbutton .v-csslayout-container > div {
+		display: inline-block;
+	    vertical-align: top;
+	}
+	
+	.splitbutton .v-filterselect-input {
+		display: none; /* Disable the text area of Select. */
+	}
+	
+	.splitbutton .v-filterselect-button {
+	    border-left: thin solid gray; /* A separating line */
+	}
+	
+	.splitbutton .v-button-wrap {
+	    margin-right: -6px; /* Crop the Button from right. */
+	}
+	/* END-EXAMPLE: component.customcomponent.joining */
+	
+	/* BEGIN-EXAMPLE: component.customcomponent.customfield */
+	/* Hide the calendar header */
+	.v-datefield-no-year-or-month .v-datefield-calendarpanel-header {
+		display: none;
+	}
+	/* END-EXAMPLE: component.customcomponent.customfield */
+	
+	/*******************/
+	/* AbsoluteLayout  */
+	/*******************/
+	/* BEGIN-EXAMPLE: layout.absolutelayout.basic */
+	/* Use the wrapper to draw a border around the layout. */
+	.v-csslayout-borderframe {
+		background: blue;
+	}
+	
+	.v-csslayout-borderframe .v-csslayout-margin {
+	    margin: 2px;
+	    padding: 0px;
+	    background: white;
+	}
+	/* END-EXAMPLE: layout.absolutelayout.basic */
+	
+	/* BEGIN-EXAMPLE: layout.absolutelayout.relative */
+	.abslayoutexample .v-panel,
+	.abslayoutexample .v-panel .v-verticallayout {
+		background: #c0c0c0;
+	}
+	
+	.abslayoutexample .v-label {
+	    background: #e0e0e0;
+	    text-align: center;
+	    vertical-align: middle;
+	}
+	/* END-EXAMPLE: layout.absolutelayout.relative */
+	
+	/**************/
+	/* CssLayout  */
+	/**************/
+	
+	/* BEGIN-EXAMPLE: layout.csslayout.basic */
+	/* BEGIN-EXAMPLE: layout.csslayout.styling */
+	/* Put the components in a single line */
+	.csslayoutexample .v-csslayout-container > div {
+	    display: inline-block;
+	    vertical-align: top;
+	}
+	/* END-EXAMPLE: layout.csslayout.basic */
+	
+	/* Have the caption right of the text box, bottom-aligned */
+	.csslayoutexample .mylayout .v-csslayout-container {
+	    direction: rtl;
+	    line-height: 24px;
+	    vertical-align: bottom;
+	}
+	
+	/* Have some space before and after the caption */
+	.csslayoutexample .mylayout .v-csslayout-container .v-caption {
+	    padding-left:  3px;
+	    padding-right: 10px;
+	}
+	/* END-EXAMPLE: layout.csslayout.styling */
+	
+	/* BEGIN-EXAMPLE: layout.csslayout.flow */
+	/* Common styling for the boxes. */
+	.csslayoutexample .v-label-flowbox {
+	  border: thin black solid;
+	}
+	/* END-EXAMPLE: layout.csslayout.flow */
+	
+	/*****************/
+	/* CustomLayout  */
+	/*****************/
+	/* BEGIN-EXAMPLE: layout.customlayout.styling */
+	/* Disable line wrap from between caption and input field */
+	.v-customlayout-customlayoutstyling  .v-caption {
+		display: inline-block;
+		width: 10em;
+		padding-right: 3px;
+	}
+	
+	/* Right-align (could also disable float and set alignment) */
+	.v-customlayout-customlayoutstyling .v-captiontext {
+		float: right;
+	}
+	/* END-EXAMPLE: layout.customlayout.styling */
+	
+	/*****************/
+	/* TableExample  */
+	/*****************/
+	/* BEGIN-EXAMPLE: component.table.editable.editableheights */
+	.v-table-editableexample {
+		// No adjustments needed in Valo! No reason for the example!
+		/*
+		.v-table-cell-wrapper input.v-textfield {
+			margin-bottom: 0px; // Normally -2px in table
+		    margin-top:    0px; // Normally -2px in table
+		    height: 19px;       // Not auto
+		}
+		*/
+	}
+	/* END-EXAMPLE: component.table.editable.editableheights */
+	
+	/* BEGIN-EXAMPLE: component.table.overview.layouts */
+	.squarebox {
+		background: gray;
+	}
+	/* END-EXAMPLE: component.table.overview.layouts */
+	
+	/* BEGIN-EXAMPLE: component.table.styling.cellstylegenerator */
+	/* Center the text in header. */
+	.checkerboard .v-table-header-cell {
+	    text-align: center;
+	}
+	
+	/* Basic style for all cells. */
+	.checkerboard .v-table-cell-content {
+	    text-align: center;
+	    vertical-align: middle;
+	    padding-top: 8px;
+	    padding-bottom: 8px;
+	    width: 20px;
+	    height: 28px;
+	}
+	
+	.checkerboard .v-table-cell-content-white {
+	    background: white;
+	    color:      black;
+	}
+	
+	.checkerboard .v-table-cell-content-black {
+	    background: black;
+	    color:      white;
+	}
+	
+	.checkerboard .v-table-cell-content-rowheader {
+	    background: #d0d0d0;
+	}
+	/* END-EXAMPLE: component.table.styling.cellstylegenerator */
+	
+	/* BEGIN-EXAMPLE: component.table.styling.cssinjection */
+	/* Some CSS trickery is required to have the padding properly */
+	
+	/* Disable vertical padding in the wrapper. */
+	.v-table-colorful .v-table-cell-wrapper {
+	    padding-top:    0px;
+	    padding-bottom: 0px;
+	}
+	
+	/* Disable horizontal padding in the cell content */
+	.v-table-colorful .v-table-cell-content {
+	    padding-left:  0px;
+	    padding-right: 0px;
+	}
+	
+	/* Padding must be removed also from the heading */
+	.v-table-colorful .v-table-caption-container {
+	    padding-left:  0px;
+	    padding-right: 0px;
+	}
+	
+	/* This would cause trouble if padding is removed */
+	.v-table-colorful .v-table-resizer {
+		display: none;
+	}
+	
+	/* Put the padding here instead */
+	.v-table-colorful .v-label {
+		padding: 3px;
+	}
+	/* END-EXAMPLE: component.table.styling.cssinjection */
+	
+	/* BEGIN-EXAMPLE: component.table.columnformatting.columnformatting-extended */
+	.columnformatting .v-table-cell-content-right-aligned {
+		text-align: right;
+	}
+	/* END-EXAMPLE: component.table.columnformatting.columnformatting-extended */
+	
+	/* BEGIN-EXAMPLE: component.table.headersfooters.fakeheaders */
+	.v-gridlayout-fakeheader {
+		background: #e0e0e0;
+	    border-color: #C2C3C4;
+	    border-style: solid;
+	    border-width: 1px;
+	}
+	
+	.v-gridlayout-fakeheader .v-label {
+	    padding-left:  6px;
+	    padding-right: 6px;
+	}
+	
+	.v-gridlayout-fakeheader > div > div > div {
+	    border-color: #C2C3C4;
+	    border-width: 1px;
+	    border-style: none solid none none;
+	    border-collapse: separate;
+	    border-spacing: 0;
+	    text-shadow: 0 1px 0 #F3F5F8;
+	}
+	/* END-EXAMPLE: component.table.headersfooters.fakeheaders */
+	
+	/* BEGIN-EXAMPLE: component.table.headersfooters.htmlheaders */
+	.v-table-multirowheaders .v-table-header-wrap {
+	    height:     40px;
+	    background: #e0e0e0;
+	    text-transform: none;
+	}
+	
+	.v-table-multirowheaders .v-table-header {
+	    display: table-cell;
+	}
+	/* END-EXAMPLE: component.table.headersfooters.htmlheaders */
+	
+	/* BEGIN-EXAMPLE: component.table.components.varyingheightlabels */
+	.v-table-multirowlabels .v-table-cell-wrapper {
+	  white-space: normal;
+	}
+	/* END-EXAMPLE: component.table.components.varyingheightlabels */
+	
+    /************************/
+    /* TableEditingExample  */
+    /************************/
+
+	/***********************/
+	/* ThemeTricksExample  */
+	/***********************/
+	/* BEGIN-EXAMPLE: themes.misc.pointertypes */
+	.select-pointer   {cursor: auto;}
+	.select-crosshair {cursor: crosshair;}
+	.select-default   {cursor: default;}
+	.select-help      {cursor: help;}
+	.select-move      {cursor: move;}
+	.select-pointer   {cursor: pointer;}
+	.select-progress  {cursor: progress;}
+	.select-text      {cursor: text;}
+	.select-wait      {cursor: wait;}
+	.select-inherit   {cursor: inherit;}
+	/* END-EXAMPLE: themes.misc.pointertypes */
+	
+	/*************************/
+	/* TwinColSelectExample  */
+	/*************************/
+	
+	/* BEGIN-EXAMPLE: component.select.twincolselect.css */
+	.twincolselectexample {
+	    .v-select-twincol-options,
+	    .v-select-twincol-selections {
+			font-style: italic;
+	   }
+    }
+	/* END-EXAMPLE: component.select.twincolselect.css */
+	
+	/***********************/
+	/* OptionGroupExample  */
+	/***********************/
+	/* BEGIN-EXAMPLE: component.select.optiongroup.styling */
+	/* Lay the options horizontally */
+	.v-select-optiongroup-horizontal .v-select-option {
+		display: inline-block;
+	}
+	
+	/* Avoid wrapping if the layout is too tight */
+	.v-select-optiongroup-horizontal {
+	    white-space: nowrap;
+	}
+	
+	/* Some extra spacing is needed */
+	.v-select-optiongroup-horizontal
+	  .v-select-option.v-radiobutton {
+		padding-right: 10px;
+	}
+	/* END-EXAMPLE: component.select.optiongroup.styling */
+	
+	/**********************/
+	/* SplitPanelExample  */
+	/**********************/
+	/* BEGIN-EXAMPLE: layout.splitpanel.basic */
+	.splitpanelexample .v-panel-content {
+	    border: 1px solid black;
+	}
+	/* END-EXAMPLE: layout.splitpanel.basic */
+	/* BEGIN-EXAMPLE: layout.splitpanel.styling */
+	/* Disable both divider and drag handle */
+	.v-splitpanel-hsplitter-invisiblesplitter,
+	.v-splitpanel-hsplitter-invisiblesplitter div  {
+	    width: 0px;
+	} 
+	
+	/* Style the right container */
+	.invisiblesplitter .v-splitpanel-second-container {
+	    background: yellow;
+	}
+	/* END-EXAMPLE: layout.splitpanel.styling */
+	
+	/***********************/
+	/* ExpandRatioExample  */
+	/***********************/
+	/* BEGIN-EXAMPLE: layout.formatting.expandratio.basic */
+	/* Spacing between the components in the VerticalLayout */
+	.expandratioexample 
+	.v-panel .v-verticallayout-spacing-on {
+	    padding-top: 10px;
+	}
+	
+	/* Smaller than the default margin. */
+	.expandratioexample
+	.v-panel .v-verticallayout-margin {
+	    padding: 5px;
+	}
+	
+	/* More visible border to show the panel better. */
+	.expandratioexample
+	.v-panel .v-panel-content {
+	    border: 1px solid gray;
+	}
+	/* END-EXAMPLE: layout.formatting.expandratio.basic */
+	
+	/*********************/
+	/* SubWindowExample  */
+	/*********************/
+	/* BEGIN-EXAMPLE: application.child-windows.styling */
+	/* Yellow window header */
+	.v-window-yellowsub .v-window-outerheader {
+	  background: yellow;
+	}
+	
+	/* Blue window caption text */
+	.v-window-yellowsub .v-window-header {
+	  color: blue;
+	}
+	
+	/* Pale yellow window contents */
+	.v-window-yellowsub .v-window-contents {
+	  background: #ffffc0; /* Pale yellow */
+	}
+	
+	/* Close button */
+	.v-window-yellowsub .v-window-closebox {
+	  background: url('img/checkbox-checked.png');
+	}
+	/* END-EXAMPLE: application.child-windows.styling */
+	
+	/********************/
+	/* ComboBoxExample  */
+	/********************/
+	/* BEGIN-EXAMPLE: component.select.combobox.styling */
+	.v-filterselect-mycombo {
+	}
+	
+	/* Style the text box */
+	.v-filterselect-mycombo .v-filterselect-input {
+	  border: none;
+	  background: yellow;
+	}
+	/* END-EXAMPLE: component.select.combobox.styling */
+	
+	/****************/
+	/* FormExample  */
+	/****************/
+	/* BEGIN-EXAMPLE: component.form.styling.wrapcaptions */
+	.v-form-wrapcaption .v-caption {
+	  width: 100px;
+	  white-space: normal;
+	  text-align: left;
+	}
+	/* END-EXAMPLE: component.form.styling.wrapcaptions */
+	
+	/* BEGIN-EXAMPLE: component.form.nested */
+	.v-form-innertable .v-formlayout-captioncell {
+		vertical-align: top; 
+	}
+	/* END-EXAMPLE: component.form.nested */
+	
+	/* BEGIN-EXAMPLE: component.form.layout.customlayout */
+	.v-form-inlinefields .v-customlayout > div {
+		display: inline-block;
+	}
+	/* END-EXAMPLE: component.form.layout.customlayout */
+	
+	/********************/
+	/* EmbeddedExample  */
+	/********************/
+	/* BEGIN-EXAMPLE: component.embedded.scrolling-css */
+	.scrollable {
+	  overflow: auto;
+	}
+	/* END-EXAMPLE: component.embedded.scrolling-css */
+	
+	/****************/
+	/* LinkExample  */
+	/****************/
+	/* BEGIN-EXAMPLE: component.link.target */
+	/* Position icon right of the link text */
+	.icon-after-caption {
+		direction: rtl;
+
+		/* Add some padding around the icon element */
+		.v-icon {
+		    padding: 0 3px;
+		}
+    }
+	/* END-EXAMPLE: component.link.target */
+	
+	/************************/
+	/* NotificationExample  */
+	/************************/
+	/* BEGIN-EXAMPLE: application.errors.notification.customization */
+	.v-Notification.mystyle {
+		background: #FFFF00;
+		border: 10px solid #C00000;
+		border-radius: 10px;
+		color: black;
+	}
+	/* END-EXAMPLE: application.errors.notification.customization */
+	
+	/*******************/
+	/* MenuBarExample  */
+	/*******************/
+	
+	/* BEGIN-EXAMPLE: component.menubar.keep */
+	.mybarmenu .v-menubar-menuitem-highlight {
+	    background: #000040; /* Dark blue */
+	}
+	/* END-EXAMPLE: component.menubar.keep */
+	
+	/* BEGIN-EXAMPLE: component.menubar.navigator */
+	.mybarmenu .v-menubar-menuitem-highlight {
+		background: #000040; /* Dark blue */
+	}
+	/* END-EXAMPLE: component.menubar.navigator */
+	
+    /***************/
+    /* Responsive  */
+    /***************/
+    /* BEGIN-EXAMPLE: themes.responsive.basic */
+    /* Basic settings for all sizes */
+    .myresponsive {
+        padding: 5px;
+        line-height: 36pt;
+    }
+    
+    /* Small size */
+    .myresponsive[width-range~="0-300px"] {
+        background: orange;
+        font-size: 16pt;
+    }
+
+    /* Medium size */
+    .myresponsive[width-range~="301px-600px"] {
+        background: azure;
+        font-size: 24pt;
+    }
+
+    /* Anything bigger */
+    .myresponsive[width-range~="601px-"] {
+        background: palegreen;
+        font-size: 36pt;
+    }
+    /* END-EXAMPLE: themes.responsive.basic */
+    
+    /* BEGIN-EXAMPLE: themes.responsive.flexwrap */
+    .flexwrap {
+        background: black;
+        color: white;
+
+        .title {
+            font-weight: bold;
+            font-size: 20px;
+            line-height: 30px;
+            padding: 5px;
+        }
+    
+        .itembox {
+            white-space: normal;
+            vertical-align: top;
+        }
+        
+        .itembox.v-label {padding: 5px}
+    }
+    
+    .flexwrap[width-range~="0-499px"] {
+        .itembox {width: 100%}
+    }
+    
+    .flexwrap[width-range~="500px-"] {
+        .itembox {width: 50%}
+    }
+    /* END-EXAMPLE: themes.responsive.flexwrap */
+
+    /* BEGIN-EXAMPLE: themes.responsive.wrapgrid */
+    .wrapgrid {background: black}
+    .wrapgrid[width-range~="0-199px"]     .box {width: 100%}
+    .wrapgrid[width-range~="200px-399px"] .box {width: 50%}
+    .wrapgrid[width-range~="400px-599px"] .box {width: 33%}
+    .wrapgrid[width-range~="600px-"]      .box {width: 25%}
+    /* END-EXAMPLE: themes.responsive.wrapgrid */
+
+    /* BEGIN-EXAMPLE: themes.responsive.display */
+    /* Common settings */
+    .toggledisplay {
+        .enoughspace, .notenoughspace {
+            color: white;
+            padding: 5px;
+        }
+        
+        .notenoughspace { /* Really small */
+            background: red;
+            font-weight: normal;
+            font-size: 10px;
+            line-height: 15px;
+        }
+
+        .enoughspace { /* Really big */
+            background: darkgreen;
+            font-weight: bold;
+            font-size: 20px;
+            line-height: 30px;
+        }
+    }
+    
+    /* Quite little space */
+    .toggledisplay[width-range~="0-499px"] {
+        .enoughspace    {display: none}
+    }
+    
+    /* Plenty of space */
+    .toggledisplay[width-range~="500px-"] {
+        .notenoughspace {display: none}
+    }
+    /* END-EXAMPLE: themes.responsive.display */
+
+    /* BEGIN-EXAMPLE: themes.responsive.complex */
+    .veryresponsive {
+        .itembox {
+            white-space: normal;
+            vertical-align: top;
+        }
+        
+        .itembox.v-label {padding: 5px}
+        
+        .enoughspace, .notenoughspace {
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            line-height: 30px;
+            padding: 5px;
+        }
+    }
+    
+    /* Quite little space */
+    .veryresponsive[width-range~="0-499px"] {
+        /* Only one of these fits on same line */
+        .itembox {width: 100%}
+
+        /* Only shown if enough space */
+        .enoughspace    {display: none}
+        .notenoughspace {background: red}
+    }
+    
+    /* Plenty of space */
+    .veryresponsive[width-range~="500px-"] {
+        /* Two of these fit on same line */
+        .itembox {width: 50%}
+        
+        /* Only shown if not enough space */
+        .notenoughspace {display: none}
+        .enoughspace    {background: darkgreen}
+    }
+    /* END-EXAMPLE: themes.responsive.complex */
+
+
+    /* BEGIN-EXAMPLE: charts.mixed.mixedmeter */
+    .meterframe {
+        border: solid black;
+        border-width: 5px;
+        border-radius: 10px;
+        padding: 5px;        
+        background: gray;
+    }
+    /* END-EXAMPLE: charts.mixed.mixedmeter */
+
+    /* BEGIN-EXAMPLE: themes.misc.webfonts */
+    .usethewebfont {
+        font-family: 'Cabin Sketch';
+	    font-size: 24px;
+	    font-weight: bold;
+	    padding-top: 10px;
+	    padding-left: 10px;
+	    line-height: 30px;
+    }
+    /* END-EXAMPLE: themes.misc.webfonts */
+
+    /********************/
+    /* FontIconExample  */
+    /********************/
+    .fonticonexample-basic {
+	    /* BEGIN-EXAMPLE: advanced.fonticon.basic */
+	    .v-icon {
+	        color: blue;
+	    }
+	    /* END-EXAMPLE: advanced.fonticon.basic */
+    }
+
+    /* BEGIN-EXAMPLE: advanced.fonticon.html */
+    .redicon .v-icon {
+        color: red;
+    }
+    /* END-EXAMPLE: advanced.fonticon.html */
+
+    /* BEGIN-EXAMPLE: advanced.fonticon.intext */
+    .v-caption-awesomecaption .v-captiontext {
+        font-family: FontAwesome;
+    }
+    /* END-EXAMPLE: advanced.fonticon.intext */
+
+    /**********************/
+    /* FieldGroupExample  */
+    /**********************/
+    /* PEGIN-EXAMPLE: datamodel.itembinding.formclass.onetomany */
+    /* EPND-EXAMPLE: datamodel.itembinding.formclass.onetomany */
+
+    /*****************/
+    /* FocusExample  */
+    /*****************/
+    .customfocus {
+        .v-textfield:focus {
+            
+        }
+    }
+
+    /***************************/
+    /* GeneratedColumnExample  */
+    /***************************/
+    // BEGIN-EXAMPLE: component.table.generatedcolumns.extended
+    .generatedcolumntable {
+        // These need to have same height
+        .v-textfield, .v-label {
+            height: 24px;
+            padding: 3px;
+            text-align: right; // Nice for numeric values
+        }
+    }
+    // END-EXAMPLE: component.table.generatedcolumns.extended
+
+    /***************************/
+    /* GeneratedColumnExample  */
+    /***************************/
+    // BEGIN-EXAMPLE: component.grid.features
+    .boldheader .v-grid-cell {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .v-grid-cell .v-textfield {
+        margin-top: 6px;
+    }
+    // END-EXAMPLE: component.grid.features
+
+    /* BEGIN-EXAMPLE: component.grid.stylegeneration.rowstyle */
+    .v-grid-row.grayed {
+        color: gray;
+    }
+    /* END-EXAMPLE: component.grid.stylegeneration.rowstyle */
+
+    /* BEGIN-EXAMPLE: component.grid.stylegeneration.cellstyle */
+    .v-grid-cell.rightalign {
+        text-align: right;
+    }
+
+    .v-grid-cell.supercell {
+        background: pink;
+    }
+    /* END-EXAMPLE: component.grid.stylegeneration.cellstyle */
+
+    /* BEGIN-EXAMPLE: component.grid.renderer.image */
+    // Set the row height to fit the pictures
+    .gridwithpics128px .v-grid-body .v-grid-cell {
+        height: 128px;
+    }
+    
+    // Style the image cells
+    .gridwithpics128px .imagecol {
+        background: black;
+        text-align: center;
+    }
+    /* END-EXAMPLE: component.grid.renderer.image */
+
+    /*******************/
+    /* ColumnsExample  */
+    /*******************/
+    .expandratiogrid {
+        .v-grid-body {
+	        .v-grid-cell {
+	            height: 100px;
+	        }
+	        .v-grid-cell.wrappingcolumn {
+	            line-height: normal;
+	            white-space: normal;
+	        }
+        }
+    }
+
+    /**********************/
+    /* GridEditorExample  */
+    /**********************/
+    // BEGIN-EXAMPLE: component.grid.editing.editorfields
+    .v-textfield-nameeditor {
+        font-style: italic;
+    }
+    // END-EXAMPLE: component.grid.editing.editorfields
+    .nameeditor.v-textfield-error {
+        background: pink;
+    }
+
+    /****************************/
+    /* HierarchicalGridExample  */
+    /****************************/
+    // BEGIN-EXAMPLE: component.grid.tricks.hierarchical
+    $grid-node-indent: 40px;
+    
+    .hierarchicalgrid {
+        .grid-node-parents-1 {padding-left: $grid-node-indent;}
+        .grid-node-parents-2 {padding-left: $grid-node-indent*2;}
+        .grid-node-parents-3 {padding-left: $grid-node-indent*3;}
+        .grid-node-parents-4 {padding-left: $grid-node-indent*4;}
+        .grid-node-parents-5 {padding-left: $grid-node-indent*5;}
+        .grid-node-parents-6 {padding-left: $grid-node-indent*6;}
+
+        // Collapsed node style
+        .v-grid-cell.grid-tree-node::before {
+            // TODO Could use 'valo-tree-collapsed-icon-style' here
+            content: "\f0da";
+            display: inline-block;
+            font-family: FontAwesome;
+            text-align: center;
+            transition: all 100ms ease 0s;
+            width: 1.0em;
+        }
+        
+        // Expanded node style
+        .v-grid-cell.grid-node-expanded::before {
+            content: "\f0da";
+            transform: rotate(90deg);
+        }        
+    
+        // Leaf style
+        .v-grid-cell.grid-tree-node.grid-node-leaf::before {
+            content: "";
+            display: none;
+            position: relative;
+        }
+    }
+
+    // This is needed because otherwise focusing will mess it up
+    .v-grid:focus {
+        .grid-tree-node.v-grid-cell-focused::before {
+            display: inline-block;
+            position: relative;
+            border: none;
+        }
+        .grid-tree-node.grid-node-leaf.v-grid-cell-focused::before {
+            display: none;
+        }
+    }
+    // END-EXAMPLE: component.grid.tricks.hierarchical
+
+    /******************/
+    /* ButtonExample  */
+    /******************/
+    // BEGIN-EXAMPLE: component.button.styles
+    .v-csslayout-spacing .v-button {margin-right: 5px}
+    // END-EXAMPLE: component.button.styles
+
+    /********************/
+    /* TabSheetExample  */
+    /********************/
+    // BEGIN-EXAMPLE: layout.tabsheet.leveling
+    .v-panel-collapsed {
+        width: 0px;
+        overflow: hidden;
+    }
+    // END-EXAMPLE: layout.tabsheet.leveling
+
+}
