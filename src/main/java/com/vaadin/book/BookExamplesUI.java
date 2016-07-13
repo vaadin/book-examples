@@ -11,6 +11,7 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.annotations.Title;
 import com.vaadin.book.examples.lib.BookExampleLibrary;
+import com.vaadin.book.examples.lib.MyCustomServlet;
 import com.vaadin.book.examples.lib.ui.AbstractExampleMenu;
 import com.vaadin.book.examples.lib.ui.ExamplesMainLayout;
 import com.vaadin.book.examples.lib.ui.TreeMenu;
@@ -53,7 +54,7 @@ public class BookExamplesUI extends UI {
         return BookExamplesUI.logger;
     }
 
-    public static final String APPCONTEXT = "/book-examples-vaadin7";
+    public static final String APPCONTEXT = "/book-examples-vaadin8";
 
     AbstractExampleMenu menu;
 
@@ -109,9 +110,9 @@ public class BookExamplesUI extends UI {
         return messages;
     }
 
-    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
+    @WebServlet(urlPatterns = {APPCONTEXT + "/book/*", "/VAADIN/*"}, name = "Book of Vaadin Examples", asyncSupported = true)
     @VaadinServletConfiguration(ui = BookExamplesUI.class, productionMode = false)
-	public static class BookExamplesServlet extends VaadinServlet {
+	public static class BookExamplesServlet extends MyCustomServlet {
 	}
 
 }
