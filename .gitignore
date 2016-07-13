@@ -11,3 +11,8 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
+
+# Standard Eclipse files
+.classpath
+.project
+.settings/*
