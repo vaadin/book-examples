@@ -5,6 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import com.vaadin.annotations.DesignRoot;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.book.examples.component.TreeExample;
 import com.vaadin.book.examples.component.table.TableExample;
 import com.vaadin.server.VaadinRequest;
@@ -18,6 +19,7 @@ import com.vaadin.ui.declarative.Design;
 
 @SuppressWarnings("serial")
 @Theme("valo")
+@Widgetset("com.vaadin.book.MyAppWidgetset")
 // BEGIN-EXAMPLE: application.declarative.designroot
 public class DesignRootUI extends UI {
     @WebServlet(value = "/designrootui/*",

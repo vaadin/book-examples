@@ -17,14 +17,6 @@ import com.vaadin.ui.VerticalLayout;
 @Theme("myproject")
 public class MyprojectUI extends UI {
 
-    @WebServlet(value = "/newproject/*",
-                asyncSupported = true)
-    @VaadinServletConfiguration(
-                productionMode = false,
-                ui = MyprojectUI.class)
-    public static class Servlet extends VaadinServlet {
-    }
-
     @Override
     protected void init(VaadinRequest request) {
         final VerticalLayout layout = new VerticalLayout();

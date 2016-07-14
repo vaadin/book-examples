@@ -4,6 +4,7 @@ import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.book.examples.component.TreeExample;
 import com.vaadin.book.examples.component.table.TableExample;
 import com.vaadin.server.VaadinRequest;
@@ -16,6 +17,7 @@ import com.vaadin.ui.declarative.DesignContext;
 
 @SuppressWarnings("serial")
 @Theme("valo")
+@Widgetset("com.vaadin.book.MyAppWidgetset")
 // BEGIN-EXAMPLE: application.declarative.context
 public class MyDeclarativeUI extends UI {
     @WebServlet(value = "/declarativeui/*",

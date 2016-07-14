@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="vaadin-examples" version="3.0"
+         xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+  <!--  <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5"> -->
+
+  <display-name>book-examples</display-name>
+  <context-param>
+  	<description>Vaadin production mode</description>
+  	<param-name>productionMode</param-name>
+  	<param-value>false</param-value>
+  </context-param>
+  
+  <!-- ==================================================================== -->
+  <!-- Book Examples                                                        -->
+  <!-- ==================================================================== -->
+  <servlet>
+  	<servlet-name>Book of Vaadin Examples</servlet-name>
+  	<!-- <servlet-class>com.vaadin.server.VaadinServlet</servlet-class> -->
+    <servlet-class>com.vaadin.book.examples.lib.MyCustomServlet</servlet-class>
+
+  	<init-param>
+  		<description>UI class of the application to start</description>
+  		<param-name>UI</param-name>
+  		<param-value>com.vaadin.book.BookExamplesUI</param-value>
+  	</init-param>
+
+    <init-param>
+        <description>Application widgetset</description>
+        <param-name>widgetset</param-name>
+        <param-value>com.vaadin.book.MyAppWidgetset</param-value>
+    </init-param>
+
+    <!-- Just for testing.     
+    <init-param>
+        <param-name>heartbeatInterval</param-name>
+        <param-value>10</param-value>
+    </init-param>
+    <init-param>
+        <param-name>closeIdleSessions</param-name>
+        <param-value>true</param-value>
+    </init-param>
+     -->
+
+     <async-supported>true</async-supported>
+  </servlet>
+
+  <!-- Keep the session alive very long -->
+  <session-config>
+      <session-timeout>10000</session-timeout>
+  </session-config>
+
+  <servlet-mapping>
+  	<servlet-name>Book of Vaadin Examples</servlet-name>
+  	<url-pattern>/book/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- This has to be done because the apps are under a sub-context. -->
+  <servlet-mapping>
+    <servlet-name>Book of Vaadin Examples</servlet-name>
+    <url-pattern>/VAADIN/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- Required for H2 database used in JPAContainer examples. -->
+  <!--  Disabled
+  <listener>
+    <listener-class>org.h2.server.web.DbStarter</listener-class>
+  </listener>
+   -->
+
+  <!-- ==================================================================== -->
+  <!-- Indexing Example Application                                         -->
+  <!-- ==================================================================== -->
+  <servlet>
+    <servlet-name>Indexing Example</servlet-name>
+    <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+    <init-param>
+        <description>Vaadin application class to start</description>
+        <param-name>UI</param-name>
+        <param-value>com.vaadin.book.examples.applications.IndexingExampleUI</param-value>
+    </init-param>
+
+    <init-param>
+        <description>Application widgetset</description>
+        <param-name>widgetset</param-name>
+        <param-value>com.vaadin.book.MyAppWidgetset</param-value>
+    </init-param>
+
+     <async-supported>true</async-supported>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Indexing Example</servlet-name>
+    <url-pattern>/indexing/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- ==================================================================== -->
+  <!-- New Project Example Application                                         -->
+  <!-- ==================================================================== -->
+  <servlet>
+    <servlet-name>New Project Example</servlet-name>
+    <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+    <init-param>
+        <description>Vaadin application class to start</description>
+        <param-name>UI</param-name>
+        <param-value>com.vaadin.book.examples.gettingstarted.MyprojectUI</param-value>
+    </init-param>
+
+    <init-param>
+        <param-name>widgetset</param-name>
+        <param-value>com.vaadin.book.MyAppWidgetset</param-value>
+    </init-param>
+
+     <async-supported>true</async-supported>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>New Project Example</servlet-name>
+    <url-pattern>/newproject/*</url-pattern>
+  </servlet-mapping>
+  
+  <!-- ==================================================================== -->
+  <!-- Cookie Example Application                                           -->
+  <!-- ==================================================================== -->
+  <servlet>
+    <servlet-name>Cookie Example</servlet-name>
+    <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+    <init-param>
+        <description>Vaadin application class to start</description>
+        <param-name>UI</param-name>
+        <param-value>com.vaadin.book.examples.applications.CookieExampleUI</param-value>
+    </init-param>
+    <init-param>
+        <description>Application widgetset</description>
+        <param-name>widgetset</param-name>
+        <param-value>com.vaadin.book.MyAppWidgetset</param-value>
+    </init-param>
+
+     <async-supported>true</async-supported>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Cookie Example</servlet-name>
+    <url-pattern>/cookies/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- This has to be done because the apps are under a sub-context. -->
+  <!--  <servlet-mapping>
+    <servlet-name>Cookie Example</servlet-name>
+    <url-pattern>/VAADIN/*</url-pattern>
+  </servlet-mapping>-->
+
+  <!-- ==================================================================== -->
+  <!-- HTTP Servlet Request Example Application                             -->
+  <!-- ==================================================================== -->
+  <servlet>
+    <servlet-name>HttpServletRequestListener Example</servlet-name>
+    <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+
+    <init-param>
+        <description>Vaadin application class to start</description>
+        <param-name>UI</param-name>
+        <param-value>com.vaadin.book.examples.applications.HttpServletRequestUI</param-value>
+    </init-param>
+    <init-param>
+        <description>Application widgetset</description>
+        <param-name>widgetset</param-name>
+        <param-value>com.vaadin.book.MyAppWidgetset</param-value>
+    </init-param>
+
+     <async-supported>true</async-supported>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HttpServletRequestListener Example</servlet-name>
+    <url-pattern>/servletrequestexample/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- This has to be done because the apps are under a sub-context. -->
+  <!--  <servlet-mapping>
+    <servlet-name>HttpServletRequestListener Example</servlet-name>
+    <url-pattern>/VAADIN/*</url-pattern>
+  </servlet-mapping> -->
+
+  <!-- ==================================================================== -->
+  <!-- Dynamic Window Example Application                                   -->
+  <!-- ==================================================================== -->
+  <servlet>
+    <servlet-name>Dynamic Window Example</servlet-name>
+    <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+    <init-param>
+        <description>Vaadin application class to start</description>
+        <param-name>application</param-name>
+        <param-value>com.vaadin.book.examples.applications.DynamicWindowUI</param-value>
+    </init-param>
+    <init-param>
+        <description>Application widgetset</description>
+        <param-name>widgetset</param-name>
+        <param-value>com.vaadin.book.MyAppWidgetset</param-value>
+    </init-param>
+
+     <async-supported>true</async-supported>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Dynamic Window Example</servlet-name>
+    <url-pattern>/dynamicwindow/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- ==================================================================== -->
+  <!-- Static Login Example Application                                     -->
+  <!-- ==================================================================== -->
+  <servlet>
+    <servlet-name>Static Login Example</servlet-name>
+    <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+    <init-param>
+        <param-name>UI</param-name>
+        <param-value>com.vaadin.book.examples.applications.StaticLoginUI</param-value>
+    </init-param>
+    <init-param>
+        <description>Application widgetset</description>
+        <param-name>widgetset</param-name>
+        <param-value>com.vaadin.book.MyAppWidgetset</param-value>
+    </init-param>
+
+     <async-supported>true</async-supported>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Static Login Example</servlet-name>
+    <url-pattern>/staticlogin/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- ==================================================================== -->
+  <!-- HelloWorld Example Application                                       -->
+  <!-- ==================================================================== -->
+  <servlet>
+    <servlet-name>HelloWorld Example</servlet-name>
+    <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+    <init-param>
+        <param-name>UI</param-name>
+        <param-value>com.vaadin.book.examples.applications.HelloWorld</param-value>
+    </init-param>
+    <init-param>
+        <description>Application widgetset</description>
+        <param-name>widgetset</param-name>
+        <param-value>com.vaadin.book.MyAppWidgetset</param-value>
+    </init-param>
+
+    <init-param>
+        <description>UI widgetset</description>
+        <param-name>widgetset</param-name>
+        <param-value>com.vaadin.book.MyAppWidgetset</param-value>
+    </init-param>
+
+     <async-supported>true</async-supported>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HelloWorld Example</servlet-name>
+    <url-pattern>/helloworld/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- ==================================================================== -->
+  <!-- New Project Examples                                                 -->
+  <!-- ==================================================================== -->
+
+  <servlet>
+    <servlet-name>ScalaProject Example</servlet-name>
+    <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+    <init-param>
+        <description>Vaadin application class to start</description>
+        <param-name>UI</param-name>
+        <param-value>com.vaadin.book.examples.gettingstarted.MyScalaUI</param-value>
+    </init-param>
+    <init-param>
+        <description>Application widgetset</description>
+        <param-name>widgetset</param-name>
+        <param-value>com.vaadin.book.MyAppWidgetset</param-value>
+    </init-param>
+
+     <async-supported>true</async-supported>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ScalaProject Example</servlet-name>
+    <url-pattern>/scalaproject/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- ==================================================================== -->
+  <!-- Building UI Example Application                                      -->
+  <!-- ==================================================================== -->
+  <servlet>
+    <servlet-name>BuildingUI Example</servlet-name>
+    <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+    <init-param>
+        <param-name>UI</param-name>
+        <param-value>com.vaadin.book.examples.applications.MyHierarchicalUI</param-value>
+    </init-param>
+    <init-param>
+        <description>UI widgetset</description>
+        <param-name>widgetset</param-name>
+        <param-value>com.vaadin.book.MyAppWidgetset</param-value>
+    </init-param>
+
+     <async-supported>true</async-supported>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BuildingUI Example</servlet-name>
+    <url-pattern>/buildingui/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- ==================================================================== -->
+  <!-- HelloWorld Example Application                                       -->
+  <!-- ==================================================================== -->
+  <servlet>
+    <servlet-name>SCSS Example</servlet-name>
+    <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+    <init-param>
+        <param-name>UI</param-name>
+        <param-value>com.vaadin.book.examples.applications.ScssThemeUI</param-value>
+    </init-param>
+    <init-param>
+        <description>Application widgetset</description>
+        <param-name>widgetset</param-name>
+        <param-value>com.vaadin.book.MyAppWidgetset</param-value>
+    </init-param>
+
+     <async-supported>true</async-supported>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SCSS Example</servlet-name>
+    <url-pattern>/scsstheme/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- ==================================================================== -->
+  <!-- Navigator Example Application                                        -->
+  <!-- ==================================================================== -->
+  <servlet>
+    <servlet-name>Navigator Example</servlet-name>
+    <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+    <init-param>
+        <description>Vaadin application class to start</description>
+        <param-name>UI</param-name>
+        <param-value>com.vaadin.book.examples.advanced.NavigatorUI</param-value>
+    </init-param>
+    <init-param>
+        <description>Application widgetset</description>
+        <param-name>widgetset</param-name>
+        <param-value>com.vaadin.book.MyAppWidgetset</param-value>
+    </init-param>
+
+     <async-supported>true</async-supported>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Navigator Example</servlet-name>
+    <url-pattern>/navigator/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- ==================================================================== -->
+  <!-- URI Fragment Example                                                 -->
+  <!-- ==================================================================== -->
+  <servlet>
+    <servlet-name>URI Fragment Example</servlet-name>
+    <servlet-class>com.vaadin.book.examples.lib.MyCustomServlet</servlet-class>
+    <init-param>
+        <description>Vaadin application class to start</description>
+        <param-name>UI</param-name>
+        <param-value>com.vaadin.book.examples.advanced.UriFragmentExample$MyUI</param-value>
+    </init-param>
+    <init-param>
+        <description>Application widgetset</description>
+        <param-name>widgetset</param-name>
+        <param-value>com.vaadin.book.MyAppWidgetset</param-value>
+    </init-param>
+
+     <async-supported>true</async-supported>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>URI Fragment Example</servlet-name>
+    <url-pattern>/urifragex/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>URI Fragment Example</servlet-name>
+    <url-pattern>/book/urifragex/*</url-pattern>
+  </servlet-mapping>
+
+
+  <!-- ==================================================================== -->
+  <!-- ThreadLocal Example Application                                      -->
+  <!-- ==================================================================== -->
+  <servlet>
+    <servlet-name>ThreadLocal Example</servlet-name>
+    <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+    <init-param>
+        <description>Vaadin application class to start</description>
+        <param-name>UI</param-name>
+        <param-value>com.vaadin.book.examples.applications.ThreadLocalUI</param-value>
+    </init-param>
+    <init-param>
+        <description>Application widgetset</description>
+        <param-name>widgetset</param-name>
+        <param-value>com.vaadin.book.MyAppWidgetset</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ThreadLocal Example</servlet-name>
+    <url-pattern>/threadlocal/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- ==================================================================== -->
+  <!-- Push Example UIs                                                     -->
+  <!-- ==================================================================== -->
+  <servlet>
+    <servlet-name>Pushy UI</servlet-name>
+    <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+    <init-param>
+        <description>Vaadin application class to start</description>
+        <param-name>UI</param-name>
+        <param-value>com.vaadin.book.examples.advanced.push.PushyUI</param-value>
+    </init-param>
+    <init-param>
+        <description>UI widgetset</description>
+        <param-name>widgetset</param-name>
+        <param-value>com.vaadin.book.MyAppWidgetset</param-value>
+    </init-param>
+
+     <async-supported>true</async-supported>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Pushy UI</servlet-name>
+    <url-pattern>/pushy/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>PushAround UI</servlet-name>
+    <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+    <init-param>
+        <description>Vaadin application class to start</description>
+        <param-name>UI</param-name>
+        <param-value>com.vaadin.book.examples.advanced.push.PushAroundUI</param-value>
+    </init-param>
+    <init-param>
+        <description>UI widgetset</description>
+        <param-name>widgetset</param-name>
+        <param-value>com.vaadin.book.MyAppWidgetset</param-value>
+    </init-param>
+
+     <async-supported>true</async-supported>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PushAround UI</servlet-name>
+    <url-pattern>/pusharound/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- ==================================================================== -->
+  <!-- Color Picker Example                                                 -->
+  <!-- ==================================================================== -->
+  <servlet>
+    <servlet-name>Color Picker</servlet-name>
+    <servlet-class>
+    com.vaadin.server.VaadinServlet</servlet-class>
+    <init-param>
+        <description>Vaadin application class to start</description>
+        <param-name>UI</param-name>
+        <param-value>com.vaadin.book.examples.gwt.ColorPickerUI</param-value>
+    </init-param>
+    <init-param>
+        <description>Application widgetset</description>
+        <param-name>widgetset</param-name>
+        <param-value>com.vaadin.book.examples.gwt.widgetset.ColorPickerWidgetSet</param-value>
+    </init-param>
+
+     <async-supported>true</async-supported>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Color Picker</servlet-name>
+    <url-pattern>/colorpicker/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- ==================================================================== -->
+  <!-- Portlet Example Application                                          -->
+  <!-- ==================================================================== -->
+  <servlet>
+    <servlet-name>Portlet Example</servlet-name>
+    <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+    <init-param>
+        <description>Vaadin application class to start</description>
+        <param-name>UI</param-name>
+        <param-value>com.vaadin.book.examples.portlet.MyPortletUI</param-value>
+    </init-param>
+    <init-param>
+        <description>Application widgetset</description>
+        <param-name>widgetset</param-name>
+        <param-value>com.vaadin.book.MyAppWidgetset</param-value>
+    </init-param>
+
+     <async-supported>true</async-supported>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Portlet Example</servlet-name>
+    <url-pattern>/portlet/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- ==================================================================== -->
+  <!-- SimplePhoneUI Example UI                                             -->
+  <!-- ==================================================================== -->
+  <servlet>
+    <servlet-name>SimplePhoneUI Example</servlet-name>
+    
+    <!-- Use the TouchKit Servlet -->
+    <servlet-class>com.vaadin.addon.touchkit.server.TouchKitServlet</servlet-class>
+
+    <!-- The class of our UI -->
+    <init-param>
+      <param-name>UI</param-name>
+      <param-value>com.vaadin.book.examples.addons.touchkit.SimplePhoneUI</param-value>
+    </init-param>
+
+    <!-- Use the TouchKit widget set -->
+    <init-param>
+      <param-name>widgetset</param-name>
+      <param-value>com.vaadin.book.examples.addons.touchkit.MyMobileWidgetSet</param-value>
+    </init-param>
+
+     <async-supported>true</async-supported>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>SimplePhoneUI Example</servlet-name>
+    <url-pattern>/simplephoneui/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- ==================================================================== -->
+  <!-- TestBench Test UI                                                    -->
+  <!-- ==================================================================== -->
+  <servlet>
+    <servlet-name>UI To BeTested</servlet-name>
+    
+    <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
+
+    <init-param>
+      <param-name>UI</param-name>
+      <param-value>com.vaadin.book.examples.applications.UIToBeTested</param-value>
+    </init-param>
+    <init-param>
+        <description>Application widgetset</description>
+        <param-name>widgetset</param-name>
+        <param-value>com.vaadin.book.MyAppWidgetset</param-value>
+    </init-param>
+
+     <async-supported>true</async-supported>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>UI To BeTested</servlet-name>
+    <url-pattern>/tobetested/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- ==================================================================== -->
+  <!-- Default Servlet needed for CDI                                       -->
+  <!-- ==================================================================== -->
+  <!--
+  <servlet>
+    <servlet-name>Default</servlet-name>
+    <servlet-class>com.vaadin.cdi.server.VaadinCDIServlet</servlet-class>
+
+     <async-supported>true</async-supported>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Default</servlet-name>
+    <url-pattern>/mycdiuis/*</url-pattern>
+  </servlet-mapping>
+  -->
+
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>

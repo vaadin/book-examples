@@ -20,7 +20,6 @@ import com.vaadin.ui.VerticalLayout;
 
 @Title("My UI")
 @Theme("mytheme")
-@Widgetset("com.vaadin.book.MyAppWidgetset")
 public class HelloWorld extends UI {
     private static final long serialVersionUID = 511085335415683713L;
     
@@ -43,16 +42,6 @@ public class HelloWorld extends UI {
                     Notification.show("Pushed!");
                 }
             }));
-    }
-    
-    @WebServlet
-    (
-        urlPatterns = {BookExamplesUI.APPCONTEXT + "/helloworld/*"},
-        name = "HelloWorld Example",
-        asyncSupported = true
-    )
-    @VaadinServletConfiguration(ui = HelloWorld.class, productionMode = false)
-    public static class HelloWorldServlet extends VaadinServlet {
     }
     
 }

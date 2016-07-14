@@ -54,7 +54,7 @@ public class BookExamplesUI extends UI {
         return BookExamplesUI.logger;
     }
 
-    public static final String APPCONTEXT = "/book-examples-vaadin8";
+    public static final String APPCONTEXT = "";//"/book-examples-vaadin8";
 
     AbstractExampleMenu menu;
 
@@ -109,10 +109,5 @@ public class BookExamplesUI extends UI {
         messages.setCommunicationErrorURL("http://vaadin.com");
         return messages;
     }
-
-    @WebServlet(urlPatterns = {APPCONTEXT + "/book/*", "/VAADIN/*"}, name = "Book of Vaadin Examples", asyncSupported = true)
-    @VaadinServletConfiguration(ui = BookExamplesUI.class, productionMode = false)
-	public static class BookExamplesServlet extends MyCustomServlet {
-	}
 
 }

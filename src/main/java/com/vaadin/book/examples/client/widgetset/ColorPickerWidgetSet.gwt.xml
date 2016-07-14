@@ -4,7 +4,7 @@
 	<!-- WS Compiler: manually edited  -->
 
 	<!-- Inherit DefaultWidgetSet -->
-	<inherits name="com.vaadin.terminal.gwt.DefaultWidgetSet" />
+	<inherits name="com.vaadin.DefaultWidgetSet" />
 	
 	<!-- WidgetSet default theme -->	
 	<stylesheet src="colorpicker/styles.css"/>

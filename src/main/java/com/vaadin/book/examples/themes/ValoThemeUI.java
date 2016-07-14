@@ -24,13 +24,6 @@ import com.vaadin.ui.VerticalLayout;
 public class ValoThemeUI extends UI {
 	private static final long serialVersionUID = 927255270642583907L;
 
-    @WebServlet(value = "/myvalothemeui/*", asyncSupported = true)
-	@VaadinServletConfiguration(productionMode = false, ui = ValoThemeUI.class)
-	public static class Servlet extends VaadinServlet {
-        private static final long serialVersionUID = -5839932719562166202L;
-
-    }
-
 	@Override
 	protected void init(VaadinRequest request) {
 	    VerticalLayout layout = new VerticalLayout();

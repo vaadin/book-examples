@@ -16,14 +16,6 @@ import com.vaadin.ui.VerticalLayout;
 @Theme("valo")
 public class GridSortBug extends UI {
     
-    @WebServlet(value = "/gridsortbug/*",
-                asyncSupported = true)
-    @VaadinServletConfiguration(
-                productionMode = false,
-                ui = GridSortBug.class)
-    static public class MyProjectServlet extends VaadinServlet {
-    }
-    
     @Override
     protected void init(VaadinRequest request) {
         // Create the content root layout for the UI

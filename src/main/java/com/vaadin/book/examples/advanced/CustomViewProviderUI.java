@@ -30,13 +30,6 @@ import com.vaadin.ui.declarative.Design;
 public class CustomViewProviderUI extends UI {
     private static final long serialVersionUID = 511085335415683713L;
     
-    @WebServlet(value = "/customviewprovider/*",
-                asyncSupported = true)
-    @VaadinServletConfiguration(
-                productionMode = false,
-                ui = CustomViewProviderUI.class)
-    public static class Servlet extends VaadinServlet {}
-
     /** A start view for navigating to the main view */
     public class LoginView extends VerticalLayout implements View {
         private static final long serialVersionUID = -3398565663865641952L;

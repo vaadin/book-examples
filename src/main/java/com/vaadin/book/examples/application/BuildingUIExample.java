@@ -32,4 +32,5 @@ public class BuildingUIExample extends CustomComponent implements BookExampleBun
         frame.setHeight("300px");
         layout.addComponent(frame);
     }
+    
 }

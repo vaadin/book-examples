@@ -1,9 +1,15 @@
 package com.vaadin.book.examples.applications;
 
+import javax.servlet.annotation.WebServlet;
+
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.annotations.Widgetset;
+import com.vaadin.book.BookExamplesUI;
 import com.vaadin.book.examples.component.TreeExample;
 import com.vaadin.book.examples.component.table.TableExample;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
@@ -44,5 +50,6 @@ public class MyHierarchicalUI extends UI {
         content.addComponent(hor);
         content.setExpandRatio(hor, 1); // Expand to fill
     }
+    
 }
 // END-EXAMPLE: application.architecture.hierarchical
