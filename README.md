@@ -44,7 +44,7 @@ Requirements:
 
     http://localhost:8080/book/
 
-5. Development
+4. Development
 ----------------
 
  Things you should notice:
@@ -52,7 +52,7 @@ Requirements:
  * The examples are formatted by hand, so you **must not** have any automatic
    code formatting enabled in your Eclipse default settings.
 
-6. Contributions
+5. Contributions
 ----------------
 
  Contributions must go through the Gerrit code review system.
