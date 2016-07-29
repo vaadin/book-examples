@@ -1,18 +1,24 @@
 package com.vaadin.book.examples.advanced.push;
 
+import javax.servlet.annotation.WebServlet;
+
 import com.vaadin.addon.charts.Chart;
 import com.vaadin.addon.charts.model.ChartType;
 import com.vaadin.addon.charts.model.Configuration;
 import com.vaadin.addon.charts.model.DataSeries;
 import com.vaadin.addon.charts.model.DataSeriesItem;
 import com.vaadin.annotations.Push;
+import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinServlet;
 import com.vaadin.shared.communication.PushMode;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 
 //BEGIN-EXAMPLE: advanced.push.basic
 @Push(PushMode.AUTOMATIC)
+@Widgetset("com.vaadin.book.MyAppWidgetset")
 public class PushyUI extends UI {
     private static final long serialVersionUID = 511085335415683713L;
 
@@ -70,6 +76,11 @@ public class PushyUI extends UI {
                 e.printStackTrace();
             }
         }
+    }
+
+    @WebServlet(urlPatterns = "/pushy/*", name = "PushyUI", asyncSupported = true)
+    @VaadinServletConfiguration(ui = PushyUI.class, productionMode = false)
+    public static class PushyUIServlet extends VaadinServlet {
     }
 }
 // END-EXAMPLE: advanced.push.basic

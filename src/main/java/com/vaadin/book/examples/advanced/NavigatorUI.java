@@ -2,8 +2,12 @@ package com.vaadin.book.examples.advanced;
 
 import java.util.function.Consumer;
 
+import javax.servlet.annotation.WebServlet;
+
 import com.vaadin.annotations.DesignRoot;
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -25,7 +29,8 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.declarative.Design;
 import com.vaadin.ui.themes.ValoTheme;
 
-@Theme("book-examples")
+@Theme("valo")
+@Widgetset("com.vaadin.book.MyAppWidgetset")
 // EXAMPLE-FILE: advanced.navigator.basic /com/vaadin/book/examples/advanced/MainView.html
 // EXAMPLE-FILE: advanced.navigator.basic /com/vaadin/book/examples/advanced/AnimalView.html
 // BEGIN-EXAMPLE: advanced.navigator.basic
@@ -182,6 +187,11 @@ public class NavigatorUI extends UI {
                     .getServletContext().getContextPath() +
                     "/navigator");
             }))));
+    }
+
+    @WebServlet(urlPatterns = "/navigator/*", name = "NavigatorUI", asyncSupported = true)
+    @VaadinServletConfiguration(ui = NavigatorUI.class, productionMode = false)
+    public static class NavigatorUIServlet extends VaadinServlet {
     }
 }
 // END-EXAMPLE: advanced.navigator.basic

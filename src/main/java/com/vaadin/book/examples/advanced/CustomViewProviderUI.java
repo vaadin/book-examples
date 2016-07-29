@@ -25,7 +25,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.declarative.Design;
 
-@Theme("book-examples")
+@Theme("valo")
 // BEGIN-EXAMPLE: advanced.navigator.customviewprovider
 public class CustomViewProviderUI extends UI {
     private static final long serialVersionUID = 511085335415683713L;

@@ -70,7 +70,7 @@ public class PrintingExample extends CustomComponent implements BookExampleBundl
         setCompositionRoot(print);
     }
     
-    @Theme("book-examples")
+    @Theme("valo")
     // BEGIN-EXAMPLE: advanced.printing.open
     public static class PrintUI extends UI {
         private static final long serialVersionUID = -4265213983602980250L;

@@ -8,17 +8,22 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
+import javax.servlet.annotation.WebServlet;
 
+import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.book.BookExamplesUI;
 import com.vaadin.server.VaadinPortletSession;
 import com.vaadin.server.VaadinPortletSession.PortletListener;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinServlet;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+@Widgetset("com.vaadin.book.MyAppWidgetset")
 public class MyPortletUI extends UI
        implements PortletListener {
     private static final long serialVersionUID = 6878322382574777744L;
@@ -86,5 +91,10 @@ public class MyPortletUI extends UI
             label.setValue("ResourceRequest. Portlet mode: "+ request.getPortletMode());
         BookExamplesUI.getLogger().info("ResourceRequest");
         BookExamplesUI.getLogger().info("Portlet mode: " + request.getPortletMode());
+    }
+
+    @WebServlet(urlPatterns = "/portlet/*", name = "MyPortletUI", asyncSupported = true)
+    @VaadinServletConfiguration(ui = MyPortletUI.class, productionMode = false)
+    public static class MyPortletUIServlet extends VaadinServlet {
     }
 }

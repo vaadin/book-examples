@@ -3,6 +3,10 @@ package com.vaadin.book.examples.applications;
 // BEGIN-EXAMPLE: advanced.applicationwindow.dynamic
 import java.util.logging.Logger;
 
+import javax.servlet.annotation.WebServlet;
+
+import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.book.BookExamplesUI;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
@@ -13,6 +17,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 // BEGIN-EXAMPLE: advanced.urihandler.staticlogin
+@Widgetset("com.vaadin.book.MyAppWidgetset")
 public class StaticLoginUI extends UI {
     private static final long serialVersionUID = 8754563610384903614L;
     Logger logger = Logger.getLogger(StaticLoginUI.class.getName());
@@ -66,6 +71,11 @@ public class StaticLoginUI extends UI {
 
         // Logout
         content.addComponent(logout);
+    }
+
+    @WebServlet(urlPatterns = "/staticlogin/*", name = "StaticLoginUI", asyncSupported = true)
+    @VaadinServletConfiguration(ui = StaticLoginUI.class, productionMode = false)
+    public static class StaticLoginUIServlet extends VaadinServlet {
     }
 }
 // END-EXAMPLE: advanced.urihandler.staticlogin

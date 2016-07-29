@@ -1,19 +1,24 @@
 package com.vaadin.book.examples.applications;
 
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.book.BookExamplesUI;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+@Widgetset("com.vaadin.book.MyAppWidgetset")
+//TODO Vaadin 7: Fix
 // BEGIN-EXAMPLE: advanced.servletrequestlistener.introduction
-// TODO Vaadin 7: Fix
-@Theme("book-examples")
+@Theme("valo")
 public class HttpServletRequestApplication extends UI {
     private static final long serialVersionUID = -278347984723847L;
 
@@ -97,6 +102,11 @@ public class HttpServletRequestApplication extends UI {
                               "Hello from " + requestCount);       
         
         BookExamplesUI.getLogger().info(" End of request]");
+    }
+
+    @WebServlet(urlPatterns = "/servletrequestexample/*", name = "HttpServletRequestApplication", asyncSupported = true)
+    @VaadinServletConfiguration(ui = HttpServletRequestApplication.class, productionMode = false)
+    public static class HttpServletRequestApplicationServlet extends VaadinServlet {
     }
 }
 // END-EXAMPLE: advanced.servletrequestlistener.introduction

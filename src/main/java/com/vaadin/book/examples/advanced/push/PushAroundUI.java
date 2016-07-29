@@ -1,8 +1,13 @@
 package com.vaadin.book.examples.advanced.push;
 
+import javax.servlet.annotation.WebServlet;
+
 import com.vaadin.annotations.Push;
+import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -13,6 +18,7 @@ import com.vaadin.ui.VerticalLayout;
 
 //BEGIN-EXAMPLE: advanced.push.pusharound
 @Push
+@Widgetset("com.vaadin.book.MyAppWidgetset")
 public class PushAroundUI extends UI {
     private static final long serialVersionUID = 511085335415683713L;
 
@@ -63,6 +69,11 @@ public class PushAroundUI extends UI {
     public void receiveBroadcast(final String message) {
         // Must lock the session to execute logic safely
         access(() -> messages.addComponent(new Label(message)));
+    }
+
+    @WebServlet(urlPatterns = "/pusharound/*", name = "PushAroundUI", asyncSupported = true)
+    @VaadinServletConfiguration(ui = PushAroundUI.class, productionMode = false)
+    public static class PushAroundUIServlet extends VaadinServlet {
     }
 }
 // END-EXAMPLE: advanced.push.pusharound

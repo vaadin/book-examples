@@ -1,10 +1,10 @@
 package com.vaadin.book.examples.gettingstarted;
 
-// BEGIN-EXAMPLE: gettingstarted.firstproject.newproject
 import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
@@ -13,7 +13,9 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+@Widgetset("com.vaadin.book.MyAppWidgetset")
 @SuppressWarnings("serial")
+//BEGIN-EXAMPLE: gettingstarted.firstproject.newproject
 @Theme("myproject")
 public class MyprojectUI extends UI {
 
@@ -32,6 +34,10 @@ public class MyprojectUI extends UI {
         layout.addComponent(button);
     }
 
+    @WebServlet(urlPatterns = "/newproject/*", name = "MyprojectUI", asyncSupported = true)
+    @VaadinServletConfiguration(ui = MyprojectUI.class, productionMode = false)
+    public static class MyprojectUIServlet extends VaadinServlet {
+    }
 }
 // END-EXAMPLE: gettingstarted.firstproject.newproject
 

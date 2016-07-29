@@ -16,7 +16,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 // BEGIN-EXAMPLE: component.menubar.navigator
-@Theme("book-examples")
+@Theme("valo")
 public class MenuNavigatorUI extends UI {
     private static final long serialVersionUID = -9158747860805610183L;
 

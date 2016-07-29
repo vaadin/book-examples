@@ -1,12 +1,17 @@
 package com.vaadin.book.examples.applications;
 
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.book.BookExamplesUI;
+import com.vaadin.book.examples.gettingstarted.MyprojectUI;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinServlet;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -17,9 +22,10 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-// BEGIN-EXAMPLE: advanced.servletrequestlistener.cookies
+@Widgetset("com.vaadin.book.MyAppWidgetset")
 //TODO Vaadin 7: Fix
-@Theme("book-examples")
+// BEGIN-EXAMPLE: advanced.servletrequestlistener.cookies
+@Theme("valo")
 public class CookieExampleApplication extends UI {
     private static final long serialVersionUID = -39894850208484L;
     
@@ -136,6 +142,11 @@ public class CookieExampleApplication extends UI {
     public void onRequestEnd(HttpServletRequest request,
                              HttpServletResponse response) {
         // No need to do anything here
+    }
+
+    @WebServlet(urlPatterns = "/cookies/*", name = "CookieExampleApplication", asyncSupported = true)
+    @VaadinServletConfiguration(ui = CookieExampleApplication.class, productionMode = false)
+    public static class CookieExampleApplicationServlet extends VaadinServlet {
     }
 }
 //END-EXAMPLE: advanced.servletrequestlistener.cookies

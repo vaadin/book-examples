@@ -2,7 +2,11 @@ package com.vaadin.book.examples.applications;
 
 import java.io.IOException;
 
+import javax.servlet.annotation.WebServlet;
+
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.server.Page.UriFragmentChangedEvent;
@@ -10,14 +14,16 @@ import com.vaadin.server.Page.UriFragmentChangedListener;
 import com.vaadin.server.RequestHandler;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinResponse;
+import com.vaadin.server.VaadinServlet;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+@Widgetset("com.vaadin.book.MyAppWidgetset")
 // BEGIN-EXAMPLE: advanced.urifragmentutility.indexing
-@Theme("book-examples")
+@Theme("valo")
 public class IndexingExampleApplication extends UI {
     private static final long serialVersionUID = -128617724108192945L;
 
@@ -105,6 +111,11 @@ public class IndexingExampleApplication extends UI {
     // and the HTML page for indexing engines.
     String getContent(String fragment) {
         return "Nice little content for #!" + fragment;
+    }
+
+    @WebServlet(urlPatterns = "/indexing/*", name = "IndexingExampleApplication", asyncSupported = true)
+    @VaadinServletConfiguration(ui = IndexingExampleApplication.class, productionMode = false)
+    public static class IndexingExampleApplicationServlet extends VaadinServlet {
     }
 }
 // END-EXAMPLE: advanced.urifragmentutility.indexing

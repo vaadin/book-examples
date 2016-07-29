@@ -1,12 +1,18 @@
 package com.vaadin.book.examples.applications;
 
+import javax.servlet.annotation.WebServlet;
+
+import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.annotations.Widgetset;
 // BEGIN-EXAMPLE: advanced.applicationwindow.dynamic
 // TODO Vaadin 7: Fix
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+@Widgetset("com.vaadin.book.MyAppWidgetset")
 public class DynamicWindowUI extends UI {
     private static final long serialVersionUID = 1340937891969118454L;
 
@@ -47,5 +53,9 @@ public class DynamicWindowUI extends UI {
 
     int windowCount = 0;
     */
+    @WebServlet(urlPatterns = "/dynamicwindow/*", name = "DynamicWindowUI", asyncSupported = true)
+    @VaadinServletConfiguration(ui = DynamicWindowUI.class, productionMode = false)
+    public static class DynamicWindowUIServlet extends VaadinServlet {
+    }
 }
 // END-EXAMPLE: advanced.applicationwindow.dynamic

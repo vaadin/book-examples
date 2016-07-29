@@ -1,6 +1,10 @@
 package com.vaadin.book.examples.advanced;
 
+import javax.servlet.annotation.WebServlet;
+
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.book.examples.lib.BookExampleBundle;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -24,8 +28,9 @@ import com.vaadin.ui.VerticalLayout;
 
 public class UriFragmentExample extends CustomComponent implements BookExampleBundle {
     private static final long serialVersionUID = -3150712558665196340L;
-    
-    @Theme("book-examples")
+
+    @Widgetset("com.vaadin.book.MyAppWidgetset")
+    @Theme("valo")
     // BEGIN-EXAMPLE: advanced.urifragment.basic
     public static class MyUI extends UI {
         private static final long serialVersionUID = -7387993823853781193L;
@@ -100,6 +105,11 @@ public class UriFragmentExample extends CustomComponent implements BookExampleBu
             Image image = new Image(null, new ThemeResource(
                 "img/planets/" + imagename));
             content.addComponent(image);
+        }
+
+        @WebServlet(urlPatterns = "/urifragex/*", name = "UriFragmentExample", asyncSupported = true)
+        @VaadinServletConfiguration(ui = UriFragmentExample.MyUI.class, productionMode = false)
+        public static class UriFragmentExampleServlet extends VaadinServlet {
         }
     }
 

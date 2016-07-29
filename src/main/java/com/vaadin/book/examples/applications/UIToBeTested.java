@@ -1,7 +1,12 @@
 package com.vaadin.book.examples.applications;
 
+import javax.servlet.annotation.WebServlet;
+
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -11,6 +16,7 @@ import com.vaadin.ui.VerticalLayout;
 
 // BEGIN-EXAMPLE: testbench.application
 @Theme("valo")
+@Widgetset("com.vaadin.book.MyAppWidgetset")
 public class UIToBeTested extends UI {
     private static final long serialVersionUID = 511085335415683713L;
 
@@ -43,6 +49,11 @@ public class UIToBeTested extends UI {
             }
         });
         content.addComponent(button);
+    }
+
+    @WebServlet(urlPatterns = "/tobetested/*", name = "UIToBeTested", asyncSupported = true)
+    @VaadinServletConfiguration(ui = UIToBeTested.class, productionMode = false)
+    public static class UIToBeTestedServlet extends VaadinServlet {
     }
 }
 // END-EXAMPLE: testbench.application

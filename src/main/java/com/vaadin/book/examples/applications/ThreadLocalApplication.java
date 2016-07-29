@@ -1,6 +1,6 @@
 package com.vaadin.book.examples.applications;
 
-
+// TODO Servlet configuration
 // BEGIN-EXAMPLE: advanced.global.threadlocal
 /** Uses a ThreadLocal instance to give access to
  *  session-global data. */

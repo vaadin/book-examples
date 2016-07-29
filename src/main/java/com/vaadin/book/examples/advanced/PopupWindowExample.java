@@ -35,7 +35,7 @@ public class PopupWindowExample extends CustomComponent implements BookExampleBu
     
 
     // BEGIN-EXAMPLE: advanced.windows.popup
-    @Theme("book-examples")
+    @Theme("valo")
     public static class MyPopupUI extends UI {
         private static final long serialVersionUID = -4265213983602980250L;
     

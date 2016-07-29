@@ -14,6 +14,7 @@ import com.vaadin.ui.UI
 import com.vaadin.ui.VerticalLayout
 
 @Theme("book-examples")
+@Widgetset("com.vaadin.book.MyAppWidgetset")
 class MyScalaUI extends UI {
   // Enable implicit conversion from a lambda expression to a listener
   implicit def clickListener(f: ClickEvent => Unit) =
