@@ -10,11 +10,11 @@
 
             <!-- Vaadin Add-on repository -->
             <ibiblio name="vaadin-addons" usepoms="true" m2compatible="true"
-                root="http://maven.vaadin.com/vaadin-addons" />
+                root="https://maven.vaadin.com/vaadin-addons" />
 
             <!-- Vaadin pre-releases repository -->
             <ibiblio name="vaadin-prereleases" usepoms="true" m2compatible="true"
-                root="http://maven.vaadin.com/vaadin-prereleases" />
+                root="https://maven.vaadin.com/vaadin-prereleases" />
 
             <filesystem name="local-maven2" m2compatible="true" force="false" local="true">
                 <artifact pattern="${user.home}/.m2/repository/[orgPath]/[module]/[revision]/[module]-[revision](-[classifier]).[ext]"/>
